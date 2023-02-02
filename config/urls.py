@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 
-#Custom apps urls
+# Custom apps urls
 from accounts import urls as accounts_urls
 from home import urls as home_urls
 from authority import urls as authority_urls

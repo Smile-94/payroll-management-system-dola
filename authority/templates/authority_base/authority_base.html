@@ -30,6 +30,10 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+
+    <!-- font-aswome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/ddee993d4e.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -54,11 +58,11 @@
                 <div class="navbar-nav w-100">
                     <a href="{% url 'authority:authority' %}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Employee</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
+                            <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>Create Account</a>
+                            <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>Employee List</a>
+                            <a href="element.html" class="dropdown-item">Add Info</a>
                         </div>
                     </div>
                     <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
@@ -66,10 +70,10 @@
                     <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i>Settings</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
+                            <a href="{% url 'authority:add_designation' %}" class="dropdown-item"><i class="fa-solid fa-plus"></i> Add Designation</a>
+                            <a href="{% url 'authority:designation_list' %}" class="dropdown-item"><i class="fa-solid fa-list"></i>Designation List</a>
                             <a href="404.html" class="dropdown-item">404 Error</a>
                             <a href="blank.html" class="dropdown-item active">Blank Page</a>
                         </div>
@@ -171,15 +175,23 @@
                 </div>
             </nav>
             <!-- Navbar End -->
+            <!-- Messages Start -->
+        {% if messages %}
+        {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" {% endif %}>
+                <i class="fa fa-exclamation-circle me-2"></i>{{ message }}!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+        {% endfor %}
+        {% endif %}
 
 
             <!-- Blank Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
                     {% block body %}
                     
                     {% endblock body %}
-                </div>
             </div>
             <!-- Blank End -->
 
