@@ -38,7 +38,7 @@ class DesignationInfo(models.Model):
 class EmployeeInfo(models.Model):
     info_of = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_info')
     position = models.ForeignKey(DesignationInfo,on_delete=models.SET_NULL, blank=True, null=True)
-    joining_date = models.DateField()
+    joining_date = models.DateField(auto_now_add=True)
     employee_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     is_active = models.BooleanField(default=True)
     phone = models.CharField(max_length=15)
@@ -49,15 +49,20 @@ class EmployeeInfo(models.Model):
     signature = models.ImageField(upload_to=user_directory_path)
 
     def save(self, *args, **kwargs):
+        prev_id = self.id
+        super().save(*args, **kwargs)
         if not self.employee_id:
-            self.employee_id = f'E{str(self.id).zfill(2)}{datetime.date.today().year[2:4]}{datetime.date.today().month}{datetime.date.today().day}'
-        super(EmployeeInfo, self).save(*args, **kwargs)
-    
+            year=str(datetime.date.today().year)[2:4]
+            month=str(datetime.date.today().month)
+            day=str(datetime.date.today().day)
+            self.employee_id = 'E'+year+month+day+str(self.pk).zfill(4)
+            self.save()
+        
     def __str__(self):
-        return self.info_of
+        return str(self.info_of)
 
 class EmployeeSalary(models.Model):
-    salary_of=models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_info')
+    salary_of=models.OneToOneField(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_info')
     basic_salary=models.PositiveIntegerField()
     conveyance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     food_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])

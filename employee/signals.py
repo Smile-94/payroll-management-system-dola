@@ -7,12 +7,12 @@ from employee.models import EmployeeInfo
 
 
 @receiver(post_save, sender=User)
-def create_visitor_profile(sender, instance, created, *args, **kwargs):
+def create_employee_info(sender, instance, created, *args, **kwargs):
     if created and instance.is_employee:
         EmployeeInfo.objects.create(info_of=instance)
 
 
 @receiver(post_save, sender=User)
-def save_profile(sender, instance, *args, **kwargs):
+def save_employee_info(sender, instance, *args, **kwargs):
     if instance.is_employee:
         instance.employee_info.save()

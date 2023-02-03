@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.contrib import messages
-from django.http import JsonResponse
+from django.shortcuts import HttpResponseRedirect
+
 
 
 # classbased view classes
@@ -19,6 +21,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #Models
 from accounts.models import User
 from accounts.models import Profile
+from employee.models import EmployeeInfo
+from employee.models import EmployeeSalary
 from employee.models import DesignationInfo
 
 
@@ -26,10 +30,21 @@ from employee.models import DesignationInfo
 from employee.forms import DesignationInfoForm
 from accounts.forms import EmployeeSignUpForm
 from accounts.forms import ProfileForm
+from employee.forms import EmployeeInfoForm
+from employee.forms import EmployeeSalaryForm
 
 
 # Create your views here.
-class AddEmpolyeeView(CreateView):
+class AdminView(LoginRequiredMixin,TemplateView):
+    template_name='authority/admin.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Admin Panel" 
+        return context
+    
+
+class AddEmpolyeeView(LoginRequiredMixin, CreateView):
     model=User
     form_class=EmployeeSignUpForm
     success_url=reverse_lazy('authority:authority')
@@ -51,9 +66,9 @@ class AddEmpolyeeView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, "email or password invalid trya aging")
         return super().form_invalid(form)
-    
+   
 
-class EmployeeListView(ListView):
+class EmployeeListView(LoginRequiredMixin, ListView):
     model=User
     context_object_name='employees'
     template_name='authority/employee_list.html'
@@ -62,18 +77,57 @@ class EmployeeListView(ListView):
         context = super().get_context_data(**kwargs)
         context["title"] ="Employee List" 
         return context
-    
 
-class AdminView(LoginRequiredMixin,TemplateView):
-    template_name='authority/admin.html'
+class EditEmployeeView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    model2 = EmployeeInfo
+    form_class = ProfileForm
+    form_class2 = EmployeeInfoForm
+    template_name='authority/add_employee_info.html'
+    success_url=reverse_lazy('authority:employee_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Admin Panel" 
+        context["title"] = "Add Employeeinfo" 
+        user_object=User.objects.get(id=self.kwargs.get('pk'))
+        context["title"] = "Add Employeeinfo" 
+        context["form"] = self.form_class(instance=user_object.profile)
+        context["form2"] = self.form_class2(instance=user_object.employee_info)
         return context
+         
+    def post(self, request, *args, **kwargs):
+        user_object=User.objects.get(id=self.kwargs.get('pk'))
+        form=self.form_class(request.POST, request.FILES, instance=user_object.profile)
+        form2=self.form_class2(request.POST, request.FILES, instance=user_object.employee_info)
+        return self.form_valid(form,form2)
+    
+    def form_valid(self, form,form2):
+        try:
+            if form.is_valid and form2.is_valid():
+                user=form.save(commit=False)
+                info=form2.save(commit=False)
+                user.profile=User.objects.get(id=self.kwargs.get('pk'))
+                info.info_of=User.objects.get(id=self.kwargs.get('pk'))
+                user.save()
+                info.save()
+                messages.success(self.request, "Employee Info Updated Successfully")
+            return super().form_valid(form)
+
+        except Exception as e:
+            print(e)
+            return super().form_invalid(form)
+
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Some thing wrong try again")
+        return super().form_invalid(form)
+
+
+class EditEmployeeSalary(UpdateView):
+    pass
     
 
-class AddDesignationView(CreateView):
+class AddDesignationView(LoginRequiredMixin, CreateView):
     model=DesignationInfo
     form_class=DesignationInfoForm
     template_name='authority/add_designation.html'
@@ -93,7 +147,7 @@ class AddDesignationView(CreateView):
         return super().form_invalid(form)
 
 
-class DesignationListView(ListView):
+class DesignationListView(LoginRequiredMixin, ListView):
     model=DesignationInfo
     fields=('designation','department','created_at','updated_at')
     context_object_name='designations'
@@ -111,7 +165,7 @@ class DesignationListView(ListView):
         context["title"] = "Designation List" 
         return context
         
-class DesignationUpdateView(UpdateView):
+class DesignationUpdateView(LoginRequiredMixin, UpdateView):
     model=DesignationInfo
     fields=('designation','department','description')
     template_name='authority/add_designation.html'
@@ -131,7 +185,7 @@ class DesignationUpdateView(UpdateView):
         messages.error(self.request, "some thing went wrong try againg")
         return super().form_invalid(form)
 
-class DesignationDeleteView(DeleteView):
+class DesignationDeleteView(LoginRequiredMixin, DeleteView):
     model=DesignationInfo
     template_name='authority/delete_designation.html'
     context_object_name='designation'

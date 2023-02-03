@@ -1,0 +1,79 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}  
+
+
+{% block body %}
+<div class="container-fluid pt-4 px-4 m-auto">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Basic Information</h6>
+                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="mb-3">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                {{form.first_name|add_class:"form-control" | append_attr:"placeholder:e.g Jon"}}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Lastname</label>
+                                {{form.last_name|add_class:"form-control" | append_attr:"placeholder:e.g Deo"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Gender</label>
+                                {{form.gender | add_class:"form-select" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Designation</label>
+                                {{form2.position | add_class:"form-select"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Employee Id</label>
+                                {{form2.employee_id | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Photo</label>
+                                {{form2.phone | add_class:"form-select"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">NID</label>
+                                {{form2.national_id | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Passport No</label>
+                                {{form2.passport_no | add_class:"form-select"}}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Driving_license</label>
+                                {{form2.driving_license | add_class:"form-select"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Photo(300*300)</label>
+                                {{form2.photo | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Signature(300*80)</label>
+                                {{form2.signature | add_class:"form-select"}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-lg  btn-primary rounded-pill px-5">Save</button>
+                </form>
+            </div>
+        </div>    
+    </div>
+</div>
+<!-- Form End -->
+{% endblock body %}
