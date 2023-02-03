@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'reciption.apps.ReciptionConfig',
     # Third party apps and packages
     'widget_tweaks',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

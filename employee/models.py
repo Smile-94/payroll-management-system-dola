@@ -63,7 +63,7 @@ class EmployeeInfo(models.Model):
 
 class EmployeeSalary(models.Model):
     salary_of=models.OneToOneField(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_info')
-    basic_salary=models.PositiveIntegerField()
+    basic_salary=models.PositiveIntegerField(default=0)
     conveyance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     food_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     medical_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
@@ -71,7 +71,7 @@ class EmployeeSalary(models.Model):
     mobile_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
-        return self.salary_of
+        return str(self.salary_of)
 
 
 

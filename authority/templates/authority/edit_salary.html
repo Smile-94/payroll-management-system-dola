@@ -1,0 +1,56 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+    <div class="container-fluid pt-4 px-4 m-auto">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4">Salary Details</h6>
+                    <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="mb-3">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="exampleInputEmail1" class="form-label">Basic Salary</label>
+                                    {{form.basic_salary|add_class:"form-control"}}
+                                </div>
+                                <div class="col">
+                                    <label for="exampleInputEmail1" class="form-label">Conveyance(%)</label>
+                                    {{form.conveyance|add_class:"form-control"}}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="exampleInputEmail1" class="form-label">Food Allowance(%)</label>
+                                    {{form.food_allowance | add_class:"form-select" }}
+                                </div>
+                                <div class="col">
+                                    <label for="exampleInputPassword1" class="form-label">Medical Allowance(%)</label>
+                                    {{form.medical_allowance | add_class:"form-select"}}
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="exampleInputEmail1" class="form-label">House Allowance(%)</label>
+                                    {{form.house_rent | add_class:"form-control" }}
+                                </div>
+                                <div class="col">
+                                    <label for="exampleInputPassword1" class="form-label">Mobile Allowance(%)</label>
+                                    {{form.mobile_allowance | add_class:"form-select"}}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-lg  btn-primary rounded-pill px-5">Save</button>
+                    </form>
+                </div>
+            </div>    
+        </div>
+    </div>
+    <!-- Form End -->
+    
+{% endblock body %}

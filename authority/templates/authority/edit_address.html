@@ -1,0 +1,90 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<!-- Form Start -->
+<div class="container-fluid pt-4 px-4 m-auto">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Present Address</h6>
+                <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                    <div class="mb-3">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Road Name/Road No/Village</label>
+                                {{present_address.present_village|add_class:"form-control"}}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Post/Sector</label>
+                                {{present_address.present_post|add_class:"form-control"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Upzila/Police Station</label>
+                                {{present_address.present_upzila | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">City/State/Division</label>
+                                {{present_address.present_division | add_class:"form-control"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">District</label>
+                                {{present_address.present_district | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Post Code</label>
+                                {{present_address.present_post_code| add_class:"form-control"}}
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="mb-4">Permanent Address</h6>
+                    <div class="mb-3">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Village/Road No/Road Name</label>
+                                {{permanent_address.permanent_village|add_class:"form-control"}}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Post Office/Sector</label>
+                                {{permanent_address.permanent_post|add_class:"form-control"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">Upzila/Police Station</label>
+                                {{permanent_address.permanent_upzila | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">City/State/Division</label>
+                                {{permanent_address.present_division | add_class:"form-control"}}
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label for="exampleInputEmail1" class="form-label">District</label>
+                                {{permanent_address.permanent_district | add_class:"form-control" }}
+                            </div>
+                            <div class="col">
+                                <label for="exampleInputPassword1" class="form-label">Post Code</label>
+                                {{permanent_address.permanent_post_code| add_class:"form-control"}}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>    
+    </div>
+</div>
+    
+{% endblock body %}
+    
