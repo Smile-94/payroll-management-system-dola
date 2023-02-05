@@ -10,12 +10,14 @@ from django.conf import settings
 from accounts import urls as accounts_urls
 from home import urls as home_urls
 from authority import urls as authority_urls
+from reciption import urls as reception_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(accounts_urls)),
     path("", include(home_urls)),
-    path("", include(authority_urls))
+    path("", include(authority_urls)),
+    path("", include(reception_urls))
 ]
 
 # for serve static files

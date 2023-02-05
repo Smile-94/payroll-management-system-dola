@@ -29,6 +29,10 @@
                 <label for="exampleInputEmail1" class="form-label">Is the employee Admin?</label>
                 {{form.is_staff |add_class:"form-check-input"}}
             </div>
+            <div class="col mt-2">
+                <label for="exampleInputEmail1" class="form-label">Is the employee is Receptionist?</label>
+                {{form.is_receptonist |add_class:"form-check-input"}}
+            </div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

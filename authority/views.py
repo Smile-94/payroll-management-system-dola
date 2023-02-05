@@ -129,7 +129,7 @@ class EditEmployeeView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form,form2):
         try:
-            if form.is_valid and form2.is_valid():
+            if form.is_valid() and form2.is_valid():
                 user=form.save(commit=False)
                 info=form2.save(commit=False)
                 user.profile=User.objects.get(id=self.kwargs.get('pk'))

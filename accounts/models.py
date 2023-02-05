@@ -48,6 +48,7 @@ class MyUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=False)
     is_employee = models.BooleanField(default=False)
+    is_receptonist=models.BooleanField(default=False)
     is_staff = models.BooleanField(
         gettext_lazy('staff_status'), default=False,
         help_text=gettext_lazy('designates whether the user can login to this site'),

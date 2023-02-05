@@ -49,7 +49,6 @@ class EmployeeInfo(models.Model):
     signature = models.ImageField(upload_to=user_directory_path)
 
     def save(self, *args, **kwargs):
-        prev_id = self.id
         super().save(*args, **kwargs)
         if not self.employee_id:
             year=str(datetime.date.today().year)[2:4]

@@ -57,10 +57,16 @@ class UserLoginView(LoginView):
             if user is not None and request_user.is_superuser is True and request_user.is_staff is True:
                 login(self.request, user)
                 return HttpResponseRedirect(reverse('authority:authority', ))
+            
+            elif user is not None and request_user.is_employee is True and request_user.is_receptonist is True:
+                login(self.request, user)
+                return HttpResponseRedirect(reverse('reception:reception_home'))
 
             elif user is not None and request_user.is_employee is True:
                 login(self.request, user)
                 return HttpResponse("Employee Login")
+
+            
             else:
                 if User.objects.filter(email=username).exists() and request_user.is_active is False:
                     messages.warning(self.request, f"{username} this email don't have login permission")
