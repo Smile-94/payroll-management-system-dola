@@ -1,10 +1,71 @@
 {% extends 'reception_base/base_reception.html' %}
+{% load static %}
 
 {% block title %} {{title}} {% endblock title %}
 
 
 {% block body %}
-    <h1>Sort Leave Details</h1>
+<a type="button" href="{% url 'reception:sortleave_list' %}" class="btn btn-primary rounded-pill m-2"><i class="fa-solid fa-arrow-left me-2"></i>Back To List</a>
+  <div class="row gutters-sm">
+    <div class="col-sm-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+            <h6 class="d-flex align-items-center mb-3">Sort Leave Details</h6>
+            <div class="card mt-3">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Employee Name</h6>
+                  <span class="text-secondary">{{leave.ticket_for.info_of.profile.first_name}} {{leave.ticket_for.info_of.profile.last_name}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Employee ID</h6>
+                  <span class="text-secondary">{{leave.employee_id}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Ticket No</h6>
+                  <span class="text-secondary">{{leave.ticket_id}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Date</h6>
+                  <span class="text-secondary">{{leave.date}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Leave Hour</h6>
+                  <span class="text-secondary">{{leave.leave_hour}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Outing Time</h6>
+                  <span class="text-secondary">{{leave.outing_time}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0">Entering Time</h6>
+                  <span class="text-secondary">{{leave.entering_time}}</span>
+                </li>
+              </ul>
+              <div class="row mt-4">
+                <div class="col">
+                    <h6 class="mb-2 mx-4">Issued By</h6>
+                    {{request.user.employee_info.signeture.url}}
+                    <img src=" {{request.user.employee_info.signature.url}} " alt="Admin" class="rounded ms-2" width="150" height="100">
+                    <h6 class="mb-2 mx-4"> {{request.user.profile.first_name}} {{request.user.profile.last_name}}</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col-sm-6 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h6 class="d-flex align-items-center mb-3">Reason</h6>
+          <div class="card m-2 p-4">
+            {{leave.description}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
     
 {% endblock body %}
     

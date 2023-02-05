@@ -12,8 +12,8 @@ class AttendanceFilters(django_filters.FilterSet):
     employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
 
     class Meta:
-        model=Attendance
-        fields=('employee_id','date')
+        model = Attendance
+        fields = ('employee_id', 'date')
 
 
 class SortLeaveFilters(django_filters.FilterSet):
@@ -22,5 +22,5 @@ class SortLeaveFilters(django_filters.FilterSet):
     ticket_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Ticket ID'}))
     
     class Meta:
-        model=SortLeave
-        fields=('employee_id','ticket_id','date')
+        model = SortLeave
+        fields = ('employee_id', 'ticket_id', 'date')

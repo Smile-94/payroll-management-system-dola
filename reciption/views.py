@@ -1,7 +1,5 @@
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.utils import timezone
 from datetime import date
 
 # Permissions Classes
@@ -26,18 +24,19 @@ from reciption.models import SortLeave
 # forms
 from reciption.forms import AttendanceForm
 from reciption.forms import SortLeaveForm
+from reciption.forms import SortLeaveUpdateForm
+
 
 # Create your views here.
-class ReceptionView(LoginRequiredMixin,TemplateView):
-    template_name='reception/reception.html'
+class ReceptionView(LoginRequiredMixin, TemplateView):
+    template_name = 'reception/reception.html'
 
-    
     def get_context_data(self, **kwargs):
-        total_employee=EmployeeInfo.objects.all().count()
-        today=date.today()
-        attend_today=Attendance.objects.filter(date=today).count()
+        total_employee = EmployeeInfo.objects.all().count()
+        today = date.today()
+        attend_today = Attendance.objects.filter(date=today).count()
         context = super().get_context_data(**kwargs)
-        context["title"] = "Receptionnis Home"
+        context["title"] = "Receptionist Home"
         
         context["total_employee"] = total_employee
         context["attend_today"] = attend_today
@@ -46,11 +45,12 @@ class ReceptionView(LoginRequiredMixin,TemplateView):
 
         return context
 
+
 class AddAttendanceView(LoginRequiredMixin, CreateView):
-    model= Attendance
-    form_class=AttendanceForm
-    template_name='reception/add_attendance.html'
-    success_url=reverse_lazy('reception:add_attendance')
+    model = Attendance
+    form_class = AttendanceForm
+    template_name = 'reception/add_attendance.html'
+    success_url = reverse_lazy('reception:add_attendance')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -58,18 +58,18 @@ class AddAttendanceView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
-        employee_id= form.cleaned_data['employee_id']
-        today=date.today()
+        employee_id = form.cleaned_data['employee_id']
+        today = date.today()
         try:
-            employee_info=EmployeeInfo.objects.get(employee_id=employee_id)
+            employee_info = EmployeeInfo.objects.get(employee_id=employee_id)
 
             if Attendance.objects.filter(date=today, employee_id=employee_id).exists():
                 messages.error(self.request, "Employee Attendance already done today")
                 return self.form_invalid(form)
 
             if form.is_valid():
-                attendance=form.save(commit=False)
-                attendance.attendance_of=employee_info
+                attendance = form.save(commit=False)
+                attendance.attendance_of = employee_info
                 attendance.save()
 
             messages.success(self.request, "Attendance Added Successfully")  
@@ -80,11 +80,12 @@ class AddAttendanceView(LoginRequiredMixin, CreateView):
             messages.error(self.request, "Something worng try again")
             return self.form_invalid(form)
 
-class AttendanceListView(ListView):
-    model=Attendance
-    queryset=Attendance.objects.all().order_by('-pk')
-    filterset_class= AttendanceFilters
-    template_name='reception/attendance_list.html'
+
+class AttendanceListView(LoginRequiredMixin, ListView):
+    model = Attendance
+    queryset = Attendance.objects.all().order_by('-pk')
+    filterset_class = AttendanceFilters
+    template_name = 'reception/attendance_list.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,81 +94,84 @@ class AttendanceListView(ListView):
         return context
 
 
-class IssuSortLeaveView(CreateView):
-    model=SortLeave
-    form_class=SortLeaveForm
-    template_name='reception/add_sortleave.html'
-    success_url=reverse_lazy('reception:reception_home')
+class AddSortleaveView(CreateView):
+    model = SortLeave
+    form_class = SortLeaveForm
+    template_name = 'reception/add_sortleave.html'
+    success_url = reverse_lazy('reception:sortleave_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Issue Sortleave" 
+        context["title"] = "Issue Sort Leave" 
         return context
     
     def form_valid(self, form):
-        employee_id= form.cleaned_data['employee_id']
-        today=today=date.today()
+        employee_id = form.cleaned_data['employee_id']
+        today = date.today()
+
         try:
-            employee_info=EmployeeInfo.objects.get(employee_id=employee_id)
+            employee_info = EmployeeInfo.objects.get(employee_id=employee_id)
 
-            leave_exist=SortLeave.objects.filter(date=today, employee_id=employee_id).exists()
+            leave_obj = SortLeave.objects.filter(date=today, employee_id=employee_id).exists()
 
-            if leave_exist is True:
-                messages.error(self.request, "Already Issued a Sortleave Today")
+            if leave_obj is True:
+                messages.error(self.request, "Employee have already issued a leave")
                 return self.form_invalid(form)
-
+            
             if form.is_valid():
-                sort_leave=form.save(commit=False)
-                sort_leave.ticket_for=employee_info
-                sort_leave.issued_by=self.request.user
-                sort_leave.save()
-                messages.success(self.request, "Sort leave iccued successfully")
+                form_obj = form.save(commit=False)
+                form_obj.ticket_for = employee_info
+                form_obj.issued_by = self.request.user
+                form_obj.save()
+                messages.success(self.request, "Sort Leave added successfully")
 
             return super().form_valid(form)
 
         except Exception as e:
             print(e)
-            messages.error(self.request, 'Something goes wrong try again')
+            messages.error(self.request, "Somethin went worng try again")
             return self.form_invalid(form)
 
-class SortleaveListView(ListView):
-    queryset=SortLeave.objects.filter(active_status=True)
-    filterset_class = SortLeaveFilters
-    template_name="reception/sortleave_list.html"
 
-    
+class SortleaveListView(LoginRequiredMixin, ListView):
+    queryset = SortLeave.objects.filter(active_status=True).order_by('-id')
+    filterset_class = SortLeaveFilters
+    template_name = "reception/sortleave_list.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Sortleave List" 
         context["leaves"] = self.filterset_class(self.request.GET, queryset=self.queryset)
         return context
 
+
 class SortLeaveDetailView(DetailView):
-    model=SortLeave
+    model = SortLeave
+    context_object_name = 'leave'
     template_name = 'reception/sortleave_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Sortleave Detail" 
         return context
-    
 
-class SortLeaveUpdateView(UpdateView):
-    model= SortLeave
-    form_class= SortLeaveForm
-    template_name='reception/update_sortleave.html' 
-    success_url=reverse_lazy('reception:sortleave_list') 
+
+class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
+    model = SortLeave
+    form_class = SortLeaveUpdateForm
+    template_name = 'reception/update_sortleave.html'
+    success_url = reverse_lazy('reception:sortleave_list')
 
     def get_context_data(self, **kwargs):
-        update_info=SortLeave.objects.get(id=self.kwargs.get('pk'))
+        update_info = SortLeave.objects.get(id=self.kwargs.get('pk'))
         context = super().get_context_data(**kwargs)
         context["title"] = "Update Sortleave"
         context["form"] = self.form_class(instance=update_info)
         return context
     
     def post(self, request, *args, **kwargs):
-        update_info=SortLeave.objects.get(id=self.kwargs.get('pk'))
-        form= self.form_class(request.POST, instance=update_info)
+        update_info = SortLeave.objects.get(id=self.kwargs.get('pk'))
+        form = self.form_class(request.POST, instance=update_info)
         return self.form_valid(form)
     
     def form_valid(self, form):

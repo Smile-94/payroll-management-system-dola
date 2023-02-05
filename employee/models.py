@@ -22,13 +22,15 @@ DEPARTMENT_OPT = (
     ('marketing', 'Marketing'),
     ('IT', 'Information Technology')
 )
+
+
 class DesignationInfo(models.Model):
-    designation=models.CharField(max_length=50, unique=True)
-    department=models.CharField(max_length=20, choices=DEPARTMENT_OPT)
-    created_at=models.DateTimeField(auto_now_add=True)
-    updated_at=models.DateTimeField(auto_now=True)
-    description=models.TextField(blank=True)
-    is_active=models.BooleanField(default=True)
+    designation = models.CharField(max_length=50, unique=True)
+    department = models.CharField(max_length=20, choices=DEPARTMENT_OPT)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.designation}, {self.department}"
@@ -37,7 +39,7 @@ class DesignationInfo(models.Model):
 # Create your models here.
 class EmployeeInfo(models.Model):
     info_of = models.OneToOneField(User, on_delete=models.CASCADE, related_name='employee_info')
-    position = models.ForeignKey(DesignationInfo,on_delete=models.SET_NULL, blank=True, null=True)
+    position = models.ForeignKey(DesignationInfo, on_delete=models.SET_NULL, blank=True, null=True)
     joining_date = models.DateField(auto_now_add=True)
     employee_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -51,23 +53,24 @@ class EmployeeInfo(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.employee_id:
-            year=str(datetime.date.today().year)[2:4]
-            month=str(datetime.date.today().month)
-            day=str(datetime.date.today().day)
+            year = str(datetime.date.today().year)[2:4]
+            month = str(datetime.date.today().month)
+            day = str(datetime.date.today().day)
             self.employee_id = 'E'+year+month+day+str(self.pk).zfill(4)
             self.save()
         
     def __str__(self):
         return str(self.info_of)
 
+
 class EmployeeSalary(models.Model):
-    salary_of=models.OneToOneField(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_info')
-    basic_salary=models.PositiveIntegerField(default=0)
-    conveyance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    food_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    medical_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    house_rent=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    mobile_allowance=models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    salary_of = models.OneToOneField(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_info')
+    basic_salary = models.PositiveIntegerField(default=0)
+    conveyance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    food_allowance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    medical_allowance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    house_rent = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    mobile_allowance = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
         return str(self.salary_of)

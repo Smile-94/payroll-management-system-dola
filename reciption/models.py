@@ -27,6 +27,7 @@ class SortLeave(models.Model):
     entering_time=models.TimeField(auto_now=False, auto_now_add=False,blank=True, null=True)
     description=models.TextField(blank=True)
     active_status=models.BooleanField(default=True)
+    
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -47,12 +47,12 @@
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
-                        <img class="rounded-circle" src="{% static 'img/user.jpg' %}" alt="" style="width: 40px; height: 40px;">
+                        <img class="rounded-circle" src=" {{request.user.profile.photo.url}} " alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
-                        <span>Admin</span>
+                        <h6 class="mb-0"> {{request.user.profile.first_name}}  {{request.user.profile.last_name}}</h6>
+                        <span>Receptionist</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -68,9 +68,8 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Sort Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'reception:sortleave' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2 text-primary"></i>Issue Leave</a>
+                            <a href="{% url 'reception:add_sortleave' %}" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Issue Leave</a>
                             <a href="{% url 'reception:sortleave_list' %}" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Leave List</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div>
                     <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
@@ -108,8 +107,8 @@
                 <div class="navbar-nav align-items-center ms-auto">
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <img class="rounded-circle me-lg-2" src="{% static 'img/user.jpg' %}" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <img class="rounded-circle me-lg-2" src=" {{request.user.profile.photo.url}} " alt="" style="width: 40px; height: 40px;">
+                            <span class="d-none d-lg-inline-flex"> {{request.user.profile.first_name}} {{request.user.profile.last_name}} </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
