@@ -12,6 +12,8 @@ from authority.views import EditEmployeeView
 from authority.views import EditEmployeeAddressView
 from authority.views import EditEmployeeSalaryView
 from authority.views import EmployeeDetailView
+from authority.views import AddOfficeTimeView
+from authority.views import UpdateOfficeTimeView
 
 app_name = 'authority'
 
@@ -27,4 +29,6 @@ urlpatterns = [
     path('designation-list/', DesignationListView.as_view(), name='designation_list'),
     path('update-designation/<int:pk>/', DesignationUpdateView.as_view(), name='update_designation'),
     path('delete-designation/<int:pk>/', DesignationDeleteView.as_view(), name='delete_designation'),
+    path('add-office-time/', AddOfficeTimeView.as_view(), name='add_officetime'),
+    path('update-office-time/<int:pk>/', UpdateOfficeTimeView.as_view(), name='update_officetime')
 ]

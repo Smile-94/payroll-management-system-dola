@@ -1,0 +1,61 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Add Employee</h6>
+    <form method='POST' enctype="multipart/form-data"> {% csrf_token %}
+        <div class="row mb-4">
+            <div class="col">
+                <label for="exampleInputEmail1" class="form-label">Office Start Time</label>
+                {{form.office_start |add_class:"form-control" }}
+            </div>
+            <div class="col">
+                <label for="exampleInputEmail1" class="form-label">Office End Time</label>
+                {{form.office_end |add_class:"form-control" }}
+            </div>
+            <div class="col mt-4">
+                <button type="submit" class="btn btn-lg btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+    
+    
+    {% if office_time %}
+    <table class="table ">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Office Start Time</th>
+            <th scope="col">Office End Time</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+            {% for time in office_time %}
+            <tr>
+                <td>{{time.office_start}}</td>
+                <td> {{time.office_end}} </td>
+                <td>
+                    <a class="btn btn-success" href="{% url 'authority:update_officetime' time.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                </td>
+              </tr>
+                
+            {% endfor %}
+    
+        </tbody>
+      </table>
+        
+    {% endif %}
+        
+
+</div>
+    
+{% endblock body %}
+    

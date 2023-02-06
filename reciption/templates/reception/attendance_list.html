@@ -32,6 +32,7 @@
                     <th scope="col">Date</th>
                     <th scope="col">Entering Tiem</th>
                     <th scope="col">Exit Tiem</th>
+                    <th scope="col">Late</th>
                   </tr>
                 </thead>
                 <tbody>   
@@ -45,6 +46,7 @@
                                 <td>{{attendance.date}}</td>
                                 <td>{{attendance.entering_time}}</td>
                                 <td>{{attendance.exit_time}}</td>
+                                <td>{{attendance.late_present}}</td>
                             </tr>  
                         {% endfor %}    
                     {% endif %}

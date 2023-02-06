@@ -27,6 +27,7 @@ from accounts.models import PresentAddress
 from accounts.models import PermanentAddress
 from employee.models import EmployeeInfo
 from employee.models import DesignationInfo
+from authority.models import OfficeTime
 
 
 # forms 
@@ -37,6 +38,7 @@ from accounts.forms import PresentAddressForm
 from accounts.forms import PermanentAddressForm
 from employee.forms import EmployeeInfoForm
 from employee.forms import EmployeeSalaryForm
+from authority.forms import OfficeTimeForm
 
 
 # Create your views here.
@@ -279,3 +281,43 @@ class DesignationDeleteView(LoginRequiredMixin, DeleteView):
         self.object.is_active = False
         self.object.save()
         return redirect(success_url)
+
+class AddOfficeTimeView(CreateView):
+    model=OfficeTime
+    form_class=OfficeTimeForm
+    template_name= "authority/add_office_time.html"
+    success_url=reverse_lazy('authority:add_office')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Add Office Time" 
+        context["office_time"] = OfficeTime.objects.all()
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Office Time added Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Office time not added try again")
+        return super().form_invalid(form)
+
+
+class UpdateOfficeTimeView(UpdateView):
+    model=OfficeTime
+    form_class=OfficeTimeForm
+    template_name= "authority/add_office_time.html"
+    success_url=reverse_lazy('authority:add_officetime')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Office Time" 
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Office Time added Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Office time not added try again")
+        return super().form_invalid(form)

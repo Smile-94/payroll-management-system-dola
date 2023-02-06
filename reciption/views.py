@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
+import datetime
 from datetime import date
 
 # Permissions Classes
@@ -70,6 +71,7 @@ class AddAttendanceView(LoginRequiredMixin, CreateView):
             if form.is_valid():
                 attendance = form.save(commit=False)
                 attendance.attendance_of = employee_info
+                
                 attendance.save()
 
             messages.success(self.request, "Attendance Added Successfully")  
@@ -175,8 +177,36 @@ class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
         return self.form_valid(form)
     
     def form_valid(self, form):
+        try:
+            if form.is_valid():
+                outing_time=form.cleaned_data['outing_time']
+                entry_time=form.cleaned_data['entering_time']
+                leave_hour=form.cleaned_data['leave_hour']
+
+                outing=datetime.datetime.combine(datetime.date.today(), outing_time)
+                entering=datetime.datetime.combine(datetime.date.today(), entry_time)
+                late_entry=((entering-outing)-leave_hour)
+                form_obj=form.save(commit=False)
+                form_obj.late_entry=late_entry
+                form_obj.save()
+                messages.success(self.request, "Leave Updated Successfully")
+            return super().form_valid(form)
+            
+        except Exception as e:
+            print(e)
+            return self.form_invalid(form)
+
         if form.is_valid():
-            form.save()
+            outing_time=form.cleaned_data['outing_time']
+            entry_time=form.cleaned_data['entering_time']
+            leave_hour=form.cleaned_data['leave_hour']
+
+            outing=datetime.datetime.combine(datetime.date.today(), outing_time)
+            entering=datetime.datetime.combine(datetime.date.today(), entry_time)
+            late_entry=((entering-outing)-leave_hour)
+            form_obj=form.save(commit=False)
+            form_obj.late_entry=late_entry
+            form_obj.save()
             messages.success(self.request, "Leave Updated Successfully")
         return super().form_valid(form)
       
