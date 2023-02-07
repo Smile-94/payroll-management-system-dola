@@ -48,6 +48,59 @@
     </div>
 </div>
 <!-- Sale & Revenue End -->
+
+ <!-- Sales Chart Start -->
+ <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Todys Attendance Report</h6>
+                    {% comment %} <a href="">Show All</a> {% endcomment %}
+                </div>
+                <div>
+                    <canvas id="myChart" width="100" height="100" ></canvas>
+                </div> 
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Salse & Revenue</h6>
+                    <a href="">Show All</a>
+                </div>
+                <canvas id="salse-revenue"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sales Chart End -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  
+                  <script>
+                    const ctx = document.getElementById('myChart');
+                  
+                    new Chart(ctx, {
+                      type: 'pie',
+                      data: {
+                        labels: ['Present', 'Absence', 'Sort Leave','Late Present(>30 min)'],
+                        datasets: [{
+                          label: '# of Votes',
+                          data: [{{attend_today}}, {{absence_today}},{{Sort_leave}}, {{late_present}} ],
+                          borderWidth: 1
+                        }]
+                      },
+                      options: {
+                        scales: {
+                          y: {
+                            beginAtZero: true
+                          }
+                        }
+                      }
+                      
+                    });
+                  </script>
     
 {% endblock body %}
     

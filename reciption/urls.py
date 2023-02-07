@@ -8,6 +8,7 @@ from reciption.views import AddSortleaveView
 from reciption.views import SortleaveListView
 from reciption.views import SortLeaveUpdateView
 from reciption.views import SortLeaveDetailView
+from reciption.views import SortleaveDeleteView
 
 app_name = 'reception'
 
@@ -19,4 +20,5 @@ urlpatterns = [
     path('add_sortleave/', AddSortleaveView.as_view(), name='add_sortleave'),
     path('sortleave-detail/<int:pk>/', SortLeaveDetailView.as_view(), name='sortleave_detail'),
     path('sortleave-update/<int:pk>/', SortLeaveUpdateView.as_view(), name='sortleave_update'),
+    path('sortleave-delete/<int:pk>/', SortleaveDeleteView.as_view(), name='sortleave_delete'),
 ]

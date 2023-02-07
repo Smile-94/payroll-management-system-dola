@@ -1,5 +1,8 @@
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import F
+from datetime import timedelta
 import datetime
 from datetime import date
 
@@ -16,6 +19,7 @@ from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import DetailView
+from django.views.generic import DeleteView
 
 # Models
 from employee.models import EmployeeInfo
@@ -43,6 +47,7 @@ class ReceptionView(LoginRequiredMixin, TemplateView):
         context["attend_today"] = attend_today
         context["absence_today"] = (total_employee-attend_today)
         context["Sort_leave"] = SortLeave.objects.filter(date=date.today()).count()
+        context["late_present"] = Attendance.objects.filter(date=date.today(),late_present__gt=timedelta(minutes=30)).count()
 
         return context
 
@@ -114,7 +119,7 @@ class AddSortleaveView(CreateView):
         try:
             employee_info = EmployeeInfo.objects.get(employee_id=employee_id)
 
-            leave_obj = SortLeave.objects.filter(date=today, employee_id=employee_id).exists()
+            leave_obj = SortLeave.objects.filter(date=today, employee_id=employee_id, active_status=True).exists()
 
             if leave_obj is True:
                 messages.error(self.request, "Employee have already issued a leave")
@@ -191,25 +196,31 @@ class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
                 form_obj.save()
                 messages.success(self.request, "Leave Updated Successfully")
             return super().form_valid(form)
-            
+
         except Exception as e:
             print(e)
             return self.form_invalid(form)
 
-        if form.is_valid():
-            outing_time=form.cleaned_data['outing_time']
-            entry_time=form.cleaned_data['entering_time']
-            leave_hour=form.cleaned_data['leave_hour']
+class SortleaveDeleteView(DeleteView):
+    model=SortLeave
+    context_object_name='leave'
+    template_name="reception/delete_sortleave.html"
+    success_url=reverse_lazy('reception:sortleave_list')
 
-            outing=datetime.datetime.combine(datetime.date.today(), outing_time)
-            entering=datetime.datetime.combine(datetime.date.today(), entry_time)
-            late_entry=((entering-outing)-leave_hour)
-            form_obj=form.save(commit=False)
-            form_obj.late_entry=late_entry
-            form_obj.save()
-            messages.success(self.request, "Leave Updated Successfully")
-        return super().form_valid(form)
-      
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Sort Leave"
+        return context
+    
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.active_status = False
+        self.object.save()
+        messages.success(self.request, "delete sortleave successfully")
+        return redirect(success_url)
+
+
     
         
     
