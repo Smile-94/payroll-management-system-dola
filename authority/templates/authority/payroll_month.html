@@ -1,0 +1,38 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Add Payroll Month</h6>
+    <form method='POST'> {% csrf_token %}
+        <div class="row mb-4">
+            <div class="col ">
+                <label for="exampleInputEmail1" class="form-label">Month</label>
+                {{form.month | add_class:"form-select"}}
+            </div>
+            <div class="col">
+                <label for="exampleInputEmail1" class="form-label">Year</label>
+                {{form.year | add_class:"form-select"}}
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col ">
+                <label for="exampleInputEmail1" class="form-label">From Date</label>
+                {{form.from_date | add_class:"form-select"}}
+            </div>
+            <div class="col">
+                <label for="exampleInputEmail1" class="form-label">To Date</label>
+                {{form.to_date | add_class:"form-select"}}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-primary">Save</button>
+    </form>
+</div>
+    
+{% endblock body %}
+    

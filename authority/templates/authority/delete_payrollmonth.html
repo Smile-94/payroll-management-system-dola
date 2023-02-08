@@ -1,0 +1,56 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Add Designation</h6>
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Department</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Updated at</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if designation %} 
+            
+                <tr>
+                    <th scope="row">1</th>
+                    <td> {{designation.designation}} </td>
+                    <td> {{designation.department}} </td>
+                    <td>{{designation.created_at}}</td>
+                    <td>{{designation.updated_at}}</td>
+                    <td>
+                        <form action="" method='POST'> {% csrf_token %}
+                            <button class="btn btn-danger" type='submit' id="myButton"><i class="fa-solid fa-trash px-2"></i>Delete</button>
+                        </form>
+                    </td>
+                  </tr>
+            {% endif %}     
+      </table>
+</div>
+
+
+<script>
+    document.getElementById("myButton").addEventListener("click", function(){
+        var result = confirm("Are you sure you want to delete this item?");
+        if (result) {
+            // Do something if OK is clicked
+            alert('Deleted successfully');
+        } else {
+            // Do something if Cancel is clicked
+            alert('Deletion Cancelled');
+        }
+    });
+</script>
+    
+{% endblock body %}
+    

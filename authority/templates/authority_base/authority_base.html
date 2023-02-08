@@ -62,15 +62,25 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>Create Account</a>
                             <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>Employee List</a>
-                            <a href="element.html" class="dropdown-item">Add Info</a>
                         </div>
                     </div>
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="form.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Forms</a>
-                    <a href="table.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i>Settings</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-dollar-sign"></i></i>Salary</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'authority:add_employee' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2"></i>Create Account</a>
+                            <a href="{% url 'authority:employee_list' %}" class="dropdown-item"><i class="fa-solid fa-address-book me-2"></i>Employee List</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i></i></i>Payroll Settings</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-plus me-2"></i>Add Month</a>
+                            <a href="{% url 'authority:payrollmonth_list' %}" class="dropdown-item"><i class="fa-solid fa-bars me-2"></i></i>Month List</a>
+                            <a href="{% url 'authority:payrollmonth_list' %}" class="dropdown-item"><i class="fa-solid fa-bars me-2"></i></i>Festival Bonus</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-gear"></i>Settings</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:add_designation' %}" class="dropdown-item"><i class="fa-solid fa-plus me-2"></i> Add Designation</a>
                             <a href="{% url 'authority:designation_list' %}" class="dropdown-item"><i class="fa-solid fa-list me-2"></i>Designation List</a>

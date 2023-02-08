@@ -1,10 +1,15 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.db.models import F
+from datetime import timedelta
+import datetime
+from datetime import date
 
 
 # Filters Class
 from authority.filters import EmployeeListFilter
+from authority.filters import PayrollMonthListFilter
 
 
 # class-based view classes
@@ -14,20 +19,33 @@ from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.views import View
 
 
 # Permission and Authentication
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# Models
+# Models Accounts
 from accounts.models import User
 from accounts.models import Profile
 from accounts.models import PresentAddress
 from accounts.models import PermanentAddress
+
+# Models Employee
 from employee.models import EmployeeInfo
 from employee.models import DesignationInfo
+
+# Models Authority
 from authority.models import OfficeTime
+from authority.models import PayrollMonth
+from authority.models import FestivalBonus
+
+# Models Rectiption
+from reciption.models import Attendance
+from reciption.models import SortLeave
+
+
 
 
 # forms 
@@ -39,6 +57,8 @@ from accounts.forms import PermanentAddressForm
 from employee.forms import EmployeeInfoForm
 from employee.forms import EmployeeSalaryForm
 from authority.forms import OfficeTimeForm
+from authority.forms import PayrollMonthForm
+from authority.forms import FestivalBonusForm
 
 
 # Create your views here.
@@ -46,8 +66,16 @@ class AdminView(LoginRequiredMixin, TemplateView):
     template_name = 'authority/admin.html'
 
     def get_context_data(self, **kwargs):
+        total_employee = EmployeeInfo.objects.all().count()
+        today = date.today()
+        attend_today = Attendance.objects.filter(date=today).count()
         context = super().get_context_data(**kwargs)
         context["title"] = "Admin Panel" 
+        context["total_employee"] = total_employee
+        context["attend_today"] = attend_today
+        context["absence_today"] = (total_employee-attend_today)
+        context["Sort_leave"] = SortLeave.objects.filter(date=date.today()).count()
+        context["late_present"] = Attendance.objects.filter(date=date.today(),late_present__gt=timedelta(minutes=30)).count() 
         return context
     
 
@@ -282,7 +310,7 @@ class DesignationDeleteView(LoginRequiredMixin, DeleteView):
         self.object.save()
         return redirect(success_url)
 
-class AddOfficeTimeView(CreateView):
+class AddOfficeTimeView(LoginRequiredMixin, CreateView):
     model=OfficeTime
     form_class=OfficeTimeForm
     template_name= "authority/add_office_time.html"
@@ -303,7 +331,7 @@ class AddOfficeTimeView(CreateView):
         return super().form_invalid(form)
 
 
-class UpdateOfficeTimeView(UpdateView):
+class UpdateOfficeTimeView(LoginRequiredMixin, UpdateView):
     model=OfficeTime
     form_class=OfficeTimeForm
     template_name= "authority/add_office_time.html"
@@ -321,3 +349,97 @@ class UpdateOfficeTimeView(UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "Office time not added try again")
         return super().form_invalid(form)
+
+
+class AddPayrollMonthView(LoginRequiredMixin, CreateView):
+    model = PayrollMonth
+    form_class = PayrollMonthForm
+    template_name = 'authority/payroll_month.html'
+    success_url = reverse_lazy('authority:payrollmonth_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Payroll Month"
+        return context
+    
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Payroll Month Added Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again")
+        return super().form_invalid(form)
+
+class PayrollMonthListView(ListView):
+    model=PayrollMonth
+    filterset_class = PayrollMonthListFilter
+    template_name= 'authority/payroll_month_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Payroll Month List" 
+        context["months"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+
+class UpdatePayrollMonthView(LoginRequiredMixin, UpdateView):
+    model=PayrollMonth
+    form_class=PayrollMonthForm
+    template_name='authority/payroll_month.html'
+    success_url= reverse_lazy('authority:payrollmonth_list')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Payroll Month" 
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Payroll Month Updated Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong payroll month not updated")
+        return super().form_invalid(form)
+
+class DeletePayrollMonthView(LoginRequiredMixin, DeleteView):
+    model= PayrollMonth
+    template_name = "authority/delete_payrollmonth.html"
+    success_url = reverse_lazy('authority:payrollmonth_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Payroll Month" 
+        return context
+
+    def form_valid(self, form):
+        self.object.active_status = False
+        self.object.save()
+        return redirect(self.success_url)
+
+
+class FestivalBonusView(LoginRequiredMixin, CreateView):
+    model = FestivalBonus
+    form_class = FestivalBonusForm
+    template_name='authority/festival_bonus.html'
+    success_url=reverse_lazy('authority:festival_bonus')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Festival Bonus" 
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Festival Bonus Added Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Festival not added try again!")
+        return super().form_invalid(form)
+    
+    
+    
+    
+    
+
+    
+

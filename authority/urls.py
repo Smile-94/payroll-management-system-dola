@@ -15,6 +15,11 @@ from authority.views import EmployeeDetailView
 from authority.views import AddOfficeTimeView
 from authority.views import UpdateOfficeTimeView
 
+# Payroll Months
+from authority.views import AddPayrollMonthView
+from authority.views import PayrollMonthListView
+from authority.views import UpdatePayrollMonthView
+
 app_name = 'authority'
 
 urlpatterns = [
@@ -31,4 +36,13 @@ urlpatterns = [
     path('delete-designation/<int:pk>/', DesignationDeleteView.as_view(), name='delete_designation'),
     path('add-office-time/', AddOfficeTimeView.as_view(), name='add_officetime'),
     path('update-office-time/<int:pk>/', UpdateOfficeTimeView.as_view(), name='update_officetime')
+]
+
+# Add, Update, Delete Payroll Months
+urlpatterns += [
+
+    path('add-payroll-month/', AddPayrollMonthView.as_view(), name='add_payrollmonth'),
+    path('payroll-month_list/', PayrollMonthListView.as_view(), name='payrollmonth_list'),
+    path('update-payroll-month/<int:pk>/', UpdatePayrollMonthView.as_view(), name='update_payrollmonth'),
+    
 ]
