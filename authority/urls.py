@@ -17,8 +17,11 @@ from authority.views import UpdateOfficeTimeView
 
 # Payroll Months
 from authority.views import AddPayrollMonthView
-from authority.views import PayrollMonthListView
 from authority.views import UpdatePayrollMonthView
+
+# Festival Bonus
+from authority.views import FestivalBonusView
+from authority.views import FestivalBonusUpdateView
 
 app_name = 'authority'
 
@@ -40,9 +43,12 @@ urlpatterns = [
 
 # Add, Update, Delete Payroll Months
 urlpatterns += [
-
     path('add-payroll-month/', AddPayrollMonthView.as_view(), name='add_payrollmonth'),
-    path('payroll-month_list/', PayrollMonthListView.as_view(), name='payrollmonth_list'),
-    path('update-payroll-month/<int:pk>/', UpdatePayrollMonthView.as_view(), name='update_payrollmonth'),
-    
+    path('update-payroll-month/<int:pk>/', UpdatePayrollMonthView.as_view(), name='update_payrollmonth'), 
+]
+
+# Add , Update, delte Festival Bonus
+urlpatterns += [
+    path('festival-bonus/', FestivalBonusView.as_view(), name='festival_bonus'),
+    path('festival-update/<int:pk>/', FestivalBonusUpdateView.as_view(), name='update_festival'),
 ]

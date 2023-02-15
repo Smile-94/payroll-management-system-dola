@@ -5,34 +5,140 @@
 {% block title %} {{title}} {% endblock title %}
 
 
-
 {% block body %}
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">Add Payroll Month</h6>
-    <form method='POST'> {% csrf_token %}
-        <div class="row mb-4">
-            <div class="col ">
-                <label for="exampleInputEmail1" class="form-label">Month</label>
-                {{form.month | add_class:"form-select"}}
+    {% if updated %}
+        <form method='POST'> {% csrf_token %}
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Month</label>
+                    {{form.month | add_class:"form-select"}}
+                </div>
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Year</label>
+                    {{form.year | add_class:"form-select"}}
+                </div>
             </div>
-            <div class="col">
-                <label for="exampleInputEmail1" class="form-label">Year</label>
-                {{form.year | add_class:"form-select"}}
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">From Date</label>
+                    {{form.from_date | add_class:"form-control"}}
+                </div>
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">To Date</label>
+                    {{form.to_date | add_class:"form-control"}}
+                </div>
             </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col ">
-                <label for="exampleInputEmail1" class="form-label">From Date</label>
-                {{form.from_date | add_class:"form-select"}}
+            <div class="mb-3">
+                <a class="btn btn-success" href="{% url 'authority:add_payrollmonth' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                
             </div>
-            <div class="col">
-                <label for="exampleInputEmail1" class="form-label">To Date</label>
-                {{form.to_date | add_class:"form-select"}}
-            </div>
-        </div>
-        <button type="submit" class="btn btn-lg btn-primary">Save</button>
-    </form>
-</div>
+            
+        </form>
     
+    {% else %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Festival Bonus List</h6>
+        </div>
+        <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Add Bonus
+              </button>
+        </div>
+      </div>
+
+      <div class="col-md-6 mb-4">
+        <form class="d-flex">
+            <div class="row">
+                <div class="col ">
+                    {{months.form.month | add_class:"form-select" }}
+                </div>
+                <div class="col mb-3">
+                    {{months.form.year | add_class:"form-select"}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col ">
+                    <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+      </div>
+    
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Month</th>
+              <th scope="col">Year</th>
+              <th scope="col">From Date</th>
+              <th scope="col">To Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if months %} 
+                {% for month in months.qs %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{month.month}} </td>
+                    <td> {{month.year}} </td>
+                    <td>{{month.from_date}}</td>
+                    <td>{{month.to_date}}</td>
+                    <td>
+                        <a class="btn btn-success" href="{% url 'authority:update_payrollmonth' month.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}     
+      </table>
+</div>
+{% endif %}
+    
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Payroll Month</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Month</label>
+                        {{form.month |add_class:"form-select"}}
+                    </div>
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">Year</label>
+                        {{form.year |add_class:"form-select"}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">From Date</label>
+                        {{form.from_date |add_class:"form-control"}}
+                    </div>
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">To Date</label>
+                        {{form.to_date |add_class:"form-control"}}
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  
 {% endblock body %}
+    
     

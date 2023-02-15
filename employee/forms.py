@@ -23,6 +23,7 @@ class EmployeeSalaryForm(forms.ModelForm):
     class Meta:
         model=EmployeeSalary
         exclude=('salary_of',)
+
 class DesignationInfoForm(forms.ModelForm):
     
     class Meta:
