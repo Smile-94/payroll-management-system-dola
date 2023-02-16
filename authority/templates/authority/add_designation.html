@@ -11,22 +11,18 @@
         <form method='POST'> {% csrf_token %}
             <div class="row">
                 <div class="col ">
-                    <label for="exampleInputEmail1" class="form-label">Month</label>
-                    {{form.month | add_class:"form-select"}}
+                    <label for="exampleInputEmail1" class="form-label">Designation Title</label>
+                    {{form.designation | add_class:"form-select"}}
                 </div>
                 <div class="col mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Year</label>
-                    {{form.year | add_class:"form-select"}}
+                    <label for="exampleInputEmail1" class="form-label">Department</label>
+                    {{form.department | add_class:"form-select"}}
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col ">
-                    <label for="exampleInputEmail1" class="form-label">From Date</label>
-                    {{form.from_date | add_class:"form-control"}}
-                </div>
-                <div class="col mb-3">
-                    <label for="exampleInputEmail1" class="form-label">To Date</label>
-                    {{form.to_date | add_class:"form-control"}}
+                    <label for="exampleInputEmail1" class="form-label">Description</label>
+                    {{form.description | add_class:"form-control"}}
                 </div>
             </div>
             <div class="mb-3">
@@ -50,7 +46,7 @@
       </div>
 
       <div class="col-md-6 mb-4">
-        <form class="d-flex">
+        <form class="d-flex"> {% csrf_token %}
             <div class="row">
                 <div class="col ">
                     {{designations.form.designation | add_class:"form-control" }}
@@ -88,8 +84,8 @@
                     <td>{{designation.created_at}}</td>
                     <td>{{designation.updated_at}}</td>
                     <td>
-                        <a class="btn btn-success" href="#" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-success" href="{% url 'authority:update_designation' designation.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_designation' designation.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}     
@@ -104,29 +100,25 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Payroll Month</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Designation</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form method="POST"> {% csrf_token %}
                 <div class="row mb-4">
                     <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">Month</label>
-                        {{form.month |add_class:"form-select"}}
+                        <label for="exampleInputEmail1" class="form-label">Designation</label>
+                        {{form.designation |add_class:"form-select"}}
                     </div>
                     <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">Year</label>
-                        {{form.year |add_class:"form-select"}}
+                        <label for="exampleInputEmail1" class="form-label">Department</label>
+                        {{form.department |add_class:"form-select"}}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">From Date</label>
-                        {{form.from_date |add_class:"form-control"}}
-                    </div>
-                    <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">To Date</label>
-                        {{form.to_date |add_class:"form-control"}}
+                        <label for="exampleInputEmail1" class="form-label">Description</label>
+                        {{form.description |add_class:"form-control"}}
                     </div>
                 </div>
         </div>
