@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <style>
+        .table-container {
+            margin-bottom: 10px;
+          }
+
+        h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #e1f1fb;
+            border-radius: 10px;
+            font-size: 16px;
+          }
+          
+          td {
+            padding: 5px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+          }
+          
+          .label {
+            width: 25%;
+            background-color: #c0ddf6;
+            font-weight: bold;
+            color: #000;
+            text-align: right;
+            border-radius: 10px 0 0 10px;
+          }
+
+          .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+          }
+          
+          .photo {
+            margin-right: 20px;
+            margin-bottom: 5px;
+          }
+          
+          .photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          
+          .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            color: #6b5b95;
+          }
+          
+          .designation {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          
+          .department {
+            font-style: italic;
+            margin-bottom: 5px;
+          }
+          
+          
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="photo">
+          <img src="/media/{{user.profile.photo}}" alt="Profile Photo">
+        </div>
+        <div class="details">
+          <div class="designation"> {{user.employee_info.position.designation}} </div>
+          <div class="department"> {{user.employee_info.position.department}} </div>
+        </div>
+      </div>
+      <div class="table-container">
+        <h2>Employee Details</h2>
+        <table>
+            <tr>
+              <td class="label">Full Name:</td>
+              <td> {{user.profile.first_name}} {{user.profile.last_name}}</td>
+            </tr>
+            <tr>
+              <td class="label">Email:</td>
+              <td> {{user.email}} </td>
+            </tr>
+            <tr>
+              <td class="label">Phone:</td>
+              <td> {{user.employee_info.phone}} </td>
+            </tr>
+          </table>
+      </div>
+      <div class="table-container">
+        <h2>Present Address</h2>
+        <table>
+            <tr>
+              <td class="label">Road/Village:</td>
+              <td> {{user.present_address.present_village}} </td>
+            </tr>
+            <tr>
+              <td class="label">Sector/Avenue:</td>
+              <td> {{user.present_address.present_post}} </td>
+            </tr>
+            <tr>
+              <td class="label">Police Station:</td>
+              <td> {{user.present_address.present_upzila}} </td>
+            </tr>
+            <tr>
+              <td class="label">City/Division:</td>
+              <td> {{user.present_address.present_division}} </td>
+            </tr>
+            <tr>
+              <td class="label">District:</td>
+              <td> {{user.present_address.present_district}} </td>
+            </tr>
+            <tr>
+              <td class="label">Zip:</td>
+              <td> {{user.present_address.present_post_code}} </td>
+            </tr>
+          </table>
+      </div>
+      <div class="table-container">
+        <h2>Permanent Address</h2>
+        <table>
+            <tr>
+              <td class="label">Road/Village:</td>
+              <td> {{user.permanent_address.permanent_village}} </td>
+            </tr>
+            <tr>
+              <td class="label">Sector/Avenue:</td>
+              <td> {{user.permanent_address.permanent_post}} </td>
+            </tr>
+            <tr>
+              <td class="label">Police Station:</td>
+              <td> {{user.permanent_address.permanent_upzila}} </td>
+            </tr>
+            <tr>
+              <td class="label">City/Division:</td>
+              <td> {{user.permanent_address.present_division}} </td>
+            </tr>
+            <tr>
+              <td class="label">District:</td>
+              <td> {{user.permanent_address.permanent_district}} </td>
+            </tr>
+            <tr>
+              <td class="label">Zip:</td>
+              <td> {{user.permanent_address.permanent_post_code}} </td>
+            </tr>
+          </table>
+      </div>
+      
+         
+</body>
+</html>

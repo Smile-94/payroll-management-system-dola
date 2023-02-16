@@ -3,7 +3,6 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 
-
 # Filters Class
 from authority.filters import EmployeeListFilter
 
@@ -79,6 +78,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
 
 class EmployeeDetailView(LoginRequiredMixin, DetailView):
     queryset = User.objects.all()
+    context_object_name='user'
     template_name = 'authority/employee_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -199,3 +199,4 @@ class EditEmployeeSalaryView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "Something goes wrong try again")
         return super().form_invalid(form)
+

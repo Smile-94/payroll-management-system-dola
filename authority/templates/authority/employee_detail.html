@@ -17,7 +17,7 @@
                     <h4> {{profile.first_name}} {{profile.last_name}} </h4>
                     <p class="text-secondary mb-1">{{employee_info.position.designation}}</p>
                     <p class="text-muted font-size-sm">{{employee_info.position.department}} </p>
-                    <button class="btn btn-primary">Download Details</button>
+                    <a class="btn btn-primary" target="_blank" href="{% url 'report:profile_pdf' user.id %}">Download Details</a>
                     <button class="btn btn-outline-primary">Print Details</button>
                   </div>
                 </div>

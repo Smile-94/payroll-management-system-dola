@@ -80,7 +80,6 @@ GENDER_OPT = (
     ('other', 'Other')
 )
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=264, blank=True)

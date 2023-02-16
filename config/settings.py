@@ -10,6 +10,7 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 STATIC_DIR = BASE_DIR / 'static'
 MEDIA_DIR = BASE_DIR / 'media'
 
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'authority.apps.AuthorityConfig',
     'employee.apps.EmployeeConfig',
     'reciption.apps.ReciptionConfig',
+    'report.apps.ReportConfig',
     # Third party apps and packages
     'widget_tweaks',
     'django_filters',
@@ -126,7 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
