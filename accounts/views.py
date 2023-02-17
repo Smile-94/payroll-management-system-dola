@@ -64,7 +64,7 @@ class UserLoginView(LoginView):
 
             elif user is not None and request_user.is_employee is True:
                 login(self.request, user)
-                return HttpResponse("Employee Login")
+                return HttpResponseRedirect(reverse('employee:employee'))
 
             
             else:

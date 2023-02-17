@@ -1,6 +1,9 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+# Models
+from accounts.models import User
+
 # Create your models here.
 class PayrollMonth(models.Model):
     MONTH_CHOICES = [
@@ -36,3 +39,16 @@ class OfficeTime(models.Model):
     office_end=models.TimeField(auto_now=False, auto_now_add=False)
     created_at=models.DateTimeField(auto_now_add=True)
     modified_at=models.DateTimeField(auto_now=True)
+
+class LeaveApplication(models.Model):
+    application_of = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leave_employee')
+    approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by')
+    leave_from = models.DateField(auto_now=False, auto_now_add=False)
+    leave_to = models.DateField(auto_now=False, auto_now_add=False)
+    leave_description = models.TextField()
+    approvied_status = models.BooleanField(default=False)
+    declined_status= models.BooleanField(default=False)
+    declined_message = models.TextField(null=True)
+    is_active = models.BooleanField(default=False)
+
+
