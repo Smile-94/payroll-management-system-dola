@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Details</title>
+    <style>
+        .table-container {
+            margin-bottom: 10px;
+          }
+
+        h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #e1f1fb;
+            border-radius: 10px;
+            font-size: 16px;
+          }
+          
+          td {
+            padding: 5px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+          }
+          
+          .label {
+            width: 25%;
+            background-color: #c0ddf6;
+            font-weight: bold;
+            color: #000;
+            text-align: right;
+            border-radius: 10px 0 0 10px;
+          }
+
+          .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+          }
+          
+          .photo {
+            margin-right: 20px;
+            margin-bottom: 5px;
+          }
+          
+          .photo img {
+            width: 150px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          
+          .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            color: #6b5b95;
+          }
+          
+          .designation {
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          
+          .department {
+            font-style: italic;
+            margin-bottom: 5px;
+          }
+          
+          
+
+    </style>
+</head>
+<body>
+      <div class="table-container">
+        <h2>Sort Leave Deatils</h2>
+        <table>
+            <tr>
+              <td class="label">Employee Name:</td>
+              <td> {{sortleave.ticket_for.info_of.profile.first_name}} {{sortleave.ticket_for.info_of.profile.last_name}}</td>
+            </tr>
+            <tr>
+              <td class="label">Employee ID:</td>
+              <td> {{sortleave.employee_id}} </td>
+            </tr>
+            <tr>
+              <td class="label">Ticked ID:</td>
+              <td> {{sortleave.ticket_id}} </td>
+            </tr>
+            <tr>
+              <td class="label">Date:</td>
+              <td> {{sortleave.date}} </td>
+            </tr>
+            <tr>
+              <td class="label">Leave Hour:</td>
+              <td> {{sortleave.leave_hour}} </td>
+            </tr>
+            <tr>
+              <td class="label">Outing Time:</td>
+              <td> {{sortleave.outing_time}} </td>
+            </tr>
+            <tr>
+              <td class="label">Entering Time:</td>
+              <td> {{sortleave.entering_time}} </td>
+            </tr>
+            <tr>
+              <td class="label">Leave Reasion:</td>
+              <td> {{sortleave.description}} </td>
+            </tr>
+          </table>
+      </div>
+      <div class="profile-container">
+        <h2>Issued By</h2>
+        <div class="photo">
+          <img src="/media/{{sortleave.issued_by.employee_info.signature}}" alt="Profile Photo">
+        </div>
+        <div class="details">
+          <div class="designation"> {{sortleave.issued_by.profile.first_name}} {{sortleave.issued_by.profile.last_name}}</div>
+          <div class="designation"> {{sortleave.issued_by.employee_info.position.designation}} </div>
+          <div class="department"> {{sortleave.issued_by.employee_info.position.department}} </div>
+        </div>
+      </div>
+      
+         
+</body>
+</html>

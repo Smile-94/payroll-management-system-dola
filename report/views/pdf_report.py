@@ -6,6 +6,7 @@ from django.conf import settings
 
 # Models
 from accounts.models import User
+from reciption.models import SortLeave
 
 
 class EmployeePdfView(PdfMixin, DetailView):
@@ -26,3 +27,18 @@ class EmployeePdfView(PdfMixin, DetailView):
         filename = "profile_{0}.pdf".format(self.object.pk)
         response['Content-Disposition'] = 'filename="{}"'.format(filename)
         return response
+
+class SortLeavePdfView(PdfMixin, DetailView):
+    model = SortLeave
+    context_object_name = 'sortleave'
+    template_name = "report/sortleave_pdf.html"
+
+ 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        response = self.render_to_response(context)
+        filename = "sortleave_{0}.pdf".format(self.object.pk)
+        response['Content-Disposition'] = 'filename="{}"'.format(filename)
+        return response
+

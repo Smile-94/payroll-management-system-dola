@@ -5,7 +5,8 @@
 
 
 {% block body %}
-<a type="button" href="{% url 'reception:sortleave_list' %}" class="btn btn-primary rounded-pill m-2"><i class="fa-solid fa-arrow-left me-2"></i>Back To List</a>
+<a type="button" href="{% url 'reception:sortleave_list' %}" class="btn btn-primary  m-2"><i class="fa-solid fa-arrow-left me-2"></i>Back To List</a>
+<a type="button" href="{% url 'report:sortleave_pdf' leave.id %}" target="_blank"  class="btn btn-success m-2"><i class="fa-solid fa-print me-2"></i></i>Print</a>
   <div class="row gutters-sm">
     <div class="col-sm-6 mb-3">
       <div class="card h-100">
@@ -64,6 +65,7 @@
         </div>
       </div>
     </div>
+    
   </div>
   
     
