@@ -4,6 +4,7 @@ from datetime import datetime
 
 from accounts.models import User
 from authority.models import PayrollMonth
+from authority.models import LeaveApplication
 
 
 class EmployeeListFilter(django_filters.FilterSet):
@@ -27,4 +28,10 @@ class PayrollMonthListFilter(django_filters.FilterSet):
             'month' : {'exact'},
             'year'  : {'exact'}
        }
-        
+
+class LeaveApplicationFilter(django_filters.FilterSet):
+    leave_from = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = LeaveApplication
+        fields = ('leave_from','approved_status')

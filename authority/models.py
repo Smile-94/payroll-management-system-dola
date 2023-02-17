@@ -42,13 +42,14 @@ class OfficeTime(models.Model):
 
 class LeaveApplication(models.Model):
     application_of = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leave_employee')
-    approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by')
+    approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by',blank=True, null=True)
+    employee_id = models.CharField(max_length=10,null=True)
     leave_from = models.DateField(auto_now=False, auto_now_add=False)
     leave_to = models.DateField(auto_now=False, auto_now_add=False)
     leave_description = models.TextField()
-    approvied_status = models.BooleanField(default=False)
-    declined_status= models.BooleanField(default=False)
+    approved_status = models.BooleanField(default=False)
+    declined_status = models.BooleanField(default=False)
     declined_message = models.TextField(null=True)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
 

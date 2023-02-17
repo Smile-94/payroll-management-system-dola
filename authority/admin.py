@@ -4,6 +4,7 @@ from django.contrib import admin
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import LeaveApplication
 
 
 # Register your models here.
@@ -20,4 +21,9 @@ class FestivalBonusAdmin(admin.ModelAdmin):
 @admin.register(OfficeTime)
 class SetOfficeTimeAdmin(admin.ModelAdmin):
     list_display = ('office_start', 'office_end', 'modified_at', 'created_at')
+
+
+@admin.register(LeaveApplication)
+class LeaveApplication(admin.ModelAdmin):
+    list_display=('application_of','approvied_by','leave_from','leave_to','approved_status')
 
