@@ -1,6 +1,10 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
 
+# premissions class
+from django.contrib.auth.mixins import LoginRequiredMixin
+from employee.permission import EmployeePassesTestMixin
+
 # filters
 from authority.filters import LeaveApplicationFilter
 
@@ -15,7 +19,7 @@ from authority.models import LeaveApplication
 from authority.forms import LeaveApplicationForm
 
 
-class AddLeaveApplicationView(CreateView):
+class AddLeaveApplicationView(LoginRequiredMixin,EmployeePassesTestMixin, CreateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     queryset= LeaveApplication.objects.filter(is_active=True)
@@ -41,7 +45,7 @@ class AddLeaveApplicationView(CreateView):
         messages.error(self.request, "Leave Application not Applied successfully try again")
         return super().form_invalid(form)
 
-class LeaveApplicationUpdateView(UpdateView):
+class LeaveApplicationUpdateView(LoginRequiredMixin,EmployeePassesTestMixin, UpdateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     template_name = 'employee/leave_application.html'

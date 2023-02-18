@@ -4,6 +4,7 @@ from datetime import date
 
 # Permission Classes
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permission import AdminPassesTestMixin
 
 # Generc Classes
 from django.views.generic import TemplateView
@@ -17,7 +18,7 @@ from reciption.models import SortLeave
 
 
 # Create your views here.
-class AdminView(LoginRequiredMixin, TemplateView):
+class AdminView(LoginRequiredMixin, AdminPassesTestMixin, TemplateView):
     template_name = 'authority/admin.html'
 
     def get_context_data(self, **kwargs):

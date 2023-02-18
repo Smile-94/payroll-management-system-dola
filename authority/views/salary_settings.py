@@ -16,6 +16,7 @@ from django.views.generic import DeleteView
 
 # Permission and Authentication
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permission import AdminPassesTestMixin
 
 
 # Models Authority
@@ -28,7 +29,7 @@ from authority.forms import PayrollMonthForm
 from authority.forms import FestivalBonusForm
 
 
-class AddPayrollMonthView(LoginRequiredMixin, CreateView):
+class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = PayrollMonth
     queryset =PayrollMonth.objects.filter(active_status=True).order_by('-id')
     form_class = PayrollMonthForm
@@ -52,7 +53,7 @@ class AddPayrollMonthView(LoginRequiredMixin, CreateView):
         messages.error(self.request, "Something wrong try again")
         return super().form_invalid(form)
 
-class UpdatePayrollMonthView(LoginRequiredMixin, UpdateView):
+class UpdatePayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model=PayrollMonth
     form_class=PayrollMonthForm
     template_name='authority/payroll_month.html'
@@ -72,7 +73,7 @@ class UpdatePayrollMonthView(LoginRequiredMixin, UpdateView):
         messages.error(self.request, "Something wrong payroll month not updated")
         return super().form_invalid(form)
 
-class DeletePayrollMonthView(LoginRequiredMixin, DeleteView):
+class DeletePayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model= PayrollMonth
     template_name = "authority/delete_payrollmonth.html"
     success_url = reverse_lazy('authority:payrollmonth_list')
@@ -89,7 +90,7 @@ class DeletePayrollMonthView(LoginRequiredMixin, DeleteView):
 
 # Festival Bonus add,update, delete
 
-class FestivalBonusView(LoginRequiredMixin, CreateView):
+class FestivalBonusView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = FestivalBonus
     form_class = FestivalBonusForm
     template_name='authority/festival_bonus.html'
@@ -110,7 +111,7 @@ class FestivalBonusView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class FestivalBonusUpdateView(LoginRequiredMixin, UpdateView):
+class FestivalBonusUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = FestivalBonus
     form_class = FestivalBonusForm
     template_name = 'authority/festival_bonus.html'

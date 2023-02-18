@@ -18,6 +18,7 @@ from django.views.generic import DeleteView
 
 # Permission and Authentication
 from django.contrib.auth.mixins import LoginRequiredMixin
+from authority.permission import AdminPassesTestMixin
 
 
 # Models Accounts
@@ -40,7 +41,7 @@ from employee.forms import EmployeeSalaryForm
 
 
 # View start from here
-class AddEmpolyeeView(LoginRequiredMixin, CreateView):
+class AddEmpolyeeView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = User
     form_class = EmployeeSignUpForm
     success_url = reverse_lazy('authority:authority')
@@ -64,7 +65,7 @@ class AddEmpolyeeView(LoginRequiredMixin, CreateView):
         return super().form_invalid(form)
    
 
-class EmployeeListView(LoginRequiredMixin, ListView):
+class EmployeeListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
     queryset = User.objects.all()
     filterset_class = EmployeeListFilter
     template_name = 'authority/employee_list.html'
@@ -76,7 +77,7 @@ class EmployeeListView(LoginRequiredMixin, ListView):
         return context
 
 
-class EmployeeDetailView(LoginRequiredMixin, DetailView):
+class EmployeeDetailView(LoginRequiredMixin, AdminPassesTestMixin, DetailView):
     queryset = User.objects.all()
     context_object_name='user'
     template_name = 'authority/employee_detail.html'
@@ -92,7 +93,7 @@ class EmployeeDetailView(LoginRequiredMixin, DetailView):
         return context
     
 
-class EditEmployeeView(LoginRequiredMixin, UpdateView):
+class EditEmployeeView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = Profile
     model2 = EmployeeInfo
     form_class = ProfileForm
@@ -136,7 +137,7 @@ class EditEmployeeView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class EditEmployeeAddressView(LoginRequiredMixin, UpdateView):
+class EditEmployeeAddressView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = PresentAddress
     model2 = PermanentAddress
     form_class = PresentAddressForm
@@ -170,7 +171,7 @@ class EditEmployeeAddressView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class EditEmployeeSalaryView(LoginRequiredMixin, UpdateView):
+class EditEmployeeSalaryView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = User
     form_class = EmployeeSalaryForm
     template_name = 'authority/edit_salary.html'
