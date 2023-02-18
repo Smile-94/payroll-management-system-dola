@@ -7,6 +7,7 @@ from django.conf import settings
 # Models
 from accounts.models import User
 from reciption.models import SortLeave
+from authority.models import LeaveApplication
 
 
 class EmployeePdfView(PdfMixin, DetailView):
@@ -39,6 +40,19 @@ class SortLeavePdfView(PdfMixin, DetailView):
         context = self.get_context_data(object=self.object)
         response = self.render_to_response(context)
         filename = "sortleave_{0}.pdf".format(self.object.pk)
+        response['Content-Disposition'] = 'filename="{}"'.format(filename)
+        return response
+
+class LeaveApplicationPdfView(PdfMixin, DetailView):
+    model = LeaveApplication
+    context_object_name = 'leave'
+    template_name = 'report/leave_applicationpdf.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        response = self.render_to_response(context)
+        filename = "leave_Application_{0}.pdf".format(self.object.pk)
         response['Content-Disposition'] = 'filename="{}"'.format(filename)
         return response
 

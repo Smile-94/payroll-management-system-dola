@@ -94,7 +94,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="#" role="button"><i class="fa-solid fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{% url 'employee:leave_details' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
                         
                         {% if not leave.approved_status and not leave.declined_status%}
                         <a class="btn btn-success" href="{% url 'employee:update_leave' leave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a> 

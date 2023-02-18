@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Leave Application </title>
+    <style>
+        .table-container {
+            background-color: #eee;
+            font-size: 16px;
+          }
+          
+          table {
+            width: 100%;
+            border: 1px solid #F9F5E7;
+            border-collapse: collapse;
+          }
+          th {
+            background-color: #85CDFD;
+            color: #000;
+            padding: 5px;
+        }
+          
+          td {
+            padding: 5px;
+          }
+          
+          .col1 {
+            background-color: #F8EAD8;
+            color: #000;
+          }
+          
+          .col2 {
+            background-color: #fff;
+            color: #000;
+          }
+          
+          .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #ccc;
+            padding: 5px;
+            margin-top: 10px;
+            max-width: 400px;
+          }
+          
+          .card-header {
+            background-color: #007bff;
+            color: #000;
+            font-size: 15px;
+            padding: 6px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          
+          .card-content {
+            font-size: 16px;
+            padding: 10px;
+          }
+          .signature-container {
+            margin-top: 10px;
+            align-items: center;
+            max-width: 500px;
+          }
+          
+          .signature-image {
+            width: 150px;
+            height: 100px;
+            margin-top: 10px;
+            margin-right: 20px;
+          }
+          
+        
+          .name {
+            font-size: 16px;
+            font-weight: bold;
+          }
+          
+          .department {
+            font-size: 18px;
+          }
+          .application-head{
+            font-size: 20px;
+          }
+
+    </style>
+</head>
+<body>
+    <h1 class="application-head">Leave Application Details</h1>
+    <div class="table-container">
+        <table >
+            <tr>
+                <th>Name</th>
+                <th>Details</th>
+            </tr>
+          <tr>
+            <td class="col1">Employee Name</td>
+            <td class="col2"> {{leave.application_of.profile.first_name}} {{leave.application_of.profile.last_name}}</td>
+          </tr>
+          <tr>
+            <td class="col1">Employee ID</td>
+            <td class="col2"> {{leave.employee_id}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Designation</td>
+            <td class="col2"> {{leave.application_of.employee_info.position.designation}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Designation</td>
+            <td class="col2"> {{leave.application_of.employee_info.position.department}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Leave From</td>
+            <td class="col2"> {{leave.leave_from}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Leave To</td>
+            <td class="col2"> {{leave.leave_to}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Application Status</td>
+            <td class="col2">
+                {% if leave.approved_status %}
+                    Approved
+                {% elif leave.declined_status %}
+                    Rejected
+                {% else %}
+                    pending
+                {% endif %}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header">
+         Leave For
+        </div>
+        <div class="card-content">
+          <p> {{leave.leave_description}} </p>
+        </div>
+      </div>
+      {% if leave.declined_status %}
+        <div class="card">
+            <div class="card-header">
+            Rejected Message
+            </div>
+            <div class="card-content">
+            <p> {{leave.declined_message}} </p>
+            </div>
+        </div>
+      {% endif %}
+      <div class="signature-container">
+        <h1>Approved/Rejected By</h1>
+        <img src="/media/{{leave.approvied_by.employee_info.signature}}" alt="Signature" class="signature-image">
+        <div class="name-dept-container">
+          <div class="name"> {{leave.approvied_by.profile.first_name}}  {{leave.approvied_by.profile.last_name}}</div>
+          <div class="department"> {{leave.approvied_by.employee_info.position.designation}} </div>
+          <div class="department"> {{leave.approvied_by.employee_info.position.department}} </div>
+        </div>
+      </div>
+      
+    
+</body>
+</html>

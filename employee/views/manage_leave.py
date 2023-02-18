@@ -11,6 +11,7 @@ from authority.filters import LeaveApplicationFilter
 # Import Generic Views
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
+from django.views.generic import DetailView
 
 # Models
 from authority.models import LeaveApplication
@@ -64,3 +65,14 @@ class LeaveApplicationUpdateView(LoginRequiredMixin,EmployeePassesTestMixin, Upd
     def form_invalid(self, form):
         messages.error(self.request, "some thing went wrong try again")
         return super().form_invalid(form)
+
+class LeaveApplicationDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
+    model = LeaveApplication
+    context_object_name = 'leave'
+    template_name = 'employee/leave_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Leave Details"
+        return context
+    

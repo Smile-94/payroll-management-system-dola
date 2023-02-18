@@ -7,7 +7,7 @@ from employee.views import manage_leave
 app_name='employee'
 
 urlpatterns = [
-    path('employee/', employee_main.EmployeeHomeView.as_view(), name='employee')
+    path('employee/', employee_main.EmployeeHomeView.as_view(), name='employee'),
     
 ]
 
@@ -15,5 +15,6 @@ urlpatterns = [
 urlpatterns += [
     path('appliy-leave/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave" ),
     path('update-leave/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave" ),
+    path('leave-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details" ),
 ]
 
