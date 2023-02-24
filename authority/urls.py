@@ -5,6 +5,7 @@ from authority.views import authority_main
 from authority.views import manage_employee
 from authority.views import admin_settings
 from authority.views import salary_settings
+from authority.views import manage_salary
 
 
 app_name = 'authority'
@@ -23,6 +24,12 @@ urlpatterns += [
     path('edit_salary/<int:pk>/', manage_employee.EditEmployeeSalaryView.as_view(), name='edit_salary'),
     
 ]
+
+# manage salary:
+urlpatterns += [
+    path('salary-employee-list/', manage_salary.EmployeeSalaryListView.as_view(), name='salary_employee_list' ),
+]
+
 
 # add, update, delete admin settings
 urlpatterns += [

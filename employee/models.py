@@ -2,7 +2,10 @@ from django.db import models
 import datetime
 from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
+
 from accounts.models import User
+from authority.models import PayrollMonth
+from authority.models import FestivalBonus
 
 
 # utils functions
@@ -74,6 +77,26 @@ class EmployeeSalary(models.Model):
 
     def __str__(self):
         return str(self.salary_of)
+
+
+class MonthlySalary(models.Model):
+    salary_employee = models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_employee')
+    salary_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='salary_month')
+    festival_bonus = models.ForeignKey(FestivalBonus, on_delete=models.CASCADE, related_name='festival_bonus', blank=True, null=True)
+    prepared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prepared_by',null=True)
+    total_conveyance = models.FloatField()
+    total_food_allowance = models.FloatField()
+    total_medical_allowance = models.FloatField()
+    total_house_rent = models.FloatField()
+    total_mobile_allowance = models.FloatField()
+    total_bonus = models.FloatField(default=0.0)
+    late_present_diduct = models.FloatField(default=0.0)
+    sort_leave_diduct = models.FloatField(default=0.0)
+    extra_leave_diduct = models.FloatField(default=0.0)
+    total_diduct = models.FloatField(null=True)
+    total_salary = models.FloatField(null=True)
+    is_active = models.BooleanField(default=True)
+
 
 
 
