@@ -13,18 +13,8 @@ from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
 
 
-class EmployeeListFilter(django_filters.FilterSet):
-    email = django_filters.CharFilter(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
-
-    class Meta:
-        model = User
-        fields = {
-            'email': {'exact'},
-        }
-
-
-class SalaryEmployeeFilters(django_filters.FilterSet):
-    DEPARTMENT_OPT = (
+# Global Veriable
+DEPARTMENT_OPT = (
     ('HR', 'Human Resource'),
     ('administrative', 'Administrative'),
     ('software development', 'Software Development'),
@@ -38,10 +28,37 @@ class SalaryEmployeeFilters(django_filters.FilterSet):
     ('IT', 'Information Technology')
 )
 
+MONTH_CHOICES = [
+        ('Jan', 'January'),
+        ('Feb', 'February'),
+        ('Mar', 'March'),
+        ('Apr', 'April'),
+        ('May', 'May'),
+        ('Jun', 'June'),
+        ('Jul', 'July'),
+        ('Aug', 'August'),
+        ('Sep', 'September'),
+        ('Oct', 'October'),
+        ('Nov', 'November'),
+        ('Dec', 'December'),
+    ]
+
+
+class EmployeeListFilter(django_filters.FilterSet):
+
+    email = django_filters.CharFilter(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+
+    class Meta:
+        model = User
+        fields = {
+            'email': {'exact'},
+        }
+
+
+class SalaryEmployeeFilters(django_filters.FilterSet):
+
     employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
     department = django_filters.ChoiceFilter(choices=DEPARTMENT_OPT)
-    
-    
     
     class Meta:
         model = EmployeeInfo
@@ -81,21 +98,7 @@ class PayrollMonthListFilter(django_filters.FilterSet):
        }
 
 class MonthlyOffdayListFilter(django_filters.FilterSet):
-    MONTH_CHOICES = [
-        ('Jan', 'January'),
-        ('Feb', 'February'),
-        ('Mar', 'March'),
-        ('Apr', 'April'),
-        ('May', 'May'),
-        ('Jun', 'June'),
-        ('Jul', 'July'),
-        ('Aug', 'August'),
-        ('Sep', 'September'),
-        ('Oct', 'October'),
-        ('Nov', 'November'),
-        ('Dec', 'December'),
-    ]
-
+    
     month = django_filters.ChoiceFilter(choices= MONTH_CHOICES)
 
     class Meta:
@@ -107,6 +110,27 @@ class MonthlyOffdayListFilter(django_filters.FilterSet):
 
         if month_value:
             queryset = queryset.filter(month__month=month_value)
+        
+        return queryset
+
+class MonthlyHolidayFilter(django_filters.FilterSet):
+
+    holiday_month = django_filters.ChoiceFilter(choices= MONTH_CHOICES)
+    holiday_name= django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Holiday Name'}))
+
+    class Meta:
+        model = MonthlyHoliday
+        fields = ('holiday_month','holiday_name')
+    
+    def filter_queryset(self, queryset):
+        month_value = self.data.get('holiday_month')
+        name_value = self.data.get('holiday_name')
+
+        if month_value:
+            queryset = queryset.filter(holiday_month__month=month_value)
+        
+        if name_value:
+            queryset = queryset.filter(holiday_name__icontains=name_value)
         
         return queryset
 

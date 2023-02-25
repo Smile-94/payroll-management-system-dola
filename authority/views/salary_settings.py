@@ -7,6 +7,7 @@ from django.contrib import messages
 # Filters Class
 from authority.filters import PayrollMonthListFilter
 from authority.filters import MonthlyOffdayListFilter
+from authority.filters import MonthlyHolidayFilter
 
 
 # class-based view classes
@@ -164,7 +165,35 @@ class DeleteMonthlyOffdayView(LoginRequiredMixin, AdminPassesTestMixin, DeleteVi
         self.object.is_active = False
         self.object.save()
         return redirect(self.success_url)
+    
 
+class AddMonthlyHoidayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = MonthlyHoliday
+    queryset = MonthlyHoliday.objects.filter(is_active= True)
+    filterset_class = MonthlyHolidayFilter
+    form_class = MonthlyHolidayForm
+    template_name = 'authority/add_holiday.html'
+    success_url = reverse_lazy('authority:add_holiday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Monthly Holiday"
+        context["holidays"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+
+    def form_valid(self, form):
+        date_value = form.cleaned_data.get('holiday_date')
+
+        if MonthlyHoliday.objects.filter(holiday_date=date_value,is_active=True).exists():
+            messages.error(self.request, "This holiday already added")
+            return redirect(self.success_url)
+        
+        messages.success(self.request, "Offday Month added successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.success(self.request, "Something Went Worng please try again")
+        return super().form_invalid(form)
     
     
 
