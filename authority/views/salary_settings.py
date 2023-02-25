@@ -40,7 +40,7 @@ class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     form_class = PayrollMonthForm
     filterset_class = PayrollMonthListFilter
     template_name = 'authority/payroll_month.html'
-    success_url = reverse_lazy('authority:payrollmonth_list')
+    success_url = reverse_lazy('authority:add_payrollmonth')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,6 +50,13 @@ class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     
     
     def form_valid(self, form):
+        month_value = form.cleaned_data.get('month')
+        year_value = form.cleaned_data.get('year')
+
+        if PayrollMonth.objects.filter(month=month_value, year=year_value, active_status=True).exists():
+            messages.warning(self.request, f"{month_value},{year_value} already added")
+            return redirect(self.success_url)
+        
         messages.success(self.request, "Payroll Month Added Successfully")
         return super().form_valid(form)
     
