@@ -27,12 +27,18 @@ class PayrollMonth(models.Model):
     to_date=models.DateField(auto_now=False, auto_now_add=False)
     active_status=models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(self.month)+","+str(self.year)[2:]
+
 class FestivalBonus(models.Model):
     festival_name=models.CharField(max_length=20, unique=True)
     bonus_percentage= models.DecimalField(max_digits=5, decimal_places=2, default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created_at=models.DateTimeField(auto_now_add=True)
     modified_at=models.DateTimeField(auto_now=True)
     is_active=models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.festival_name
 
 class OfficeTime(models.Model):
     office_start=models.TimeField(auto_now=False, auto_now_add=False)

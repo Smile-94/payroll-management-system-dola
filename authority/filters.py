@@ -2,9 +2,11 @@ import django_filters
 from django import forms
 from datetime import datetime
 
+# models
 from accounts.models import User
 from employee.models import EmployeeInfo
 from employee.models import DesignationInfo
+from employee.models import MonthlySalary
 from authority.models import PayrollMonth
 from authority.models import LeaveApplication
 
@@ -55,7 +57,14 @@ class SalaryEmployeeFilters(django_filters.FilterSet):
             queryset = queryset.filter(employee_id=employee_id_value)
         
         return queryset
+    
 
+class EmployeeMonthlySalaryFilter(django_filters.FilterSet):
+   
+    class Meta:
+        model = MonthlySalary
+        fields =('salary_month', 'festival_bonus')
+    
 
 class PayrollMonthListFilter(django_filters.FilterSet):
     current_year = datetime.now().year

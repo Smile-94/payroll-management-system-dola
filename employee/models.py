@@ -97,6 +97,9 @@ class MonthlySalary(models.Model):
     total_salary = models.FloatField(null=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(self.salary_employee)+","+str(self.salary_month)
+
 
 
 

@@ -4,6 +4,7 @@ from django import forms
 from employee.models import DesignationInfo
 from employee.models import EmployeeInfo
 from employee.models import EmployeeSalary
+from employee.models import MonthlySalary
 
 # Custom widgets
 from employee.widgets import CustomPictureImageFieldWidget
@@ -23,6 +24,12 @@ class EmployeeSalaryForm(forms.ModelForm):
     class Meta:
         model=EmployeeSalary
         exclude=('salary_of',)
+
+class MonthlySalaryForm(forms.ModelForm):
+
+    class Meta:
+        model = MonthlySalary
+        fields = ('salary_month','festival_bonus',)
 
 class DesignationInfoForm(forms.ModelForm):
     

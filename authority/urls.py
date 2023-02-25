@@ -28,6 +28,8 @@ urlpatterns += [
 # manage salary:
 urlpatterns += [
     path('salary-employee-list/', manage_salary.EmployeeSalaryListView.as_view(), name='salary_employee_list' ),
+    path('monthly-salary/<int:pk>/', manage_salary.MonthilySalaryCalculationView.as_view(), name='monthily_salary' ),
+    path('employee-monthly-salary/<int:pk>/', manage_salary.EmployeeMonthlySalaryListView.as_view(), name='employee_monthily_salary' ),
 ]
 
 
