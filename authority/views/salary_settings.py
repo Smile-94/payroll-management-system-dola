@@ -6,6 +6,7 @@ from django.contrib import messages
 
 # Filters Class
 from authority.filters import PayrollMonthListFilter
+from authority.filters import MonthlyOffdayListFilter
 
 
 # class-based view classes
@@ -22,11 +23,15 @@ from authority.permission import AdminPassesTestMixin
 # Models Authority
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
+from authority.models import MonthlyOffDay
+from authority.models import MonthlyHoliday
 
 
 # forms 
 from authority.forms import PayrollMonthForm
 from authority.forms import FestivalBonusForm
+from authority.forms import MonthlyOffDayForm
+from authority.forms import MonthlyHolidayForm
 
 
 class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -41,7 +46,6 @@ class AddPayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Payroll Month"
         context["months"] = self.filterset_class(self.request.GET, queryset=self.queryset)
-
         return context
     
     
@@ -88,6 +92,75 @@ class DeletePayrollMonthView(LoginRequiredMixin, AdminPassesTestMixin, DeleteVie
         self.object.save()
         return redirect(self.success_url)
 
+# Monthly offday add,update,delete
+class AddMonthlyOffDayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = MonthlyOffDay
+    queryset = MonthlyOffDay.objects.filter(is_active= True)
+    filterset_class = MonthlyOffdayListFilter
+    form_class = MonthlyOffDayForm
+    template_name = 'authority/add_offday.html'
+    success_url = reverse_lazy('authority:add_offday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Monthly Off Day"
+        context["offdays"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+
+    def form_valid(self, form):
+        month_value = form.cleaned_data.get('month')
+
+        if MonthlyOffDay.objects.filter(month=month_value,is_active=True).exists():
+            messages.error(self.request, "Month already added")
+            return redirect(self.success_url)
+        
+        messages.success(self.request, "Offday Month added successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.success(self.request, "Something Went Worng please try again")
+        return super().form_invalid(form)
+    
+
+class UpdateMonthlyOffdayView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = MonthlyOffDay
+    form_class = MonthlyOffDayForm
+    template_name = 'authority/add_offday.html'
+    success_url = reverse_lazy('authority:add_offday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Monthly Offday"
+        context["updated"] = True
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Monthly Offday Updated Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Monthly Offday not updated, try again!")
+        return super().form_invalid(form)
+
+
+class DeleteMonthlyOffdayView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= MonthlyOffDay
+    template_name = "authority/delete_offday.html"
+    success_url = reverse_lazy('authority:add_offday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Offday" 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+
+    
+    
+
 # Festival Bonus add,update, delete
 
 class FestivalBonusView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -130,4 +203,4 @@ class FestivalBonusUpdateView(LoginRequiredMixin, AdminPassesTestMixin, UpdateVi
     def form_invalid(self, form):
         messages.error(self.request, 'Festival Bonus not updated try again !')
         return super().form_invalid(form)
-    
+

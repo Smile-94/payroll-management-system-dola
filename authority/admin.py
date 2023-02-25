@@ -3,6 +3,8 @@ from django.contrib import admin
 # models
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
+from authority.models import MonthlyOffDay
+from authority.models import MonthlyHoliday
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
 
@@ -13,6 +15,14 @@ class PayrollMonthAdmin(admin.ModelAdmin):
     list_display = ('month','year','from_date','to_date')
     list_filter = ('month',)
     list_per_page= 50
+
+@admin.register(MonthlyOffDay)
+class MonthlyOffDayAdmin(admin.ModelAdmin):
+    list_display = ('month','total_offday')
+
+@admin.register(MonthlyHoliday)
+class MonthlyHolidayAdmin(admin.ModelAdmin):
+    list_display=('holiday_month','holiday_name','holiday_date')
 
 @admin.register(FestivalBonus)
 class FestivalBonusAdmin(admin.ModelAdmin):
@@ -26,4 +36,5 @@ class SetOfficeTimeAdmin(admin.ModelAdmin):
 @admin.register(LeaveApplication)
 class LeaveApplication(admin.ModelAdmin):
     list_display=('application_of','approvied_by','leave_from','leave_to','approved_status')
+
 

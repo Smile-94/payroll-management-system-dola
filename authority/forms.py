@@ -6,6 +6,8 @@ from authority.models import OfficeTime
 from authority.models import PayrollMonth
 from authority.models import FestivalBonus
 from authority.models import LeaveApplication
+from authority.models import MonthlyOffDay
+from authority.models import MonthlyHoliday
 
 
 
@@ -45,3 +47,16 @@ class LeaveApplicationForm(forms.ModelForm):
     class Meta:
         model = LeaveApplication
         fields =('leave_from','leave_to','employee_id','leave_description')
+
+class MonthlyOffDayForm(forms.ModelForm):
+
+    class Meta:
+        model = MonthlyOffDay
+        fields = ('month','total_offday',)
+
+class MonthlyHolidayForm(forms.ModelForm):
+    holiday_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    
+    class Meta:
+        model = MonthlyHoliday
+        fields = ('holiday_month','holiday_name','holiday_date')

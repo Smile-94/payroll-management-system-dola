@@ -9,6 +9,8 @@ from employee.models import DesignationInfo
 from employee.models import MonthlySalary
 from authority.models import PayrollMonth
 from authority.models import LeaveApplication
+from authority.models import MonthlyOffDay
+from authority.models import MonthlyHoliday
 
 
 class EmployeeListFilter(django_filters.FilterSet):
@@ -77,6 +79,36 @@ class PayrollMonthListFilter(django_filters.FilterSet):
             'month' : {'exact'},
             'year'  : {'exact'}
        }
+
+class MonthlyOffdayListFilter(django_filters.FilterSet):
+    MONTH_CHOICES = [
+        ('Jan', 'January'),
+        ('Feb', 'February'),
+        ('Mar', 'March'),
+        ('Apr', 'April'),
+        ('May', 'May'),
+        ('Jun', 'June'),
+        ('Jul', 'July'),
+        ('Aug', 'August'),
+        ('Sep', 'September'),
+        ('Oct', 'October'),
+        ('Nov', 'November'),
+        ('Dec', 'December'),
+    ]
+
+    month = django_filters.ChoiceFilter(choices= MONTH_CHOICES)
+
+    class Meta:
+        model = MonthlyOffDay
+        fields = ('month',)
+    
+    def filter_queryset(self, queryset):
+        month_value = self.data.get('month')
+
+        if month_value:
+            queryset = queryset.filter(month__month=month_value)
+        
+        return queryset
 
 class LeaveApplicationFilter(django_filters.FilterSet):
     leave_from = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))

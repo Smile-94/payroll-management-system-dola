@@ -40,6 +40,17 @@ class FestivalBonus(models.Model):
     def __str__(self):
         return self.festival_name
 
+class MonthlyOffDay(models.Model):
+    month = models.ForeignKey(PayrollMonth,on_delete=models.CASCADE, related_name='off_month')
+    total_offday = models.PositiveIntegerField()
+    is_active = models.BooleanField(default=True)
+
+class MonthlyHoliday(models.Model):
+    holiday_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='holiday_month')
+    holiday_name = models.CharField(max_length=100)
+    holiday_date = models.DateField(auto_now=False, auto_now_add=False)
+    is_active = models.BooleanField(default=True)
+
 class OfficeTime(models.Model):
     office_start=models.TimeField(auto_now=False, auto_now_add=False)
     office_end=models.TimeField(auto_now=False, auto_now_add=False)
@@ -57,5 +68,6 @@ class LeaveApplication(models.Model):
     declined_status = models.BooleanField(default=False)
     declined_message = models.TextField(null=True)
     is_active = models.BooleanField(default=True)
+
 
 
