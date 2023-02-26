@@ -52,6 +52,8 @@ urlpatterns += [
     path('update-offday/<int:pk>/', salary_settings.UpdateMonthlyOffdayView.as_view(), name='update_offday'), 
     path('delete-offday/<int:pk>/', salary_settings.DeleteMonthlyOffdayView.as_view(), name='delete_offday'), 
     path('add-holiday/', salary_settings.AddMonthlyHoidayView.as_view(), name='add_holiday'), 
+    path('update-holiday/<int:pk>/', salary_settings.UpdateMonthlyHolidayView.as_view(), name='update_holiday'), 
+    path('delete-holiday/<int:pk>/', salary_settings.DeleteMonthlyHolidayView.as_view(), name='delete_holiday'), 
 ]
 
 # Add , Update, delte Festival Bonus

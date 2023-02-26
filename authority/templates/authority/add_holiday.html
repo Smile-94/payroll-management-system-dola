@@ -16,20 +16,19 @@
                     {{form.holiday_month | add_class:"form-select"}}
                 </div>
                 <div class="col mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Total Offday</label>
+                    <label for="exampleInputEmail1" class="form-label">Holiday Date</label>
                     {{form.holiday_date | add_class:"form-control"}}
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col ">
-                    <label for="exampleInputEmail1" class="form-label">Month</label>
+                    <label for="exampleInputEmail1" class="form-label">Holiday Name</label>
                     {{form.holiday_name | add_class:"form-select"}}
                 </div>
             </div>
             <div class="mb-3">
-                <a class="btn btn-success" href="{% url 'authority:add_offday' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                <a class="btn btn-success" href="{% url 'authority:add_holiday' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
                 <button type="submit" class="btn btn-primary">Save</button>
-                
             </div>
             
         </form>
@@ -80,8 +79,8 @@
                     <td> {{holiday.holiday_name}} </td>
                     <td> {{holiday.holiday_date}} </td>
                     <td>
-                        <a class="btn btn-success" href="#" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-success" href="{% url 'authority:update_holiday' holiday.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_holiday' holiday.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}     

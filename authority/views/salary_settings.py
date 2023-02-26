@@ -194,7 +194,44 @@ class AddMonthlyHoidayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView)
     def form_invalid(self, form):
         messages.success(self.request, "Something Went Worng please try again")
         return super().form_invalid(form)
+
+
+class UpdateMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = MonthlyHoliday
+    form_class = MonthlyHolidayForm
+    template_name =  'authority/add_holiday.html'
+    success_url = reverse_lazy('authority:add_holiday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Update Monthly Holiday'
+        context["updated"] = True
+        return context
     
+    def form_valid(self, form):
+        messages.success(self.request, "Monthly Holiday Updated Successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Monthly Holiday not updated, try again!")
+        return super().form_invalid(form)
+
+
+class DeleteMonthlyHolidayView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= MonthlyHoliday
+    template_name = "authority/delete_holiday.html"
+    success_url = reverse_lazy('authority:add_holiday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Holiday" 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+
     
 
 # Festival Bonus add,update, delete
