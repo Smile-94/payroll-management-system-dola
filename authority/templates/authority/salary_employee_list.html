@@ -62,7 +62,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="{% url 'authority:monthily_salary' employee.id %}"> {% csrf_token %}
+                            <form method="POST" action="{% url 'authority:monthily_salary' employee.id %}" target="_blank"> {% csrf_token %}
                                 <div class="row mb-4">
                                     <div class="col">
                                         <label for="exampleInputEmail1" class="form-label">Month</label>

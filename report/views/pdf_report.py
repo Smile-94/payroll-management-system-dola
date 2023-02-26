@@ -8,6 +8,7 @@ from django.conf import settings
 from accounts.models import User
 from reciption.models import SortLeave
 from authority.models import LeaveApplication
+from employee.models import MonthlySalary
 
 
 class EmployeePdfView(PdfMixin, DetailView):
@@ -55,4 +56,18 @@ class LeaveApplicationPdfView(PdfMixin, DetailView):
         filename = "leave_Application_{0}.pdf".format(self.object.pk)
         response['Content-Disposition'] = 'filename="{}"'.format(filename)
         return response
+
+class SalaryDetailsPdfview(PdfMixin, DetailView):
+    model = MonthlySalary
+    context_object_name = 'salary'
+    template_name = 'report/monthly_sslarypdf.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        response = self.render_to_response(context)
+        filename = "Salary_Application_{0}.pdf".format(self.object.pk)
+        response['Content-Disposition'] = 'filename="{}"'.format(filename)
+        return response
+
 

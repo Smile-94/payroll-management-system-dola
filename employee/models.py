@@ -82,6 +82,7 @@ class EmployeeSalary(models.Model):
 class MonthlySalary(models.Model):
     salary_employee = models.ForeignKey(EmployeeInfo, on_delete=models.CASCADE, related_name='salary_employee')
     salary_month = models.ForeignKey(PayrollMonth, on_delete=models.CASCADE, related_name='salary_month')
+    salary_of = models.ForeignKey(EmployeeSalary, on_delete=models.CASCADE, related_name='base_salary', null=True)
     festival_bonus = models.ForeignKey(FestivalBonus, on_delete=models.CASCADE, related_name='festival_bonus', blank=True, null=True)
     prepared_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='prepared_by',null=True)
     total_conveyance = models.FloatField()

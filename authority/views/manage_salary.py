@@ -11,6 +11,7 @@ from authority.permission import AdminPassesTestMixin
 # Django Generic Views
 from django.views.generic import ListView
 from django.views.generic import CreateView
+from django.views.generic import DetailView
 
 # Models
 from employee.models import EmployeeInfo
@@ -24,6 +25,7 @@ from employee.forms import MonthlySalaryForm
 # Filters
 from authority.filters import SalaryEmployeeFilters
 from authority.filters import EmployeeMonthlySalaryFilter
+from authority.filters import CalculatedMonthlySalaryFilter
 
 
 
@@ -46,7 +48,8 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
     model = MonthlySalary
     form_class = MonthlySalaryForm
     template_name = 'authority/monthily_salary.html'
-    success_url = reverse_lazy('authority:salary_employee_list')
+    # success_url = reverse_lazy('authority:salary_employee_list')
+    success_url = reverse_lazy('authority:monthly_salary_details', kwargs={'pk': 0})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,6 +93,7 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 form_obj = form.save(commit=False)
                 form_obj.salary_employee = employee
                 form_obj.prepared_by = self.request.user
+                form_obj.salary_of = salary
                 form_obj.total_conveyance= conveyance
                 form_obj.total_food_allowance = food_allowance
                 form_obj.total_medical_allowance = medical_allowance
@@ -99,6 +103,8 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 form_obj.total_salary = total_salary_value
                 form_obj.save()
                 messages.success(self.request, "Salary Added Successfully")
+                self.object = form_obj
+            self.success_url = reverse_lazy('authority:monthly_salary_details', kwargs={'pk': self.object.id})
             
             return super().form_valid(form)
         except Exception as e:
@@ -132,6 +138,31 @@ class EmployeeMonthlySalaryListView(LoginRequiredMixin, AdminPassesTestMixin, Li
          context["employee"] = EmployeeInfo.objects.filter(id=self.kwargs['pk']).first()
          context["salarys"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
          return context
+     
+
+class MonthlyCalculatedSalaryListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
+    model = MonthlySalary
+    queryset = MonthlySalary.objects.filter(is_active=True).order_by('-id')
+    filterset_class = CalculatedMonthlySalaryFilter
+    template_name = 'authority/calculated_salary_list.html'
+
+    def get_context_data(self, **kwargs):
+         context = super().get_context_data(**kwargs)
+         context["title"] = "Calculated Salary List"
+         context["salarys"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
+         return context
+
+
+class MonthlySalaryDetailsView(LoginRequiredMixin, AdminPassesTestMixin, DetailView):
+    model = MonthlySalary
+    context_object_name = 'salary'
+    template_name = 'authority/salary_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Monthly Salary Details" 
+        return context
+    
      
     
     

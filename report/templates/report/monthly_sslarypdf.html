@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Monthly Salary details </title>
+    <style>
+        .table-container {
+            background-color: #eee;
+            font-size: 16px;
+          }
+          
+          table {
+            width: 100%;
+            border: 1px solid #F9F5E7;
+            border-collapse: collapse;
+          }
+          th {
+            background-color: #85CDFD;
+            color: #000;
+            padding: 5px;
+        }
+          
+          td {
+            padding: 5px;
+          }
+          
+          .col1 {
+            background-color: #F8EAD8;
+            color: #000;
+          }
+          
+          .col2 {
+            background-color: #fff;
+            color: #000;
+          }
+          
+          .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #ccc;
+            padding: 5px;
+            margin-top: 10px;
+            max-width: 400px;
+          }
+          
+          .card-header {
+            background-color: #007bff;
+            color: #000;
+            font-size: 15px;
+            padding: 6px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+          }
+          
+          .card-content {
+            font-size: 16px;
+            padding: 10px;
+          }
+          .signature-container {
+            margin-top: 10px;
+            align-items: center;
+            max-width: 500px;
+          }
+          
+          .signature-image {
+            width: 150px;
+            height: 100px;
+            margin-top: 10px;
+            margin-right: 20px;
+          }
+          
+        
+          .name {
+            font-size: 16px;
+            font-weight: bold;
+          }
+          
+          .department {
+            font-size: 18px;
+          }
+          .application-head{
+            font-size: 20px;
+          }
+
+    </style>
+</head>
+<body>
+    <h1 class="application-head">
+        {{salary.salary_employee.info_of.profile.first_name}} 
+        {{salary.salary_employee.info_of.profile.last_name}}'s 
+        {{salary.salary_month.month}},{{salary.salary_month.year}}  Salary Details</h1>
+    <div class="table-container">
+        <table >
+            <tr>
+                <th>Name</th>
+                <th>Details</th>
+            </tr>
+          <tr>
+            <td class="col1">Employee Name</td>
+            <td class="col2"> 
+                {{salary.salary_employee.info_of.profile.first_name}} 
+                {{salary.salary_employee.info_of.profile.last_name}}</td>
+          </tr>
+          <tr>
+            <td class="col1">Employee ID</td>
+            <td class="col2"> {{salary.salary_employee.employee_id}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Designation</td>
+            <td class="col2"> {{salary.salary_employee.position.designation}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Department</td>
+            <td class="col2"> {{salary.salary_employee.position.department}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Month</td>
+            <td class="col2"> {{salary.salary_month.month}}, {{salary.salary_month.year}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Dates</td>
+            <td class="col2"> {{salary.salary_month.from_date}} to {{salary.salary_month.to_date}} </td>
+          </tr>
+        </table>
+    </div>
+    <h6 class="application-head"> 
+        {{salary.salary_month.month}},{{salary.salary_month.year}}  Salary Details</h6>
+    <div class="table-container">
+        <table >
+            <tr>
+                <th>Name</th>
+                <th>Details</th>
+            </tr>
+          <tr>
+            <td class="col1">Basic Salary</td>
+            <td class="col2"> {{salary.salary_of.basic_salary}} </td>
+          </tr>
+          <tr>
+            <td class="col1">Conveyance</td>
+            <td class="col2"> {{salary.total_conveyance}}/- ({{salary.salary_of.conveyance |floatformat:"0"|add:0}}% of Basic Salary) </td>
+          </tr>
+          <tr>
+            <td class="col1">Food Allowance</td>
+            <td class="col2"> {{salary.total_food_allowance}}/- ({{salary.salary_of.food_allowance |floatformat:"0"|add:0}}% of Basic Salary) </td>
+          </tr>
+          <tr>
+            <td class="col1">Medical Allowance</td>
+            <td class="col2"> {{salary.total_mobile_allowance}}/- ({{salary.salary_of.mobile_allowance |floatformat:"0"|add:0}}% of Basic Salary) </td>
+          </tr>
+          <tr>
+            <td class="col1">House Allowance</td>
+            <td class="col2"> {{salary.total_house_rent}}/- ({{salary.salary_of.house_rent |floatformat:"0"|add:0}}% of Basic Salary) </td>
+          </tr>
+          <tr>
+            <td class="col1">Mobile Allowance</td>
+            <td class="col2"> {{salary.total_mobile_allowance}}/- ({{salary.salary_of.mobile_allowance |floatformat:"0"|add:0}}% of Basic Salary) </td>
+          </tr>
+          {% if salary.festival_bonus%}
+                    <tr>
+                        <td class="col1">Festival Bonus ({{salary.festival_bonus.festival_name}}) </td>
+                        <td class="col2"> {{salary.total_bonus}}/- ({{salary.festival_bonus.bonus_percentage |floatformat:"0"|add:0}}% of Basic Salary)</td>
+                    </tr>
+            {% endif %}
+            <tr>
+                <td class="col1">Total Salary</td>
+                <td class="col2"> {{salary.total_salary}}/- </td>
+              </tr>
+        </table>
+    </div>
+      <div class="signature-container">
+        <h1>Approved/Rejected By</h1>
+        <img src="/media/{{leave.approvied_by.employee_info.signature}}" alt="Signature" class="signature-image">
+        <div class="name-dept-container">
+          <div class="name"> {{leave.approvied_by.profile.first_name}}  {{leave.approvied_by.profile.last_name}}</div>
+          <div class="department"> {{leave.approvied_by.employee_info.position.designation}} </div>
+          <div class="department"> {{leave.approvied_by.employee_info.position.department}} </div>
+        </div>
+      </div>
+
+      
+    
+</body>
+</html>

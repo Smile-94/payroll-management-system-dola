@@ -6,15 +6,18 @@
 
 {% block body %}
 <div class="bg-light rounded h-100 p-4">
-    <h6 class="mb-4">{{employee.info_of.profile.first_name}} {{employee.info_of.profile.last_name}}'s Salary List</h6>
+    <h6 class="mb-4">Calculated Salary List</h6>
     <div class="col-md-12 col-lg-12 mb-4">
       <form class="d-flex">
         <div class="row">
             <div class="col">
-                {{salarys.form.salary_month | add_class:"form-control"}}
+                {{salarys.form.employee_id | add_class:"form-control"}}
             </div>
             <div class="col">
-                {{salarys.form.festival_bonus |add_class:"form-control"}}
+                {{salarys.form.salary_month | add_class:"form-select"}}
+            </div>
+            <div class="col">
+                {{salarys.form.festival_bonus |add_class:"form-select"}}
             </div>
             <div class="col">
                 <button class="btn btn-outline-success ms-2" type="submit">Search</button>
@@ -27,10 +30,12 @@
         <thead class="table-dark">
             <tr>
               <th scope="col">Sl</th>
-              <th scope="col">Salary Month</th>
-              <th scope="col">Slary Diduction</th>
-              <th scope="col">Total Salary</th>
+              <th scope="col">Employee ID</th>
+              <th scope="col">Employee Name</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Month</th>
               <th scope="col">Festival Bonus</th>
+              <th scope="col">Total Salary</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -39,10 +44,17 @@
                 {% for salary in salarys.qs %}
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td> {{salary.salary_month}} </td>
-                    <td> {{salary.total_diduct}}</td>
+                    <td> {{salary.salary_employee.employee_id}} </td>
+                    <td> {{salary.salary_employee.info_of.profile.first_name}} {{salary.salary_employee.info_of.profile.last_name}}</td>
+                    <td>{{salary.salary_employee.position.designation}}</td>
+                    <td>{{salary.salary_month}}</td>
+                    <td>
+                        {% if salary.festival_bonus %}
+                            {{salary.festival_bonus.festival_name}}
+                        {% else %}
+                            N/A
+                        {% endif %}</td>
                     <td>{{salary.total_salary}}</td>
-                    <td>{{salary.festival_bonus}}</td>
                     <td>
                         <a class="btn btn-primary" href="{% url 'authority:monthly_salary_details' salary.id %}" role="button">View</a>
                     </td>
@@ -54,4 +66,3 @@
 </div>
     
 {% endblock body %}
-    
