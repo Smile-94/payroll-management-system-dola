@@ -31,6 +31,7 @@ class MonthlySalaryForm(forms.ModelForm):
         model = MonthlySalary
         fields = ('salary_month','festival_bonus',)
 
+
 class DesignationInfoForm(forms.ModelForm):
     
     class Meta:

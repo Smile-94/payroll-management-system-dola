@@ -32,6 +32,8 @@ urlpatterns += [
     path('monthly-salary/<int:pk>/', manage_salary.MonthilySalaryCalculationView.as_view(), name='monthily_salary' ),
     path('employee-monthly-salary/<int:pk>/', manage_salary.EmployeeMonthlySalaryListView.as_view(), name='employee_monthily_salary' ),
     path('monthly-salary-details/<int:pk>/', manage_salary.MonthlySalaryDetailsView.as_view(), name='monthly_salary_details' ),
+    path('update-calculated-salary/<int:pk>/', manage_salary.UpdateCalculatedSalaryView.as_view(), name='update_calculated_salary' ),
+    path('delete-calculated-salary/<int:pk>/', manage_salary.DeleteCalculatedSalaryView.as_view(), name='delete_calculated_salary' ),
 ]
 
 

@@ -12,6 +12,8 @@ from authority.permission import AdminPassesTestMixin
 from django.views.generic import ListView
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 # Models
 from employee.models import EmployeeInfo
@@ -162,6 +164,73 @@ class MonthlySalaryDetailsView(LoginRequiredMixin, AdminPassesTestMixin, DetailV
         context = super().get_context_data(**kwargs)
         context["title"] = "Monthly Salary Details" 
         return context
+
+class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = MonthlySalary
+    form_class = MonthlySalaryForm
+    template_name = 'authority/update_calculated_salary.html'
+    success_url = reverse_lazy('authority:calculated_salary_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Calculated Salary"
+        context["salary"] = MonthlySalary.objects.get(id=self.kwargs['pk']) 
+        return context
+
+    def form_valid(self, form):
+
+        calculated_salary=MonthlySalary.objects.get(id=self.kwargs['pk'])
+        
+
+        salary = EmployeeSalary.objects.get(salary_of=calculated_salary.salary_employee)
+        
+
+        plus_minus_bonus=0
+        if form.cleaned_data.get('festival_bonus') is not None:
+            value = form.cleaned_data.get('festival_bonus')
+            fastival= FestivalBonus.objects.get(festival_name=value)
+            plus_minus_bonus =float(salary.basic_salary)*float(fastival.bonus_percentage/100)
+            
+           
+        if form.cleaned_data.get('festival_bonus') is None:
+               plus_minus_bonus =  float(calculated_salary.total_bonus)- float(calculated_salary.total_bonus)
+               
+        
+        if form.is_valid():
+            form_obj = form.save(commit=False)
+
+            if calculated_salary.festival_bonus is None:
+                form_obj.total_bonus = plus_minus_bonus
+                form_obj.total_salary = calculated_salary.total_salary+form_obj.total_bonus
+
+            if calculated_salary.festival_bonus is not None:
+                form_obj.total_bonus = form_obj.total_bonus-plus_minus_bonus
+                form_obj.total_salary =  calculated_salary.total_salary - form_obj.total_bonus
+
+            form_obj.save()
+            messages.success(self.request, "Salary Updated Successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Salary not updated please try again!")
+        return super().form_invalid(form)
+
+class DeleteCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= MonthlySalary
+    context_object_name ='salary'
+    template_name = "authority/delete_calculated_salary.html"
+    success_url = reverse_lazy('authority:calculated_salary_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Calculated Salary" 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)
+    
     
      
     

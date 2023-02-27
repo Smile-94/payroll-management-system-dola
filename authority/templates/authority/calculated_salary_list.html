@@ -56,7 +56,9 @@
                         {% endif %}</td>
                     <td>{{salary.total_salary}}</td>
                     <td>
-                        <a class="btn btn-primary" href="{% url 'authority:monthly_salary_details' salary.id %}" role="button">View</a>
+                        <a class="btn btn-primary" href="{% url 'authority:monthly_salary_details' salary.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
+                        <a class="btn btn-success" href="{% url 'authority:update_calculated_salary' salary.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_calculated_salary' salary.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}     
