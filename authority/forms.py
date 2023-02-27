@@ -49,11 +49,22 @@ class LeaveApplicationForm(forms.ModelForm):
         model = LeaveApplication
         fields =('leave_from','leave_to','employee_id','leave_description')
 
+
+class LeavApplicationAcceptForm(forms.ModelForm):
+    leave_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    leave_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = LeaveApplication
+        fields =( 'leave_from','leave_to',)
+        
+
 class MonthlyOffDayForm(forms.ModelForm):
 
     class Meta:
         model = MonthlyOffDay
         fields = ('month','total_offday',)
+
 
 class MonthlyHolidayForm(forms.ModelForm):
     holiday_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
@@ -61,6 +72,7 @@ class MonthlyHolidayForm(forms.ModelForm):
     class Meta:
         model = MonthlyHoliday
         fields = ('holiday_month','holiday_name','holiday_date')
+
 
 class MonthlyPermitedLeaveForm(forms.ModelForm):
 

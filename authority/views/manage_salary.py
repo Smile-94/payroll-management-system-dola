@@ -54,7 +54,6 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
     model = MonthlySalary
     form_class = MonthlySalaryForm
     template_name = 'authority/monthily_salary.html'
-    # success_url = reverse_lazy('authority:salary_employee_list')
     success_url = reverse_lazy('authority:monthly_salary_details', kwargs={'pk': 0})
 
     def get_context_data(self, **kwargs):
@@ -108,12 +107,7 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             
             
             month_attendance = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date]).count()
-            print(month_attendance)
-            
-            
-
-            
-                
+            print(month_attendance)  
             
             if form.is_valid():
                 form_obj = form.save(commit=False)

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Models
@@ -101,6 +102,7 @@ class LeaveApplication(models.Model):
     application_of = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leave_employee')
     approvied_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_by',blank=True, null=True)
     employee_id = models.CharField(max_length=10,null=True)
+    application_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
     leave_from = models.DateField(auto_now=False, auto_now_add=False)
     leave_to = models.DateField(auto_now=False, auto_now_add=False)
     leave_description = models.TextField()
@@ -114,6 +116,12 @@ class LeaveApplication(models.Model):
     def save(self, *args, **kwargs):
         self.total_days = (self.leave_from - self.leave_to).days + 1
         super(PayrollMonth, self).save(*args, **kwargs)
+        if not self.employee_id:
+            year = str(datetime.date.today().year)[2:4]
+            month = str(datetime.date.today().month)
+            day = str(datetime.date.today().day)
+            self.employee_id = 'LA'+year+month+day+str(self.pk).zfill(4)
+            self.save()
     
     def __str__(self):
         return str(f"{self.application_of}'s leave application")

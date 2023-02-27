@@ -166,3 +166,13 @@ class LeaveApplicationFilter(django_filters.FilterSet):
     class Meta:
         model = LeaveApplication
         fields = ('leave_from','approved_status')
+
+class LeaveApplicationAuthorityFilter(django_filters.FilterSet):
+    application_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Application ID'}))
+    employee_id = django_filters.CharFilter(widget=forms.TextInput(attrs={'placeholder': 'Employee ID'}))
+    leave_from = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))
+    leave_to = django_filters.DateFilter(widget=forms.DateInput(attrs={'type': 'date'}))
+    
+    class Meta:
+        model = LeaveApplication
+        fields = ('application_id','employee_id',  'leave_from','leave_to')

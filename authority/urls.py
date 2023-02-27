@@ -6,6 +6,7 @@ from authority.views import manage_employee
 from authority.views import admin_settings
 from authority.views import salary_settings
 from authority.views import manage_salary
+from authority.views import manage_leave
 
 
 app_name = 'authority'
@@ -14,7 +15,7 @@ urlpatterns = [
     path('authority/', authority_main.AdminView.as_view(), name='authority'),
 ]
 
-
+# Manage Employee
 urlpatterns += [
     path('add-employee/',  manage_employee.AddEmpolyeeView.as_view(), name='add_employee'),
     path('employee-list/', manage_employee.EmployeeListView.as_view(), name='employee_list'),
@@ -35,6 +36,14 @@ urlpatterns += [
     path('update-calculated-salary/<int:pk>/', manage_salary.UpdateCalculatedSalaryView.as_view(), name='update_calculated_salary' ),
     path('delete-calculated-salary/<int:pk>/', manage_salary.DeleteCalculatedSalaryView.as_view(), name='delete_calculated_salary' ),
 ]
+
+# Manage Leave
+urlpatterns += [
+    path('leave-application-list/', manage_leave.LeaveApplicationListView.as_view(), name='leave_application_list'),
+    path('leave-application-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name='leave_application_details'), 
+    path('accept-leave-application/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name='accept_leave_application'), 
+]
+
 
 
 # add, update, delete admin settings
