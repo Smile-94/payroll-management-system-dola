@@ -20,6 +20,10 @@ from employee.models import EmployeeInfo
 from employee.models import EmployeeSalary
 from employee.models import MonthlySalary
 from employee.models import FestivalBonus
+from authority.models import PayrollMonth
+from authority.models import MonthlyOffDay
+from authority.models import MonthlyHoliday
+from reciption.models import Attendance
 
 # Forms
 from employee.forms import MonthlySalaryForm
@@ -71,7 +75,6 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             salary = EmployeeSalary.objects.get(salary_of=employee)
 
             if MonthlySalary.objects.filter(salary_month=salary_month, salary_employee=employee).exists():
-                print("Exist")
                 messages.warning(self.request, "Salary already calculated in this month")
                 return redirect(self.success_url)
             
@@ -89,6 +92,27 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             
             salary_fields= (conveyance,food_allowance,medical_allowance,house_rent,mobile_allowance,festival_bonus)
             total_salary_value =float(salary.basic_salary)+float(sum(salary_fields))
+
+            # Total Salary Diduction 
+            month = PayrollMonth.objects.get(month=salary_month.month)
+            days = month.total_days
+            
+            off_day = 0
+            if MonthlyOffDay.objects.filter(month=month).exists():
+                day = MonthlyOffDay.objects.get(month=month)
+                off_day = day.total_offday
+
+            holiday = 0
+            if MonthlyHoliday.objects.filter(holiday_month=month).exists():
+                holiday = MonthlyHoliday.objects.filter(holiday_month=month, is_active=True).count()
+            
+            
+            month_attendance = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date]).count()
+            print(month_attendance)
+            
+            
+
+            
                 
             
             if form.is_valid():

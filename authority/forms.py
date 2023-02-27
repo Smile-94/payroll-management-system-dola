@@ -8,6 +8,7 @@ from authority.models import FestivalBonus
 from authority.models import LeaveApplication
 from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
+from authority.models import MonthlyPermitedLeave
 
 
 
@@ -60,3 +61,12 @@ class MonthlyHolidayForm(forms.ModelForm):
     class Meta:
         model = MonthlyHoliday
         fields = ('holiday_month','holiday_name','holiday_date')
+
+class MonthlyPermitedLeaveForm(forms.ModelForm):
+
+    class Meta:
+        model = MonthlyPermitedLeave
+        fields = ('leave_month','permited_days')
+
+
+    

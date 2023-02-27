@@ -6,6 +6,7 @@ from authority.models import PayrollMonth
 from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
 from authority.models import FestivalBonus
+from authority.models import MonthlyPermitedLeave
 from authority.models import LeaveApplication
 
 
@@ -32,6 +33,11 @@ class FestivalBonusAdmin(admin.ModelAdmin):
 class SetOfficeTimeAdmin(admin.ModelAdmin):
     list_display = ('office_start', 'office_end', 'modified_at', 'created_at')
 
+@admin.register(MonthlyPermitedLeave)
+class MonthlyPermitedLeaveAdmin(admin.ModelAdmin):
+    list_display = ('leave_month','permited_days','created_at','modified_at')
+    search_fields = ('leave_month',)
+    list_per_page = 50
 
 @admin.register(LeaveApplication)
 class LeaveApplication(admin.ModelAdmin):
