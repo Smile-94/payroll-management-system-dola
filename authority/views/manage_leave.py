@@ -1,12 +1,14 @@
 from django.urls import reverse_lazy
 from datetime import datetime
 from django.contrib import messages
+from django.shortcuts import redirect
 
 
 # Django Generic View
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 # Permission
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -102,6 +104,57 @@ class LeaveApplicationRejectView(LoginRequiredMixin, AdminPassesTestMixin, Updat
     def form_invalid(self, form):
         messages.error(self.request, "Some thing worng please try again")
         return super().form_invalid(form)
+    
+
+class LeaveApplicationAcceptedListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
+    model = LeaveApplication
+    queryset = LeaveApplication.objects.filter(is_active=True, approved_status=True)
+    filterset_class = LeaveApplicationAuthorityFilter
+    template_name = 'authority/accept_application.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Accepted Application List"
+        context["leaves"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+    
+    
+class LeaveApplicationRjectedListView(LoginRequiredMixin, AdminPassesTestMixin, ListView):
+    model = LeaveApplication
+    queryset = LeaveApplication.objects.filter(is_active=True, declined_status=True)
+    filterset_class = LeaveApplicationAuthorityFilter
+    template_name = 'authority/reject_application.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Rejected Application List"
+        context["leaves"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+
+class LeaveApplicationDeleteView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model= LeaveApplication
+    context_object_name ='leave'
+    template_name = "authority/delete_leave_application.html"
+    success_url = reverse_lazy('authority:calculated_salary_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Calculated Salary" 
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+
+        if self.object.approved_status is True:
+            self.success_url = reverse_lazy('authority:accepted_leave_application')
+
+        elif self.object.declined_status is True:
+            self.success_url = reverse_lazy('authority:reject_leave_application')
+        
+        return redirect(self.success_url)
+
+
     
 
     

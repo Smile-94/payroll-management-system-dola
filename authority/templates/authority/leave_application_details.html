@@ -11,7 +11,14 @@
 <div class="col-sm-12 col-xl-12">
     <div class="rounded h-100 p-4">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
-            <a class="btn btn-primary" href="{% url 'authority:leave_application_list' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+            {% if leave.approved_status %}
+                <a class="btn btn-primary" href="{% url 'authority:accepted_leave_application' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+            {% elif leave.declined_status %}
+                <a class="btn btn-primary" href="{% url 'authority:reject_leave_application' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+            {% else %}
+                <a class="btn btn-primary" href="{% url 'authority:leave_application_list' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+            {% endif %}
+            
             <a class="btn btn-primary" href="{% url 'report:leaveapplication_pdf' leave.id %}" target="_blank" role="button"><i class="fa-regular fa-circle-down"></i></a>
             <a class="btn btn-primary" href="{% url 'report:leaveapplication_pdf' leave.id %}" target="_blank" role="button"><i class="fa-solid fa-print"></i></a>
           </div>
@@ -154,7 +161,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="{% url 'authority:reject_leave_application' leave.id %}"> {% csrf_token %}
+            <form method="POST" action="{% url 'authority:reject_leave_application' leave.id %}" id="RejectLeaveForm"> {% csrf_token %}
                 <div class="row">
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Reject Message</label>
@@ -164,11 +171,32 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="Submit" class="btn btn-primary">Save</button>
+          <button type="Submit" class="btn btn-primary" id="RejectLeave">Save</button>
         </div>
     </form>
       </div>
     </div>
 </div>
 </div>
+
+<script>
+    var rejectLeave = document.getElementById("RejectLeave");
+    var rejectLeaveForm = document.getElementById("RejectLeaveForm");
+
+    rejectLeave.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want to reject this leave application?");
+    if (result) {
+        alert('Reject successfully');
+    } else {
+        alert('Reject Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    rejectLeaveForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+                
+</script>
 {% endblock body %}

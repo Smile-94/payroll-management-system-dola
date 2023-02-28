@@ -43,6 +43,9 @@ urlpatterns += [
     path('leave-application-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name='leave_application_details'), 
     path('accept-leave-application/<int:pk>/', manage_leave.LeaveApplicationAcceptView.as_view(), name='accept_leave_application'), 
     path('reject-leave-application/<int:pk>/', manage_leave.LeaveApplicationRejectView.as_view(), name='reject_leave_application'), 
+    path('accepted-leave-application/', manage_leave.LeaveApplicationAcceptedListView.as_view(), name='accepted_leave_application'), 
+    path('rejected-leave-application/', manage_leave.LeaveApplicationRjectedListView.as_view(), name='reject_leave_application'), 
+    path('delete-leave-application/<int:pk>/', manage_leave.LeaveApplicationDeleteView.as_view(), name='delete_leave_application'), 
 ]
 
 

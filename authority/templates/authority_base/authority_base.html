@@ -68,7 +68,8 @@
                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus"></i>Manage Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:leave_application_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Application List</a>
-                            <a href="{% url 'authority:calculated_salary_list' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Calculated Salary</a>
+                            <a href="{% url 'authority:accepted_leave_application' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Accepted Application</a>
+                            <a href="{% url 'authority:reject_leave_application' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Rejected Application</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
