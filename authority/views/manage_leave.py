@@ -17,6 +17,7 @@ from authority.models import LeaveApplication
 
 # Forms
 from authority.forms import LeavApplicationAcceptForm
+from authority.forms import LeaveApplicationRejectForm
 
 # Filters
 from authority.filters import LeaveApplicationAuthorityFilter
@@ -39,17 +40,20 @@ class LeaveApplicationDetailsView(LoginRequiredMixin, AdminPassesTestMixin, Deta
     model = LeaveApplication
     context_object_name = 'leave'
     form_class = LeavApplicationAcceptForm
+    form_class2 = LeaveApplicationRejectForm
     template_name = 'authority/leave_application_details.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Leave Application Details"
         context["form"] = self.form_class(instance=self.object)
+        context["form2"] = self.form_class2(instance=self.object)
         return context
 
 class LeaveApplicationAcceptView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = LeaveApplication
     form_class = LeavApplicationAcceptForm
+    template_name = 'authority/leaveapplication_form.html'
     success_url = reverse_lazy('authority:leave_application_details', kwargs={'pk': 0})
 
     def get_context_data(self, **kwargs):
@@ -58,14 +62,47 @@ class LeaveApplicationAcceptView(LoginRequiredMixin, AdminPassesTestMixin, Updat
         return context
 
     def form_valid(self, form):
-        form_obj = form.save(commit=False)
-        form_obj.approvied_by=self.request.user
-        form_obj.approved_status = True
-        form_obj.save()
+        if form.is_valid():
+            form_obj = form.save(commit=False)
+            form_obj.approvied_by=self.request.user
+            form_obj.approved_status = True
+            form_obj.save()
 
         messages.success(self.request, 'leave application accepted')
         self.success_url = reverse_lazy('authority:leave_application_details', kwargs={'pk': self.object.id})
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong please try again!")
+        return super().form_invalid(form)
+
+
+class LeaveApplicationRejectView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = LeaveApplication
+    form_class = LeaveApplicationRejectForm
+    template_name = 'authority/leaveapplication_form.html'
+    success_url = reverse_lazy('authority:leave_application_details', kwargs={'pk': 0})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Reject Application"
+        return context
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            form_obj = form.save(commit=False)
+            form_obj.approvied_by=self.request.user
+            form_obj.declined_status = True
+            form_obj.save()
+
+        messages.warning(self.request, 'Leave application rejected')
+        self.success_url = reverse_lazy('authority:leave_application_details', kwargs={'pk': self.object.id})
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Some thing worng please try again")
+        return super().form_invalid(form)
+    
 
     
     

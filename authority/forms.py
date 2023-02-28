@@ -57,6 +57,12 @@ class LeavApplicationAcceptForm(forms.ModelForm):
     class Meta:
         model = LeaveApplication
         fields =( 'leave_from','leave_to',)
+
+class LeaveApplicationRejectForm(forms.ModelForm):
+
+    class Meta:
+        model = LeaveApplication
+        fields = ('declined_message',)
         
 
 class MonthlyOffDayForm(forms.ModelForm):

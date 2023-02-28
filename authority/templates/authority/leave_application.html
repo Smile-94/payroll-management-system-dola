@@ -54,9 +54,7 @@
                     <td> {{leave.leave_from}} </td>
                     <td> {{leave.leave_to}} </td>
                     <td>
-                        <a class="btn btn-primary" href="{% url 'authority:leave_application_details' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
-                        <a class="btn btn-success" href="#" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-primary" href="{% url 'authority:leave_application_details' leave.id %}" role="button"><i class="fa-solid fa-eye me-2"></i>Details</a>
                     </td>
                   </tr>
                 {% endfor %}     
