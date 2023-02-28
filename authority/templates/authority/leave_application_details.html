@@ -51,6 +51,10 @@
                     <td>Leave To</td>
                     <td> {{leave.leave_to}} </td>
                 </tr>
+                <tr>
+                    <td>Total Days</td>
+                    <td> {{leave.total_days}} </td>
+                </tr>
             </tbody>
         </table>
         <div class="card">
@@ -103,7 +107,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form method="POST"> {% csrf_token %}
+            <form method="POST" action="{% url 'authority:accept_leave_application' leave.id %}"> {% csrf_token %}
                 <div class="row mb-4">
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Leave From</label>

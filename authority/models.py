@@ -115,7 +115,7 @@ class LeaveApplication(models.Model):
 
     def save(self, *args, **kwargs):
         self.total_days = (self.leave_from - self.leave_to).days + 1
-        super(PayrollMonth, self).save(*args, **kwargs)
+        super(LeaveApplication, self).save(*args, **kwargs)
         if not self.employee_id:
             year = str(datetime.date.today().year)[2:4]
             month = str(datetime.date.today().month)

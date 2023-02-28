@@ -1,4 +1,6 @@
 from django.urls import reverse_lazy
+from datetime import datetime
+from django.contrib import messages
 
 
 # Django Generic View
@@ -52,13 +54,19 @@ class LeaveApplicationAcceptView(LoginRequiredMixin, AdminPassesTestMixin, Updat
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["title"] = "Leave Accept" 
+        context["title"] = "Leave Accept"
         return context
 
     def form_valid(self, form):
+        form_obj = form.save(commit=False)
+        form_obj.total_days = (form_obj.leave_from - form_obj.leave_to).days + 1
+        form_obj.approved_status = True
+        form_obj.save()
 
+        messages.success(self.request, 'leave application accepted')
         self.success_url = reverse_lazy('authority:leave_application_details', kwargs={'pk': self.object.id})
         return super().form_valid(form)
+
     
     
 

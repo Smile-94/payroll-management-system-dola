@@ -41,7 +41,7 @@ urlpatterns += [
 urlpatterns += [
     path('leave-application-list/', manage_leave.LeaveApplicationListView.as_view(), name='leave_application_list'),
     path('leave-application-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name='leave_application_details'), 
-    path('accept-leave-application/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name='accept_leave_application'), 
+    path('accept-leave-application/<int:pk>/', manage_leave.LeaveApplicationAcceptView.as_view(), name='accept_leave_application'), 
 ]
 
 
