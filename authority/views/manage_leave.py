@@ -59,7 +59,7 @@ class LeaveApplicationAcceptView(LoginRequiredMixin, AdminPassesTestMixin, Updat
 
     def form_valid(self, form):
         form_obj = form.save(commit=False)
-        form_obj.total_days = (form_obj.leave_from - form_obj.leave_to).days + 1
+        form_obj.approvied_by=self.request.user
         form_obj.approved_status = True
         form_obj.save()
 
