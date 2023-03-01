@@ -38,6 +38,7 @@ class AddLeaveApplicationView(LoginRequiredMixin,EmployeePassesTestMixin, Create
         if form.is_valid():
             leave_form=form.save(commit=False)
             leave_form.application_of= self.request.user
+            leave_form.employee_id = self.request.user.employee_info.employee_id
             leave_form.save()
         messages.success(self.request, "Applied Leave application successfully")
         return super().form_valid(form)

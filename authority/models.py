@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
+from django.core.validators import MaxValueValidator
 
 # Models
 from accounts.models import User
@@ -126,6 +127,13 @@ class LeaveApplication(models.Model):
     def __str__(self):
         return str(f"{self.application_of}'s leave application")
 
+
+class PermitedLatePresent(models.Model):
+    premited_time = models.DurationField()
+    permited_days = models.PositiveIntegerField()
+    salary_diduction = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    created_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(auto_now_add=True)
 
 
 

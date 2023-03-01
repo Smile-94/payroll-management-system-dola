@@ -9,6 +9,7 @@ from authority.models import LeaveApplication
 from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
 from authority.models import MonthlyPermitedLeave
+from authority.models import PermitedLatePresent
 
 
 
@@ -47,7 +48,7 @@ class LeaveApplicationForm(forms.ModelForm):
 
     class Meta:
         model = LeaveApplication
-        fields =('leave_from','leave_to','employee_id','leave_description')
+        fields =('leave_from','leave_to','leave_description')
 
 
 class LeavApplicationAcceptForm(forms.ModelForm):
@@ -85,6 +86,13 @@ class MonthlyPermitedLeaveForm(forms.ModelForm):
     class Meta:
         model = MonthlyPermitedLeave
         fields = ('leave_month','permited_days')
+
+
+class PermitedLatePresentForms(forms.ModelForm):
+
+    class Meta:
+        model = PermitedLatePresent
+        fields = ('premited_time','permited_days','salary_diduction')
 
 
     
