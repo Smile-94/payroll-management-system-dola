@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
+from datetime import timedelta
 
 
 # Permission
@@ -23,7 +24,11 @@ from employee.models import FestivalBonus
 from authority.models import PayrollMonth
 from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
+from authority.models import PermitedLatePresent
+from authority.models import MonthlyPermitedLeave
+from authority.models import PermitedSortLeave
 from reciption.models import Attendance
+from reciption.models import SortLeave
 
 # Forms
 from employee.forms import MonthlySalaryForm
@@ -95,11 +100,18 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             # Total Salary Diduction 
             month = PayrollMonth.objects.get(month=salary_month.month)
             days = month.total_days
+            month_start = month.from_date
+            month_end = month.to_date
+
+            print("Totla Days: ",days)
+            print(f"Month Start: {month_start}, Month End: {month_end}")
             
             off_day = 0
             if MonthlyOffDay.objects.filter(month=month).exists():
                 day = MonthlyOffDay.objects.get(month=month)
                 off_day = day.total_offday
+            
+            print("Off Day: ",off_day)
 
             holiday = 0
             if MonthlyHoliday.objects.filter(holiday_month=month).exists():
@@ -107,7 +119,12 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             
             
             month_attendance = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date]).count()
-            print(month_attendance)  
+            late_present = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date], late_present__gt=timedelta(minutes=30)).count()
+            late_sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date]).count()
+
+            print("Totla Late Present: ", late_present)
+            
+            print("Attendance: ",month_attendance)  
             
             if form.is_valid():
                 form_obj = form.save(commit=False)
