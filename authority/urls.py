@@ -63,6 +63,9 @@ urlpatterns += [
     path('add-late-present/', admin_settings.AddPermitedLatePresentView.as_view(), name='add_permited_latepresent'),
     path('update-late-present/<int:pk>/', admin_settings.UpdatePermitedLatePresentView.as_view(), name='update_permited_latepresent'),
     path('delete-late-present/<int:pk>/', admin_settings.DeletePermitedLatePresentView.as_view(), name='delete_permited_latepresent'),
+    path('add-sort-leave/', admin_settings.AddPermitedSortLeaveView.as_view(), name='add_permited_sortleave'),
+    path('update-sort-leave/<int:pk>/', admin_settings.UpdatePermitedSortLeaveView.as_view(), name='update_permited_sortleave'),
+    path('delete-sort-leave/<int:pk>/', admin_settings.DeletePermitedSortLeaveView.as_view(), name='delete_permited_sortleave'),
     
 ]
 

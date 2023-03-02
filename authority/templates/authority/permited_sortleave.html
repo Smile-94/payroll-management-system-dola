@@ -34,11 +34,11 @@
     {% else %}
     <div class="row">
         <div class="col-md-4">
-            <h6 class="mb-4">Monthly Permited Late Present</h6>
+            <h6 class="mb-4">Monthly Permited Sort Leave</h6>
         </div>
         <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-               Add Late Present
+               Add Late Sort-Leave
               </button>
         </div>
       </div>
@@ -55,17 +55,17 @@
             </tr>
           </thead>
           <tbody> 
-            {% if presents %} 
-                {% for present in presents %}
+            {% if sortleaves %} 
+                {% for sortleave in sortleaves %}
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td> {{present.peremited_time}} </td>
-                    <td> {{present.permited_days}} </td>
-                    <td>{{present.salary_diduction}} % (for days)</td>
-                    <td>{{present.modified_at}}</td>
+                    <td> {{sortleave.peremited_time}} </td>
+                    <td> {{sortleave.permited_days}} </td>
+                    <td> {{sortleave.salary_diduction}} % (for days)</td>
+                    <td> {{sortleave.modified_at}}</td>
                     <td>
-                        <a class="btn btn-success" href="{% url 'authority:update_permited_latepresent' present.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn btn-danger" href="{% url 'authority:delete_permited_latepresent' present.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-success" href="{% url 'authority:update_permited_sortleave' sortleave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_permited_sortleave' sortleave.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}     
@@ -80,14 +80,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Payroll Month</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Monthly Permited Sort Leave</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <form method="POST"> {% csrf_token %}
                 <div class="row mb-4">
                     <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">Permited Duration</label>
+                        <label for="exampleInputEmail1" class="form-label">Sort Leave Duration</label>
                         {{form.peremited_time |add_class:"form-control"}}
                     </div>
                     <div class="col">

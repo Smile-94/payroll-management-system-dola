@@ -137,6 +137,20 @@ class PermitedLatePresent(models.Model):
     modified_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str("Permited Late Present")
+
+class PermitedSortLeave(models.Model):
+    peremited_time = models.DurationField()
+    permited_days = models.PositiveIntegerField()
+    salary_diduction = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    created_at = models.DateTimeField(auto_now=True)
+    modified_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str("Permited Sort Leave")
+
 
 
 

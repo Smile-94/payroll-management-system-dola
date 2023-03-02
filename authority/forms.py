@@ -4,7 +4,6 @@ from datetime import datetime
 # Customs Widgets
 from authority.widgets import DurationWidget
 from authority.widgets import DurationFormField
-from authority.widgets import DurationUpdateWidget
 
 # models
 from authority.models import OfficeTime
@@ -15,6 +14,7 @@ from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedLatePresent
+from authority.models import PermitedSortLeave
 
 
 
@@ -93,11 +93,19 @@ class MonthlyPermitedLeaveForm(forms.ModelForm):
         fields = ('leave_month','permited_days','salary_diduction')
 
 
-class PermitedLatePresentForms(forms.ModelForm):
+class PermitedLatePresentForm(forms.ModelForm):
     peremited_time = DurationFormField(widget=DurationWidget)
 
     class Meta:
         model = PermitedLatePresent
+        fields = ('peremited_time','permited_days','salary_diduction')
+
+
+class PermitedSortLeaveForm(forms.ModelForm):
+    peremited_time = DurationFormField(widget=DurationWidget)
+
+    class Meta:
+        model = PermitedSortLeave
         fields = ('peremited_time','permited_days','salary_diduction')
 
 

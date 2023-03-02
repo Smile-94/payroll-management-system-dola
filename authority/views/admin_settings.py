@@ -23,13 +23,15 @@ from employee.models import DesignationInfo
 from authority.models import OfficeTime
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedLatePresent
+from authority.models import PermitedSortLeave
 
 
 # forms 
 from employee.forms import DesignationInfoForm
 from authority.forms import OfficeTimeForm
 from authority.forms import MonthlyPermitedLeaveForm
-from authority.forms import PermitedLatePresentForms
+from authority.forms import PermitedLatePresentForm
+from authority.forms import PermitedSortLeaveForm
 
 
 class AddDesignationView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -196,7 +198,7 @@ class DeleteMonthlyPermitedLeaveView(LoginRequiredMixin, AdminPassesTestMixin, D
 class AddPermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
     model = PermitedLatePresent
     queryset = PermitedLatePresent.objects.filter(is_active=True).order_by('-id')
-    form_class = PermitedLatePresentForms
+    form_class = PermitedLatePresentForm
     template_name = 'authority/permited_latepresent.html'
     success_url = reverse_lazy('authority:add_permited_latepresent')
 
@@ -217,14 +219,14 @@ class AddPermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, Creat
     
 class UpdatePermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = PermitedLatePresent
-    form_class = PermitedLatePresentForms
+    form_class = PermitedLatePresentForm
     template_name = 'authority/permited_latepresent.html'
     success_url = reverse_lazy('authority:add_permited_latepresent')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = 'Permited Late Present'
-        context["updated"] = 'Permited Late Present'
+        context["updated"] = True
         return context
     
     def form_valid(self, form):
@@ -241,6 +243,61 @@ class DeletePermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, De
     template_name = 'authority/delete_permitedlatepresent.html'
     context_object_name = 'present'
     success_url = reverse_lazy('authority:add_permited_latepresent')
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.is_active = False
+        self.object.save()
+        return redirect(success_url)
+    
+class AddPermitedSortLeaveView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = PermitedSortLeave
+    queryset = PermitedSortLeave.objects.filter(is_active=True).order_by('-id')
+    form_class = PermitedSortLeaveForm
+    template_name = 'authority/permited_sortleave.html'
+    success_url = reverse_lazy('authority:add_permited_sortleave')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Permited Sort Leave'
+        context["sortleaves"] = self.queryset
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Premited Sort Leave added successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+    
+class UpdatePermitedSortLeaveView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = PermitedSortLeave
+    form_class = PermitedSortLeaveForm
+    template_name = 'authority/permited_sortleave.html'
+    success_url = reverse_lazy('authority:add_permited_sortleave')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Permited Sort Leave'
+        context["updated"] = True
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Premited Sort Leave Updated successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+
+class DeletePermitedSortLeaveView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model = PermitedSortLeave
+    template_name = 'authority/delete_permited_sortleave.html'
+    context_object_name = 'sortleave'
+    success_url = reverse_lazy('authority:add_permited_sortleave')
 
     def form_valid(self, form):
         success_url = self.get_success_url()

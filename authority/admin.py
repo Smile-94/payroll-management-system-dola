@@ -9,6 +9,7 @@ from authority.models import FestivalBonus
 from authority.models import MonthlyPermitedLeave
 from authority.models import LeaveApplication
 from authority.models import PermitedLatePresent
+from authority.models import PermitedSortLeave
 
 
 # Register your models here.
@@ -46,7 +47,11 @@ class LeaveApplication(admin.ModelAdmin):
 
 
 @admin.register(PermitedLatePresent)
-class permitedLatePresentAdmin(admin.ModelAdmin):
+class PermitedLatePresentAdmin(admin.ModelAdmin):
+    list_display = ('peremited_time', 'permited_days','salary_diduction',)
+
+@admin.register(PermitedSortLeave)
+class PermitedSortLeaveAdmin(admin.ModelAdmin):
     list_display = ('peremited_time', 'permited_days','salary_diduction',)
 
 
