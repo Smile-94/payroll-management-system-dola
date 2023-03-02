@@ -22,12 +22,14 @@ from employee.models import DesignationInfo
 # Models Authority
 from authority.models import OfficeTime
 from authority.models import MonthlyPermitedLeave
+from authority.models import PermitedLatePresent
 
 
 # forms 
 from employee.forms import DesignationInfoForm
 from authority.forms import OfficeTimeForm
 from authority.forms import MonthlyPermitedLeaveForm
+from authority.forms import PermitedLatePresentForms
 
 
 class AddDesignationView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -179,11 +181,66 @@ class UpdateMonthlyPermitedLeaveView(LoginRequiredMixin, AdminPassesTestMixin, U
         messages.error(self.request, "Monthly Permited leave not updated try again!")
         return super().form_invalid(form)
 
-class DeleteMonthlyPermitedLeave(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+class DeleteMonthlyPermitedLeaveView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
     model = MonthlyPermitedLeave
     template_name = 'authority/delete_permitedleave.html'
     context_object_name = 'months'
     success_url = reverse_lazy('authority:add_permited_leave')
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.is_active = False
+        self.object.save()
+        return redirect(success_url)
+
+class AddPermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = PermitedLatePresent
+    queryset = PermitedLatePresent.objects.filter(is_active=True).order_by('-id')
+    form_class = PermitedLatePresentForms
+    template_name = 'authority/permited_latepresent.html'
+    success_url = reverse_lazy('authority:add_permited_latepresent')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Permited Late Present'
+        context["presents"] = self.queryset
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Premited Late Present added successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+    
+class UpdatePermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = PermitedLatePresent
+    form_class = PermitedLatePresentForms
+    template_name = 'authority/permited_latepresent.html'
+    success_url = reverse_lazy('authority:add_permited_latepresent')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Permited Late Present'
+        context["updated"] = 'Permited Late Present'
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Premited Late Present Updated successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+
+class DeletePermitedLatePresentView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model = PermitedLatePresent
+    template_name = 'authority/delete_permitedlatepresent.html'
+    context_object_name = 'present'
+    success_url = reverse_lazy('authority:add_permited_latepresent')
 
     def form_valid(self, form):
         success_url = self.get_success_url()

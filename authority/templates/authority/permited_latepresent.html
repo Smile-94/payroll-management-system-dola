@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col ">
                     <label for="exampleInputEmail1" class="form-label">Month</label>
-                    {{form.leave_month |attr:"readonly:True" | add_class:"form-select"}}
+                    {{form.peremited_time |attr:"readonly:True" | add_class:"form-select"}}
                 </div>
                 <div class="col mb-3">
                     <label for="exampleInputEmail1" class="form-label">Year</label>
@@ -34,11 +34,11 @@
     {% else %}
     <div class="row">
         <div class="col-md-4">
-            <h6 class="mb-4">Monthly Permited Leave</h6>
+            <h6 class="mb-4">Monthly Permited Late Present</h6>
         </div>
         <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-               Add Leave
+               Add Late Present
               </button>
         </div>
       </div>
@@ -47,25 +47,25 @@
         <thead class="table-dark">
             <tr>
               <th scope="col">Sl</th>
-              <th scope="col">Month</th>
-              <th scope="col">Permited Leave</th>
-              <th scope="col">Salary Diduction (Exceed Leave)</th>
+              <th scope="col">Permited Time</th>
+              <th scope="col">Permited Days</th>
+              <th scope="col">Salary Diduction (Exceed Late Present)</th>
               <th scope="col">Updated At</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody> 
-            {% if months %} 
-                {% for month in months %}
+            {% if presents %} 
+                {% for present in presents %}
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td> {{month.leave_month}} </td>
-                    <td> {{month.permited_days}} </td>
-                    <td>{{month.salary_diduction}} % (for days)</td>
-                    <td>{{month.modified_at}}</td>
+                    <td> {{present.peremited_time}} </td>
+                    <td> {{present.permited_days}} </td>
+                    <td>{{present.salary_diduction}} % (for days)</td>
+                    <td>{{present.modified_at}}</td>
                     <td>
-                        <a class="btn btn-success" href="{% url 'authority:update_permited_leave' month.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a class="btn btn-danger" href="{% url 'authority:delete_permited_leave' month.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-success" href="{% url 'authority:update_permited_latepresent' present.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delete_permited_latepresent' present.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
                     </td>
                   </tr>
                 {% endfor %}     
@@ -88,7 +88,7 @@
                 <div class="row mb-4">
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Month</label>
-                        {{form.leave_month |add_class:"form-select"}}
+                        {{form.peremited_time |add_class:"form-control"}}
                     </div>
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Permited Days</label>

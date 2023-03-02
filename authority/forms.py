@@ -1,6 +1,11 @@
 from django import forms
 from datetime import datetime
 
+# Customs Widgets
+from authority.widgets import DurationWidget
+from authority.widgets import DurationFormField
+from authority.widgets import DurationUpdateWidget
+
 # models
 from authority.models import OfficeTime
 from authority.models import PayrollMonth
@@ -85,14 +90,15 @@ class MonthlyPermitedLeaveForm(forms.ModelForm):
 
     class Meta:
         model = MonthlyPermitedLeave
-        fields = ('leave_month','permited_days')
+        fields = ('leave_month','permited_days','salary_diduction')
 
 
 class PermitedLatePresentForms(forms.ModelForm):
+    peremited_time = DurationFormField(widget=DurationWidget)
 
     class Meta:
         model = PermitedLatePresent
-        fields = ('premited_time','permited_days','salary_diduction')
+        fields = ('peremited_time','permited_days','salary_diduction')
 
 
     

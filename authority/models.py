@@ -81,6 +81,7 @@ class MonthlyPermitedLeave(models.Model):
     ]
     leave_month = models.CharField(max_length=3, choices=MONTH_CHOICES, default='Jan')
     permited_days = models.PositiveIntegerField()
+    salary_diduction = models.DecimalField(max_digits=5, decimal_places=2,default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -129,11 +130,12 @@ class LeaveApplication(models.Model):
 
 
 class PermitedLatePresent(models.Model):
-    premited_time = models.DurationField()
+    peremited_time = models.DurationField()
     permited_days = models.PositiveIntegerField()
-    salary_diduction = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    salary_diduction = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created_at = models.DateTimeField(auto_now=True)
     modified_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
 
 

@@ -59,7 +59,10 @@ urlpatterns += [
     path('update-office-time/<int:pk>/', admin_settings.UpdateOfficeTimeView.as_view(), name='update_officetime'),
     path('add-permited-leave/', admin_settings.AddPermitedLeaveView.as_view(), name='add_permited_leave'),
     path('update-permited-leave/<int:pk>/', admin_settings.UpdateMonthlyPermitedLeaveView.as_view(), name='update_permited_leave'),
-    path('delete-permited-leave/<int:pk>/', admin_settings.DeleteMonthlyPermitedLeave.as_view(), name='delete_permited_leave'),
+    path('delete-permited-leave/<int:pk>/', admin_settings.DeleteMonthlyPermitedLeaveView.as_view(), name='delete_permited_leave'),
+    path('add-late-present/', admin_settings.AddPermitedLatePresentView.as_view(), name='add_permited_latepresent'),
+    path('update-late-present/<int:pk>/', admin_settings.UpdatePermitedLatePresentView.as_view(), name='update_permited_latepresent'),
+    path('delete-late-present/<int:pk>/', admin_settings.DeletePermitedLatePresentView.as_view(), name='delete_permited_latepresent'),
     
 ]
 

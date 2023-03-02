@@ -36,7 +36,7 @@ class SetOfficeTimeAdmin(admin.ModelAdmin):
 
 @admin.register(MonthlyPermitedLeave)
 class MonthlyPermitedLeaveAdmin(admin.ModelAdmin):
-    list_display = ('leave_month','permited_days','created_at','modified_at')
+    list_display = ('leave_month','permited_days','salary_diduction','modified_at')
     search_fields = ('leave_month',)
     list_per_page = 50
 
@@ -47,6 +47,6 @@ class LeaveApplication(admin.ModelAdmin):
 
 @admin.register(PermitedLatePresent)
 class permitedLatePresentAdmin(admin.ModelAdmin):
-    list_display = ('premited_time', 'permited_days','salary_diduction',)
+    list_display = ('peremited_time', 'permited_days','salary_diduction',)
 
 
