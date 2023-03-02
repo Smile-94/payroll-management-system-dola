@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
 import datetime
+from datetime import timedelta
 from datetime import date
 
 # Permissions Classes
@@ -117,7 +118,10 @@ class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
                 entering=datetime.datetime.combine(datetime.date.today(), entry_time)
                 late_entry=((entering-outing)-leave_hour)
                 form_obj=form.save(commit=False)
-                form_obj.late_entry=late_entry
+                if late_entry > timedelta(seconds=0):
+                    form_obj.late_entry = late_entry
+                else:
+                    form_obj.late_entry = timedelta(seconds=0)
                 form_obj.save()
                 messages.success(self.request, "Leave Updated Successfully")
             return super().form_valid(form)
