@@ -1,8 +1,6 @@
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.db.models import F
-from datetime import timedelta
 import datetime
 from datetime import date
 
@@ -10,11 +8,9 @@ from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # filters
-from reciption.filters import AttendanceFilters
 from reciption.filters import SortLeaveFilters
 
-# Class based View
-from django.views.generic import TemplateView
+# Class based Vieww
 from django.views.generic import CreateView
 from django.views.generic import ListView
 from django.views.generic import UpdateView
@@ -23,11 +19,9 @@ from django.views.generic import DeleteView
 
 # Models
 from employee.models import EmployeeInfo
-from reciption.models import Attendance
 from reciption.models import SortLeave
 
 # forms
-from reciption.forms import AttendanceForm
 from reciption.forms import SortLeaveForm
 from reciption.forms import SortLeaveUpdateForm
 
@@ -150,16 +144,3 @@ class SortleaveDeleteView(DeleteView):
         self.object.save()
         messages.success(self.request, "delete sortleave successfully")
         return redirect(success_url)
-
-
-    
-        
-    
-    
-        
-    
-    
-            
-
-    
-    
