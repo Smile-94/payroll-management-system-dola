@@ -4,6 +4,8 @@ from django.urls import path
 from reciption.views import reciption_main
 from reciption.views import manage_attendance
 from reciption.views import manage_sortleave
+from reciption.views import manage_profile
+from reciption.views import manage_leave
 
 app_name = 'reception'
 
@@ -27,4 +29,17 @@ urlpatterns += [
     path('sortleave-update/<int:pk>/', manage_sortleave.SortLeaveUpdateView.as_view(), name='sortleave_update'),
     path('sortleave-delete/<int:pk>/', manage_sortleave.SortleaveDeleteView.as_view(), name='sortleave_delete'), 
 ]
+
+# Manage Profile
+urlpatterns += [
+    path('profile-details/<int:pk>/', manage_profile.ProfileDetailsView.as_view(), name='profile_details') 
+]
+
+# Manage Leave
+urlpatterns += [
+    path('appliy-leave/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave" ),
+    path('update-leave/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave" ),
+    path('leave-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details" ),
+]
+
 

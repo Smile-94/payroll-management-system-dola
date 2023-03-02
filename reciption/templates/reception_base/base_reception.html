@@ -75,17 +75,13 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Profile</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="#" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Profile Details</a>
-                            <a href="#" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Leave List</a>
+                            <a href="{% url 'reception:profile_details' request.user.id %}" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Profile Details</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item active">Blank Page</a>
+                            <a href="{% url 'reception:apply_leave' %}" class="dropdown-item">Leave Application</a>
                         </div>
                     </div>
                 </div>
