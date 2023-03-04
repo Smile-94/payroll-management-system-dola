@@ -81,7 +81,7 @@
             font-size: 18px;
           }
           .application-head{
-            font-size: 20px;
+            font-size: 18px;
           }
 
     </style>
@@ -171,11 +171,11 @@
     </div>
       <div class="signature-container">
         <h1>Approved/Rejected By</h1>
-        <img src="/media/{{leave.approvied_by.employee_info.signature}}" alt="Signature" class="signature-image">
+        <img src="/media/{{salary.prepared_by.employee_info.signature}}" alt="Signature" class="signature-image">
         <div class="name-dept-container">
-          <div class="name"> {{leave.approvied_by.profile.first_name}}  {{leave.approvied_by.profile.last_name}}</div>
-          <div class="department"> {{leave.approvied_by.employee_info.position.designation}} </div>
-          <div class="department"> {{leave.approvied_by.employee_info.position.department}} </div>
+          <div class="name"> {{salary.prepared_by.profile.first_name}}  {{salary.prepared_by.profile.last_name}}</div>
+          <div class="department"> {{salary.prepared_by.employee_info.position.designation}} </div>
+          <div class="department"> {{salary.prepared_by.employee_info.position.department}} </div>
         </div>
       </div>
 

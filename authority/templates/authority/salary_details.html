@@ -98,8 +98,10 @@
         </table>
         <div class="p-4">
             <h6 class="my-4">Approved By</h6>
-            <img src=" {{leave.approvied_by.employee_info.signature.url}} " alt="" height="150" width="200">
-            <p>{{leave.approvied_by.profile.first_name}} {{leave.approvied_by.profile.last_name}}</p>
+            <img src=" {{salary.prepared_by.employee_info.signature.url}} " alt="" height="100" width="300">
+            <h6>{{salary.prepared_by.profile.first_name}} {{salary.prepared_by.profile.last_name}}</h6>
+            <h6>{{salary.prepared_by.employee_info.position.designation}}</h6>
+            <h6>{{salary.prepared_by.employee_info.position.department}}</h6>
         </div>
     </div>
 </div>
