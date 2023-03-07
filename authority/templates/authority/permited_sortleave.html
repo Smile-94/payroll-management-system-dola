@@ -10,10 +10,6 @@
     {% if updated %}
         <form method='POST'> {% csrf_token %}
             <div class="row">
-                <div class="col ">
-                    <label for="exampleInputEmail1" class="form-label">Month</label>
-                    {{form.peremited_time |attr:"readonly:True" | add_class:"form-select"}}
-                </div>
                 <div class="col mb-3">
                     <label for="exampleInputEmail1" class="form-label">Year</label>
                     {{form.permited_days | add_class:"form-control"}}
@@ -47,7 +43,6 @@
         <thead class="table-dark">
             <tr>
               <th scope="col">Sl</th>
-              <th scope="col">Permited Time</th>
               <th scope="col">Permited Days</th>
               <th scope="col">Salary Diduction (Exceed Late Present)</th>
               <th scope="col">Updated At</th>
@@ -59,7 +54,6 @@
                 {% for sortleave in sortleaves %}
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
-                    <td> {{sortleave.peremited_time}} </td>
                     <td> {{sortleave.permited_days}} </td>
                     <td> {{sortleave.salary_diduction}} % (for days)</td>
                     <td> {{sortleave.modified_at}}</td>
@@ -86,10 +80,6 @@
         <div class="modal-body">
             <form method="POST"> {% csrf_token %}
                 <div class="row mb-4">
-                    <div class="col">
-                        <label for="exampleInputEmail1" class="form-label">Sort Leave Duration</label>
-                        {{form.peremited_time |add_class:"form-control"}}
-                    </div>
                     <div class="col">
                         <label for="exampleInputEmail1" class="form-label">Permited Days</label>
                         {{form.permited_days |add_class:"form-control"}}

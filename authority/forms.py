@@ -102,8 +102,6 @@ class PermitedLatePresentForm(forms.ModelForm):
 
 
 class PermitedSortLeaveForm(forms.ModelForm):
-    peremited_time = DurationFormField(widget=DurationWidget)
-
     class Meta:
         model = PermitedSortLeave
         fields = ('permited_days','salary_diduction')

@@ -24,7 +24,7 @@ urlpatterns += [
 # manage sortleave
 urlpatterns += [
     path('sortleave-list/', manage_sortleave.SortleaveListView.as_view(), name='sortleave_list'),
-    path('add_sortleave/', manage_sortleave.AddSortleaveView.as_view(), name='add_sortleave'),
+    path('issued_sortleave/', manage_sortleave.AddSortleaveView.as_view(), name='issued_sortleave'),
     path('sortleave-detail/<int:pk>/',manage_sortleave.SortLeaveDetailView.as_view(), name='sortleave_detail'),
     path('sortleave-update/<int:pk>/', manage_sortleave.SortLeaveUpdateView.as_view(), name='sortleave_update'),
     path('sortleave-delete/<int:pk>/', manage_sortleave.SortleaveDeleteView.as_view(), name='sortleave_delete'), 

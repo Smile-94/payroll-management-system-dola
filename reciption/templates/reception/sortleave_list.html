@@ -35,7 +35,6 @@
                     <th scope="col">ID</th>
                     <th scope="col">Date</th>
                     <th scope="col">Ticket No</th>
-                    <th scope="col">Late Entry</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -49,13 +48,6 @@
                                 <td>{{leave.employee_id}}</td>
                                 <td>{{leave.date}}</td>
                                 <td>{{leave.ticket_id}}</td>
-                                <td>
-                                    {% if leave.late_entry is not none %}
-                                       {{ leave.late_entry}}
-                                    {% else %}
-                                        Not Enter yeat
-                                    {% endif %}
-                                </td>
                                 <td>
                                     <a class="btn btn-primary" href="{% url 'reception:sortleave_detail' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
                                     <a class="btn btn-success" href="{% url 'reception:sortleave_update' leave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>

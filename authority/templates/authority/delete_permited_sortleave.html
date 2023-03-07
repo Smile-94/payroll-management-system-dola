@@ -12,8 +12,8 @@
         <thead class="table-dark">
             <tr>
               <th scope="col">Sl</th>
-              <th scope="col">Late Time</th>
               <th scope="col">Permited Days</th>
+              <th scope="col">Salary Diduction</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
@@ -22,12 +22,12 @@
             
                 <tr>
                     <th scope="row">1</th>
-                    <td> {{sortleave.peremited_time}} </td>
                     <td> {{sortleave.permited_days}} </td>
+                    <td> {{sortleave.salary_diduction}} </td>
                     <td>
                         <div id="deleteForm">
                             <form action="" method='POST'> {% csrf_token %}
-                                <a class="btn btn-success" href="{% url 'authority:add_permited_latepresent' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                                <a class="btn btn-success" href="{% url 'authority:add_permited_sortleave' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
                                 <button class="btn btn-danger" type='submit' id="deleteTask"><i class="fa-solid fa-trash px-2"></i>Delete</button>
                             </form>
                         </div>

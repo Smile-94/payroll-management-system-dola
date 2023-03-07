@@ -101,33 +101,13 @@ class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
         context["form"] = self.form_class(instance=update_info)
         return context
     
-    def post(self, request, *args, **kwargs):
-        update_info = SortLeave.objects.get(id=self.kwargs.get('pk'))
-        form = self.form_class(request.POST, instance=update_info)
-        return self.form_valid(form)
-    
     def form_valid(self, form):
-        try:
-            if form.is_valid():
-                outing_time=form.cleaned_data['outing_time']
-                entry_time=form.cleaned_data['entering_time']
-                leave_hour=form.cleaned_data['leave_hour']
+        messages.success(self.request, "Sort Leave Updated Successfully")
+        return super().form_valid(form)
 
-                outing=datetime.datetime.combine(datetime.date.today(), outing_time)
-                entering=datetime.datetime.combine(datetime.date.today(), entry_time)
-                late_entry=((entering-outing)-leave_hour)
-                form_obj=form.save(commit=False)
-                if late_entry > timedelta(seconds=0):
-                    form_obj.late_entry = late_entry
-                else:
-                    form_obj.late_entry = timedelta(seconds=0)
-                form_obj.save()
-                messages.success(self.request, "Leave Updated Successfully")
-            return super().form_valid(form)
-
-        except Exception as e:
-            print(e)
-            return self.form_invalid(form)
+    def form_invalid(self, form):
+        messages.error(self.request, "Sortleave Not updated")
+        return super().form_invalid(form)
 
 class SortleaveDeleteView(DeleteView):
     model=SortLeave
