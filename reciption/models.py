@@ -33,11 +33,8 @@ class SortLeave(models.Model):
     ticket_id=models.CharField(max_length=50)
     employee_id=models.CharField(max_length=50)
     date=models.DateField(auto_now=False, auto_now_add=False)
-    leave_hour = models.DurationField()
     outing_time=models.TimeField(auto_now=False, auto_now_add=False)
-    entering_time=models.TimeField(auto_now=False, auto_now_add=False,blank=True, null=True)
     description=models.TextField(blank=True)
-    late_entry=models.DurationField(blank=True, null=True)
     active_status=models.BooleanField(default=True)
 
     

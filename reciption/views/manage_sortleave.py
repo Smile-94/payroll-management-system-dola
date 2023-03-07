@@ -24,7 +24,6 @@ from reciption.models import SortLeave
 
 # forms
 from reciption.forms import SortLeaveForm
-from reciption.forms import SortLeaveUpdateForm
 
 
 class AddSortleaveView(CreateView):
@@ -91,7 +90,7 @@ class SortLeaveDetailView(DetailView):
 
 class SortLeaveUpdateView(LoginRequiredMixin, UpdateView):
     model = SortLeave
-    form_class = SortLeaveUpdateForm
+    form_class = SortLeaveForm
     template_name = 'reception/update_sortleave.html'
     success_url = reverse_lazy('reception:sortleave_list')
 

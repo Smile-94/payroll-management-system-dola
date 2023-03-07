@@ -52,6 +52,6 @@ class PermitedLatePresentAdmin(admin.ModelAdmin):
 
 @admin.register(PermitedSortLeave)
 class PermitedSortLeaveAdmin(admin.ModelAdmin):
-    list_display = ('peremited_time', 'permited_days','salary_diduction',)
+    list_display = ('permited_days','salary_diduction',)
 
 

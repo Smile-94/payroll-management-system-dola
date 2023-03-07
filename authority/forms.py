@@ -106,7 +106,7 @@ class PermitedSortLeaveForm(forms.ModelForm):
 
     class Meta:
         model = PermitedSortLeave
-        fields = ('peremited_time','permited_days','salary_diduction')
+        fields = ('permited_days','salary_diduction')
 
 
     

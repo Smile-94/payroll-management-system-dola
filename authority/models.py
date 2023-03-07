@@ -128,7 +128,6 @@ class PermitedLatePresent(models.Model):
         return str("Permited Late Present")
 
 class PermitedSortLeave(models.Model):
-    peremited_time = models.DurationField()
     permited_days = models.PositiveIntegerField()
     salary_diduction = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(100)])
     created_at = models.DateTimeField(auto_now=True)

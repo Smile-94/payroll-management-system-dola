@@ -112,7 +112,6 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
 
             # Permited Sort Leave
             permited_sortleave = PermitedSortLeave.objects.first()
-            permited_late_entry = permited_sortleave.peremited_time
             permited_sortleave_days = permited_sortleave.permited_days
             sortleave_salary_diduct = permited_sortleave.salary_diduction
 
@@ -140,7 +139,10 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             print("Total Late Present: ", late_present)
 
             # Total Sortleave
-            late_sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date]).count()
+            late_sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date], ).count()
+
+
+
 
             
             
