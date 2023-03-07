@@ -6,9 +6,8 @@ from django.core.validators import MaxValueValidator
 # Models
 from accounts.models import User
 
-# Create your models here.
-class PayrollMonth(models.Model):
-    MONTH_CHOICES = [
+# Month choces
+MONTH_CHOICES = [
         ('Jan', 'January'),
         ('Feb', 'February'),
         ('Mar', 'March'),
@@ -23,6 +22,8 @@ class PayrollMonth(models.Model):
         ('Dec', 'December'),
     ]
 
+# Create your models here.
+class PayrollMonth(models.Model):
     month=models.CharField(max_length=3, choices=MONTH_CHOICES, default='Jan')
     year = models.IntegerField(validators=[MinValueValidator(1900), MaxValueValidator(2100)])
     from_date=models.DateField(auto_now=False, auto_now_add=False)
@@ -65,20 +66,6 @@ class MonthlyHoliday(models.Model):
         return str(f"{self.holiday_month}'s holiday")
 
 class MonthlyPermitedLeave(models.Model):
-    MONTH_CHOICES = [
-        ('Jan', 'January'),
-        ('Feb', 'February'),
-        ('Mar', 'March'),
-        ('Apr', 'April'),
-        ('May', 'May'),
-        ('Jun', 'June'),
-        ('Jul', 'July'),
-        ('Aug', 'August'),
-        ('Sep', 'September'),
-        ('Oct', 'October'),
-        ('Nov', 'November'),
-        ('Dec', 'December'),
-    ]
     leave_month = models.CharField(max_length=3, choices=MONTH_CHOICES, default='Jan')
     permited_days = models.PositiveIntegerField()
     salary_diduction = models.DecimalField(max_digits=5, decimal_places=2,default=0.0, validators=[MinValueValidator(0), MaxValueValidator(100)])

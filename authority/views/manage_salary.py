@@ -98,33 +98,51 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             total_salary_value =float(salary.basic_salary)+float(sum(salary_fields))
 
             # Total Salary Diduction 
+
+            # Salary month
             month = PayrollMonth.objects.get(month=salary_month.month)
             days = month.total_days
-            month_start = month.from_date
-            month_end = month.to_date
-
-            print("Totla Days: ",days)
-            print(f"Month Start: {month_start}, Month End: {month_end}")
             
+        
+            # Permited Late present
+            permited_latepresent = PermitedLatePresent.objects.first()
+            late_permited_time = permited_latepresent.peremited_time
+            late_permited_days = permited_latepresent.permited_days
+            late_present_salary_diduct = permited_latepresent.salary_diduction
+
+            # Permited Sort Leave
+            permited_sortleave = PermitedSortLeave.objects.first()
+            permited_late_entry = permited_sortleave.peremited_time
+            permited_sortleave_days = permited_sortleave.permited_days
+            sortleave_salary_diduct = permited_sortleave.salary_diduction
+
+            # Permited Leave 
+            permited_leave = MonthlyPermitedLeave.objects.get(leave_month=month.month)
+            permited_leave_days = permited_leave.permited_days
+            permited_leave_salary_diduct = permited_leave.salary_diduction
+
+            # Calculated Salary month total off day
             off_day = 0
             if MonthlyOffDay.objects.filter(month=month).exists():
                 day = MonthlyOffDay.objects.get(month=month)
                 off_day = day.total_offday
-            
-            print("Off Day: ",off_day)
 
+            # Calculated Salary month total holiday
             holiday = 0
             if MonthlyHoliday.objects.filter(holiday_month=month).exists():
                 holiday = MonthlyHoliday.objects.filter(holiday_month=month, is_active=True).count()
             
-            
+            # Total Attendance
             month_attendance = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date]).count()
-            late_present = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date], late_present__gt=timedelta(minutes=30)).count()
+
+            # Total Late Present
+            late_present = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date], late_present__gt=late_permited_time).count()
+            print("Total Late Present: ", late_present)
+
+            # Total Sortleave
             late_sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date]).count()
 
-            print("Totla Late Present: ", late_present)
             
-            print("Attendance: ",month_attendance)  
             
             if form.is_valid():
                 form_obj = form.save(commit=False)
