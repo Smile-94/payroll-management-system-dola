@@ -34,12 +34,12 @@ class AddAttendanceView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         employee_id = form.cleaned_data['employee_id']
-        today = date.today()
+        attend_date = form.cleaned_data.get('date')
         try:
             employee_info = EmployeeInfo.objects.get(employee_id=employee_id)
 
-            if Attendance.objects.filter(date=today, employee_id=employee_id).exists():
-                messages.error(self.request, "Employee Attendance already done today")
+            if Attendance.objects.filter(date=attend_date, employee_id=employee_id).exists():
+                messages.error(self.request, f"Employee Attendance already done for {attend_date}")
                 return self.form_invalid(form)
 
             if form.is_valid():

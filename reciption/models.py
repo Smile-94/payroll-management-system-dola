@@ -11,8 +11,8 @@ class Attendance(models.Model):
     attendance_of=models.ForeignKey(EmployeeInfo,on_delete=models.CASCADE,related_name='attendance')
     employee_id=models.CharField(max_length=50)
     date=models.DateField(auto_now=False, auto_now_add=False)
-    entering_time=models.TimeField(auto_now=False, auto_now_add=False, blank=True)
-    exit_time=models.TimeField(auto_now=False, auto_now_add=False, blank=True)
+    entering_time=models.TimeField(auto_now=False, auto_now_add=False,null=True)
+    exit_time=models.TimeField(auto_now=False, auto_now_add=False, null=True)
     late_present = models.DurationField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
