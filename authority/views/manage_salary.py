@@ -136,10 +136,9 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
 
             # Total Late Present
             late_present = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date], late_present__gt=late_permited_time).count()
-            print("Total Late Present: ", late_present)
-
+            
             # Total Sortleave
-            late_sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date], ).count()
+            sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date], ).count()
 
             # Salary of a employee for each day
             per_day_basic_salary = (salary.basic_salary/days)
@@ -150,7 +149,12 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 late=int(late_present-late_permited_days)
                 diduct_salary = float(per_day_basic_salary)*float(late_present_salary_diduct/100)
                 salary_diduct_for_late_present =diduct_salary*late
-            
+
+            # Total Salary Diduct for the extra Leave
+            extra_leave = (days-(month_attendance+holiday+permited_leave_days+off_day))
+            diduct_per_day = float(per_day_basic_salary)*float(permited_leave_salary_diduct/100)
+            salary_diduct_for_leave = (diduct_per_day*extra_leave)
+
             
             if form.is_valid():
                 form_obj = form.save(commit=False)
@@ -165,6 +169,7 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 form_obj.total_bonus =festival_bonus
                 form_obj.total_salary = total_salary_value
                 form_obj.late_present_diduct = salary_diduct_for_late_present
+                form_obj.extra_leave_diduct = salary_diduct_for_leave
                 form_obj.save()
                 messages.success(self.request, "Salary Added Successfully")
                 self.object = form_obj
