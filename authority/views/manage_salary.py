@@ -155,6 +155,17 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             diduct_per_day = float(per_day_basic_salary)*float(permited_leave_salary_diduct/100)
             salary_diduct_for_leave = (diduct_per_day*extra_leave)
 
+            # Sort Leave Salary Diduction
+            salary_diduct_for_sort_leave = 0
+            if sort_leave>permited_leave_days:
+                month_sort_leave = (sort_leave-permited_sortleave_days)
+                print(month_sort_leave)
+                diduct_salary = float(per_day_basic_salary)*float(sortleave_salary_diduct/100)
+                salary_diduct_for_sort_leave = (diduct_salary*month_sort_leave)
+            
+            total_salary_diduct = (salary_diduct_for_late_present+salary_diduct_for_leave+salary_diduct_for_sort_leave)
+
+
             
             if form.is_valid():
                 form_obj = form.save(commit=False)
@@ -170,6 +181,8 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 form_obj.total_salary = total_salary_value
                 form_obj.late_present_diduct = salary_diduct_for_late_present
                 form_obj.extra_leave_diduct = salary_diduct_for_leave
+                form_obj.sort_leave_diduct = salary_diduct_for_sort_leave
+                form_obj.total_diduct = total_salary_diduct
                 form_obj.save()
                 messages.success(self.request, "Salary Added Successfully")
                 self.object = form_obj
@@ -227,10 +240,23 @@ class MonthlySalaryDetailsView(LoginRequiredMixin, AdminPassesTestMixin, DetailV
     context_object_name = 'salary'
     template_name = 'authority/salary_details.html'
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset=queryset)
+        return obj
+
     def get_context_data(self, **kwargs):
+        query_obj = self.get_object()
+        total_salary = query_obj.total_salary
+        total_diduct = query_obj.total_diduct
+        attend = Attendance.objects.filter(attendance_of= query_obj.salary_employee , date__range=[query_obj.salary_month.from_date,query_obj.salary_month.to_date]).count()
+        print("Absence: ",attend)
         context = super().get_context_data(**kwargs)
         context["title"] = "Monthly Salary Details" 
+        context["total_salary_pay"] =round(total_salary-total_diduct)
+
         return context
+    
+    
 
 class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
     model = MonthlySalary
