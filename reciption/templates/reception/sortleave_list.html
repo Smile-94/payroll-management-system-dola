@@ -20,7 +20,10 @@
                             {{leaves.form.ticket_id |add_class:"form-control"}}
                         </div>
                         <div class="col">
-                            {{leaves.form.date |add_class:"form-control"}}
+                            {{leaves.form.from_date |add_class:"form-control"}}
+                        </div>
+                        <div class="col">
+                            {{leaves.form.to_date |add_class:"form-control"}}
                         </div>
                       </div>
                   <button class="btn btn-outline-success ms-2" type="submit">Search</button>
@@ -58,8 +61,6 @@
                     {% endif %}
                 </tbody>
               </table>
-
-            
         </div>
     </div>    
 </div>

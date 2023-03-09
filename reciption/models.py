@@ -15,6 +15,7 @@ class Attendance(models.Model):
     exit_time=models.TimeField(auto_now=False, auto_now_add=False, null=True)
     late_present = models.DurationField(blank=True, null=True)
 
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if not self.late_present:

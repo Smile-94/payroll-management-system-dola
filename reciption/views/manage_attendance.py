@@ -5,6 +5,7 @@ from datetime import date
 
 # Permissions Classes
 from django.contrib.auth.mixins import LoginRequiredMixin
+from reciption.permissions import ReceptionPassesTestMixin
 
 # filters
 from reciption.filters import AttendanceFilters
@@ -21,7 +22,7 @@ from reciption.models import Attendance
 from reciption.forms import AttendanceForm
 
 
-class AddAttendanceView(LoginRequiredMixin, CreateView):
+class AddAttendanceView(LoginRequiredMixin, ReceptionPassesTestMixin, CreateView):
     model = Attendance
     form_class = AttendanceForm
     template_name = 'reception/add_attendance.html'
@@ -57,14 +58,30 @@ class AddAttendanceView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
 
 
-class AttendanceListView(LoginRequiredMixin, ListView):
+class AttendanceListView(LoginRequiredMixin, ReceptionPassesTestMixin, ListView):
     model = Attendance
-    queryset = Attendance.objects.all().order_by('-pk')
+    queryset = Attendance.objects.all().order_by('-date')
     filterset_class = AttendanceFilters
     template_name = 'reception/attendance_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Check if form_date or to_date filters are applied
+        form_date_filter = self.request.GET.get('from_date', '')
+        to_date_filter = self.request.GET.get('to_date', '')
+        
+        if form_date_filter or to_date_filter:
+            # If either filter is applied, switch the ordering to ascending by date
+            queryset = queryset.order_by('date')
+        else:
+            # Otherwise, keep the original ordering by date in descending order
+            queryset = queryset.order_by('-date')
+            
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Attendance List" 
-        context["attendances"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        context["attendances"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
         return context

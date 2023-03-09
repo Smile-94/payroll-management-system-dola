@@ -70,10 +70,25 @@ class SortleaveListView(LoginRequiredMixin, ListView):
     filterset_class = SortLeaveFilters
     template_name = "reception/sortleave_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Check if form_date or to_date filters are applied
+        form_date_filter = self.request.GET.get('from_date', '')
+        to_date_filter = self.request.GET.get('to_date', '')
+        
+        if form_date_filter or to_date_filter:
+            # If either filter is applied, switch the ordering to ascending by date
+            queryset = queryset.order_by('date')
+        else:
+            # Otherwise, keep the original ordering by date in descending order
+            queryset = queryset.order_by('-id')
+            
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Sortleave List" 
-        context["leaves"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        context["leaves"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
         return context
 
 
