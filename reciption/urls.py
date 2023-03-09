@@ -6,6 +6,7 @@ from reciption.views import manage_attendance
 from reciption.views import manage_sortleave
 from reciption.views import manage_profile
 from reciption.views import manage_leave
+from reciption.views import manage_salary
 
 app_name = 'reception'
 
@@ -37,9 +38,15 @@ urlpatterns += [
 
 # Manage Leave
 urlpatterns += [
-    path('appliy-leave-receptionist/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave_receptionist" ),
-    path('update-leave-receptionist/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave_receptionist" ),
-    path('leave-details-receptionist/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details_receptionist" ),
+    path('appliy-leave-receptionist/', manage_leave.ReceptionAddLeaveApplicationView.as_view(), name="apply_leave_receptionist" ),
+    path('update-leave-receptionist/<int:pk>/', manage_leave.ReceptionLeaveApplicationUpdateView.as_view(), name="update_leave_receptionist" ),
+    path('leave-details-receptionist/<int:pk>/', manage_leave.ReceptionLeaveApplicationDetailsView.as_view(), name="leave_details_receptionist" ),
+]
+
+# Manage Salary
+urlpatterns += [
+    path('receptionist-monthly-salary-list/', manage_salary.RecptionMonthlySalaryListView.as_view(), name='receptionist_monthly_salary_list'),
+    path('receptionist-salary-details/<int:pk>/', manage_salary.ReceptionMonthlySalaryDetailsView.as_view(), name='receptionist_salary_details'),
 ]
 
 

@@ -20,7 +20,7 @@ from authority.models import LeaveApplication
 from authority.forms import LeaveApplicationForm
 
 
-class AddLeaveApplicationView(LoginRequiredMixin, ReceptionPassesTestMixin, CreateView):
+class ReceptionAddLeaveApplicationView(LoginRequiredMixin, ReceptionPassesTestMixin, CreateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     queryset= LeaveApplication.objects.filter(is_active=True).order_by('-id')
@@ -51,7 +51,7 @@ class AddLeaveApplicationView(LoginRequiredMixin, ReceptionPassesTestMixin, Crea
         messages.error(self.request, "Leave Application not Applied successfully try again")
         return super().form_invalid(form)
 
-class LeaveApplicationUpdateView(LoginRequiredMixin,ReceptionPassesTestMixin, UpdateView):
+class ReceptionLeaveApplicationUpdateView(LoginRequiredMixin,ReceptionPassesTestMixin, UpdateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     template_name = 'reception/leave_application.html'
@@ -71,7 +71,7 @@ class LeaveApplicationUpdateView(LoginRequiredMixin,ReceptionPassesTestMixin, Up
         messages.error(self.request, "some thing went wrong try again")
         return super().form_invalid(form)
 
-class LeaveApplicationDetailsView(LoginRequiredMixin, ReceptionPassesTestMixin, DetailView):
+class ReceptionLeaveApplicationDetailsView(LoginRequiredMixin, ReceptionPassesTestMixin, DetailView):
     model = LeaveApplication
     context_object_name = 'leave'
     template_name = 'reception/leave_details.html'

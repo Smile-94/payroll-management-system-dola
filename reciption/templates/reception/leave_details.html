@@ -9,7 +9,7 @@
 <div class="col-sm-12 col-xl-12">
     <div class="bg-white rounded h-100 p-4">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
-            <a class="btn btn-primary" href="{% url 'employee:apply_leave' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+            <a class="btn btn-primary" href="{% url 'reception:apply_leave_receptionist' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
             <a class="btn btn-primary" href="{% url 'report:leaveapplication_pdf' leave.id %}" target="_blank" role="button"><i class="fa-regular fa-circle-down"></i></a>
             <a class="btn btn-primary" href="{% url 'report:leaveapplication_pdf' leave.id %}" target="_blank" role="button"><i class="fa-solid fa-print"></i></a>
           </div>

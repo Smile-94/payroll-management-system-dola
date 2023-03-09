@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <a class="btn btn-success" href="{% url 'employee:apply_leave' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                <a class="btn btn-success" href="{% url 'reception:apply_leave_receptionist' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
                 <button type="submit" class="btn btn-primary">Save</button> 
             </div>
         </form>
@@ -90,10 +90,10 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a class="btn btn-primary" href="{% url 'employee:leave_details_receptionist' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
+                        <a class="btn btn-primary" href="{% url 'reception:leave_details_receptionist' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
                         
                         {% if not leave.approved_status and not leave.declined_status%}
-                        <a class="btn btn-success" href="{% url 'employee:update_leave_receptionist' leave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a> 
+                        <a class="btn btn-success" href="{% url 'reception:update_leave_receptionist' leave.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a> 
                         {% endif %}
                             
                     </td>

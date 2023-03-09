@@ -1,0 +1,50 @@
+{% extends 'reception_base/base_reception.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <h6 class="mb-4">Monthly Salary List</h6>
+    
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Employee ID</th>
+              <th scope="col">Employee Name</th>
+              <th scope="col">Designation</th>
+              <th scope="col">Month</th>
+              <th scope="col">Festival Bonus</th>
+              <th scope="col">Total Salary</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if salarys %} 
+                {% for salary in salarys %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{salary.salary_employee.employee_id}} </td>
+                    <td> {{salary.salary_employee.info_of.profile.first_name}} {{salary.salary_employee.info_of.profile.last_name}}</td>
+                    <td>{{salary.salary_employee.position.designation}}</td>
+                    <td>{{salary.salary_month}}</td>
+                    <td>
+                        {% if salary.festival_bonus %}
+                            {{salary.festival_bonus.festival_name}}
+                        {% else %}
+                            N/A
+                        {% endif %}</td>
+                    <td>{{salary.total_salary}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{% url 'reception:receptionist_salary_details' salary.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}
+            </tbody>      
+      </table>
+</div>
+    
+{% endblock body %}
