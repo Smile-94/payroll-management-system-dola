@@ -276,38 +276,43 @@ class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, Updat
         return context
 
     def form_valid(self, form):
-
-        calculated_salary=MonthlySalary.objects.get(id=self.kwargs['pk'])
+        try:
+            calculated_salary=MonthlySalary.objects.get(id=self.kwargs['pk'])
         
 
-        salary = EmployeeSalary.objects.get(salary_of=calculated_salary.salary_employee)
+            salary = EmployeeSalary.objects.get(salary_of=calculated_salary.salary_employee)
         
 
-        plus_minus_bonus=0
-        if form.cleaned_data.get('festival_bonus') is not None:
-            value = form.cleaned_data.get('festival_bonus')
-            fastival= FestivalBonus.objects.get(festival_name=value)
-            plus_minus_bonus =float(salary.basic_salary)*float(fastival.bonus_percentage/100)
+            plus_minus_bonus=0
+            if form.cleaned_data.get('festival_bonus') is not None:
+                value = form.cleaned_data.get('festival_bonus')
+                fastival= FestivalBonus.objects.get(festival_name=value)
+                plus_minus_bonus =float(salary.basic_salary)*float(fastival.bonus_percentage/100)
             
            
-        if form.cleaned_data.get('festival_bonus') is None:
+            if form.cleaned_data.get('festival_bonus') is None:
                plus_minus_bonus =  float(calculated_salary.total_bonus)- float(calculated_salary.total_bonus)
                
         
-        if form.is_valid():
-            form_obj = form.save(commit=False)
+            if form.is_valid():
+                form_obj = form.save(commit=False)
 
-            if calculated_salary.festival_bonus is None:
-                form_obj.total_bonus = plus_minus_bonus
-                form_obj.total_salary = calculated_salary.total_salary+form_obj.total_bonus
+                if calculated_salary.festival_bonus is None:
+                    form_obj.total_bonus = plus_minus_bonus
+                    form_obj.total_salary = calculated_salary.total_salary+form_obj.total_bonus
 
-            if calculated_salary.festival_bonus is not None:
-                form_obj.total_bonus = form_obj.total_bonus-plus_minus_bonus
-                form_obj.total_salary =  calculated_salary.total_salary - form_obj.total_bonus
+                if calculated_salary.festival_bonus is not None:
+                    form_obj.total_bonus = form_obj.total_bonus-plus_minus_bonus
+                    form_obj.total_salary =  calculated_salary.total_salary - form_obj.total_bonus
 
-            form_obj.save()
-            messages.success(self.request, "Salary Updated Successfully")
-        return super().form_valid(form)
+                form_obj.save()
+                messages.success(self.request, "Salary Updated Successfully")
+            return super().form_valid(form)
+        
+        except Exception as e:
+            print(e)
+            return self.form_invalid(form)
+            
 
     def form_invalid(self, form):
         messages.error(self.request, "Salary not updated please try again!")
