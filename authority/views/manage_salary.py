@@ -277,7 +277,11 @@ class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, Updat
 
     def form_valid(self, form):
         try:
+            salary_month = form.cleaned_data.get('salary_month')
+
             calculated_salary=MonthlySalary.objects.get(id=self.kwargs['pk'])
+
+            employee = calculated_salary.salary_employee
         
 
             salary = EmployeeSalary.objects.get(salary_of=calculated_salary.salary_employee)
@@ -292,6 +296,77 @@ class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, Updat
            
             if form.cleaned_data.get('festival_bonus') is None:
                plus_minus_bonus =  float(calculated_salary.total_bonus)- float(calculated_salary.total_bonus)
+
+            
+            # Total Salary Diduction 
+
+            # Salary month
+            month = PayrollMonth.objects.get(month=salary_month.month)
+            days = month.total_days
+            
+        
+            # Permited Late present
+            permited_latepresent = PermitedLatePresent.objects.first()
+            late_permited_time = permited_latepresent.peremited_time
+            late_permited_days = permited_latepresent.permited_days
+            late_present_salary_diduct = permited_latepresent.salary_diduction
+
+            # Permited Sort Leave
+            permited_sortleave = PermitedSortLeave.objects.first()
+            permited_sortleave_days = permited_sortleave.permited_days
+            sortleave_salary_diduct = permited_sortleave.salary_diduction
+
+            # Permited Leave 
+            permited_leave = MonthlyPermitedLeave.objects.get(leave_month=month.month)
+            permited_leave_days = permited_leave.permited_days
+            permited_leave_salary_diduct = permited_leave.salary_diduction
+
+            # Calculated Salary month total off day
+            off_day = 0
+            if MonthlyOffDay.objects.filter(month=month).exists():
+                day = MonthlyOffDay.objects.get(month=month)
+                off_day = day.total_offday
+
+            # Calculated Salary month total holiday
+            holiday = 0
+            if MonthlyHoliday.objects.filter(holiday_month=month).exists():
+                holiday = MonthlyHoliday.objects.filter(holiday_month=month, is_active=True).count()
+            
+            # Total Attendance
+            month_attendance = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date]).count()
+
+            # Total Late Present
+            late_present = Attendance.objects.filter(attendance_of= employee , date__range=[month.from_date,month.to_date], late_present__gt=late_permited_time).count()
+            
+            # Total Sortleave
+            sort_leave = SortLeave.objects.filter(ticket_for=employee, date__range=[month.from_date,month.to_date], ).count()
+
+            # Salary of a employee for each day
+            per_day_basic_salary = (salary.basic_salary/days)
+            
+            # Total Salary Diduct for late peresent in a month
+            salary_diduct_for_late_present = 0
+            late = 0
+            if late_present > late_permited_days:
+                late=int(late_present-late_permited_days)
+                diduct_salary = float(per_day_basic_salary)*float(late_present_salary_diduct/100)
+                salary_diduct_for_late_present =diduct_salary*late
+
+            # Total Salary Diduct for the extra Leave
+            extra_leave = (days-(month_attendance+holiday+permited_leave_days+off_day))
+            diduct_per_day = float(per_day_basic_salary)*float(permited_leave_salary_diduct/100)
+            salary_diduct_for_leave = (diduct_per_day*extra_leave)
+
+            # Sort Leave Salary Diduction
+            salary_diduct_for_sort_leave = 0
+            month_sort_leave = 0
+            if sort_leave>permited_leave_days:
+                month_sort_leave = (sort_leave-permited_sortleave_days)
+                print(month_sort_leave)
+                diduct_salary = float(per_day_basic_salary)*float(sortleave_salary_diduct/100)
+                salary_diduct_for_sort_leave = (diduct_salary*month_sort_leave)
+            
+            total_salary_diduct = (salary_diduct_for_late_present+salary_diduct_for_leave+salary_diduct_for_sort_leave)
                
         
             if form.is_valid():
@@ -304,7 +379,14 @@ class UpdateCalculatedSalaryView(LoginRequiredMixin, AdminPassesTestMixin, Updat
                 if calculated_salary.festival_bonus is not None:
                     form_obj.total_bonus = form_obj.total_bonus-plus_minus_bonus
                     form_obj.total_salary =  calculated_salary.total_salary - form_obj.total_bonus
-
+                
+                form_obj.late_present_diduct = salary_diduct_for_late_present
+                form_obj.extra_leave_diduct = salary_diduct_for_leave
+                form_obj.sort_leave_diduct = salary_diduct_for_sort_leave
+                form_obj.total_diduct = total_salary_diduct
+                form_obj.total_absence = extra_leave
+                form_obj.exatra_sort_leave = month_sort_leave
+                form_obj.extra_late_present = late
                 form_obj.save()
                 messages.success(self.request, "Salary Updated Successfully")
             return super().form_valid(form)
