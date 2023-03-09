@@ -55,7 +55,7 @@ class ReceptionLeaveApplicationUpdateView(LoginRequiredMixin,ReceptionPassesTest
     model = LeaveApplication
     form_class = LeaveApplicationForm
     template_name = 'reception/leave_application.html'
-    success_url = reverse_lazy('employee:apply_leave')
+    success_url = reverse_lazy('reception:receptionist_monthly_salary_list')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -62,7 +62,6 @@
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'reception:add_attendance' %}" class="dropdown-item"><i class="fa-solid fa-user-plus me-2 text-primary"></i>Add Attendance</a>
                             <a href="{% url 'reception:attendance_list' %}" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Attendance List</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
@@ -73,21 +72,21 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-plus"></i>Profile</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user me-2"></i>Profile</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'reception:profile_details' request.user.id %}" class="dropdown-item"><i class="fa-solid fa-user me-2 text-primary"></i>Profile Details</a>
+                            <a href="{% url 'reception:profile_details' request.user.id %}" class="dropdown-item"><i class="fa-solid fa-user me-2"></i>Profile Details</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'reception:apply_leave_receptionist' %}" class="dropdown-item">Leave Application</a>
+                            <a href="{% url 'reception:apply_leave_receptionist' %}" class="dropdown-item"><i class="fa-solid fa-user-minus me-2"></i>Leave Application</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Salary</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-dollar-sign me-2"></i>Salary</a>
                         <div class="dropdown-menu bg-transparent border-0">
-                            <a href="{% url 'reception:receptionist_monthly_salary_list' %}" class="dropdown-item">Monthly Salary</a>
+                            <a href="{% url 'reception:receptionist_monthly_salary_list' %}" class="dropdown-item"><i class="fa-solid fa-dollar-sign me-2"></i>Monthly Salary</a>
                         </div>
                     </div>
                 </div>
