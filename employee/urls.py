@@ -4,12 +4,18 @@ from django.urls import path
 from employee.views import employee_main
 from employee.views import manage_leave
 from employee.views import manage_salary
+from employee.views import manage_profile
 
 app_name='employee'
 
 urlpatterns = [
     path('employee/', employee_main.EmployeeHomeView.as_view(), name='employee'),
     
+]
+
+# Manage Profile
+urlpatterns += [
+    path('profile-details-employee/<int:pk>/', manage_profile.EmployeeProfileDetailsView.as_view(), name='profile_details_emplyee') 
 ]
 
 # Manage Leave

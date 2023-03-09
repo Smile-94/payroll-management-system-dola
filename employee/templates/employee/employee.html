@@ -4,6 +4,48 @@
 {% block title %} {{title}} {% endblock title %}
 
 {% block body %}
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-info rounded d-flex align-items-center justify-content-between p-4">
+                
+                <div class="">
+                    <p class="mb-1 text-dark">Attendance({{current_month}})</p>
+                    <h6 class="mb-0 text-black"> {{total_attendance}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-success rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2 text-white">Total Leave</p>
+                    <h6 class="mb-0 text-white"> {{leave}} </h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-danger rounded d-flex align-items-center justify-content-between p-4">
+                <div class="ms-3">
+                    <p class="mb-2 text-white">Late Present</p>
+                    <h6 class="mb-0 text-white" > {{late}} </h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Revenue</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sale & Revenue End -->
 
 
 {% endblock body %}
+
+{% block footer %}{% endblock footer %}

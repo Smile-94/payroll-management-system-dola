@@ -58,6 +58,12 @@
                 <div class="navbar-nav w-100">
                     <a href="{% url 'employee:employee' %}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user"></i>Profile</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'employee:profile_details_emplyee' request.user.id %}" class="dropdown-item">Profile Details</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-user-minus me-2"></i>Leave</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'employee:apply_leave' %}" class="dropdown-item">Leave Application</a>
@@ -114,13 +120,11 @@
 
             <!-- Blank Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded p-4">
-                    
+                
                     {% block body %}
                         
                     {% endblock body %}
                         
-                </div>
             </div>
             <!-- Blank End -->
 
