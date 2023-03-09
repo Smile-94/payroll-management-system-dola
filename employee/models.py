@@ -96,6 +96,9 @@ class MonthlySalary(models.Model):
     extra_leave_diduct = models.FloatField(default=0.0)
     total_diduct = models.FloatField(null=True)
     total_salary = models.FloatField(null=True)
+    total_absence = models.IntegerField(null=True)
+    exatra_sort_leave = models.IntegerField(null=True)
+    extra_late_present = models.IntegerField(null=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

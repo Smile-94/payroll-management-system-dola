@@ -145,6 +145,7 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             
             # Total Salary Diduct for late peresent in a month
             salary_diduct_for_late_present = 0
+            late = 0
             if late_present > late_permited_days:
                 late=int(late_present-late_permited_days)
                 diduct_salary = float(per_day_basic_salary)*float(late_present_salary_diduct/100)
@@ -157,6 +158,7 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
 
             # Sort Leave Salary Diduction
             salary_diduct_for_sort_leave = 0
+            month_sort_leave = 0
             if sort_leave>permited_leave_days:
                 month_sort_leave = (sort_leave-permited_sortleave_days)
                 print(month_sort_leave)
@@ -183,6 +185,9 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
                 form_obj.extra_leave_diduct = salary_diduct_for_leave
                 form_obj.sort_leave_diduct = salary_diduct_for_sort_leave
                 form_obj.total_diduct = total_salary_diduct
+                form_obj.total_absence = extra_leave
+                form_obj.exatra_sort_leave = month_sort_leave
+                form_obj.extra_late_present = late
                 form_obj.save()
                 messages.success(self.request, "Salary Added Successfully")
                 self.object = form_obj

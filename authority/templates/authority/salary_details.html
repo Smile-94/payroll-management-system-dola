@@ -111,15 +111,15 @@
                 </tr>
                 <tr>
                     <td>Absence</td>
-                    <td> {{salary.extra_leave_diduct |floatformat:3 }} /- </td>
+                    <td> {{salary.extra_leave_diduct |floatformat:3 }} /- (Absence: {{salary.total_absence}} days) </td>
                 </tr>
                 <tr>
                     <td>Late Present</td>
-                    <td> {{salary.late_present_diduct |floatformat:3 }}  </td>
+                    <td> {{salary.late_present_diduct |floatformat:3 }} /- (Extra late present: {{salary.extra_late_present}} days)  </td>
                 </tr>
                 <tr>
                     <td>Half Day Leave</td>
-                    <td> {{salary.sort_leave_diduct}} </td>
+                    <td> {{salary.sort_leave_diduct}} (Extra half day leave: {{salary.exatra_sort_leave}} days)</td>
                 </tr>
                 <tr>
                     <td class="table-dark">Total Diduct</td>
