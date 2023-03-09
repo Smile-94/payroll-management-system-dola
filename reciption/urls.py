@@ -37,9 +37,9 @@ urlpatterns += [
 
 # Manage Leave
 urlpatterns += [
-    path('appliy-leave/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave" ),
-    path('update-leave/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave" ),
-    path('leave-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details" ),
+    path('appliy-leave-receptionist/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave_receptionist" ),
+    path('update-leave-receptionist/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave_receptionist" ),
+    path('leave-details-receptionist/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details_receptionist" ),
 ]
 
 

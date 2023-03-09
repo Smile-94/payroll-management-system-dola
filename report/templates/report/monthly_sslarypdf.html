@@ -10,6 +10,9 @@
             background-color: #eee;
             font-size: 16px;
           }
+          .diduction{
+            margin-top: 200px;
+          }
           
           table {
             width: 100%;
@@ -126,7 +129,8 @@
         </table>
     </div>
     <h6 class="application-head"> 
-        {{salary.salary_month.month}},{{salary.salary_month.year}}  Salary Details</h6>
+        {{salary.salary_month.month}},{{salary.salary_month.year}}  Salary Details
+    </h6>
     <div class="table-container">
         <table >
             <tr>
@@ -169,8 +173,43 @@
               </tr>
         </table>
     </div>
+    <h6 class="application-head diduction"> 
+        {{salary.salary_month.month}},{{salary.salary_month.year}}  Salary Diduction
+    </h6>
+    <div class="table-container">
+        <table >
+            <tr>
+                <th>Name</th>
+                <th>Details</th>
+            </tr>
+          <tr>
+            <td class="col1">Total Days in {{salary.salary_month.month}}, {{salary.salary_month.year}}</td>
+            <td class="col2"> {{salary.salary_month.total_days}} (days) </td>
+          </tr>
+          <tr>
+            <td class="col1">Absence</td>
+            <td class="col2"> {{salary.extra_leave_diduct |floatformat:3 }} /- (Absence: {{salary.total_absence}} days) </td>
+          </tr>
+          <tr>
+            <td class="col1">Late Present</td>
+            <td class="col2"> {{salary.late_present_diduct |floatformat:3 }} /- (Extra late present: {{salary.extra_late_present}} days) </td>
+          </tr>
+          <tr>
+            <td class="col1">Half Day Leave</td>
+            <td class="col2"> {{salary.sort_leave_diduct}} (Extra half day leave: {{salary.exatra_sort_leave}} days) </td>
+          </tr>
+            <tr>
+                <td class="col1">Total Salary Diducction</td>
+                <td class="col2"> {{salary.total_diduct | floatformat:3}}/- </td>
+            </tr>
+            <tr>
+                <td class="col1">Total Salary after Diducction</td>
+                <td class="col2"> {{total_salary_pay}}/- </td>
+            </tr>
+        </table>
+    </div>
       <div class="signature-container">
-        <h1>Approved/Rejected By</h1>
+        <h1>Issued By</h1>
         <img src="/media/{{salary.prepared_by.employee_info.signature}}" alt="Signature" class="signature-image">
         <div class="name-dept-container">
           <div class="name"> {{salary.prepared_by.profile.first_name}}  {{salary.prepared_by.profile.last_name}}</div>

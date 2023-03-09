@@ -253,8 +253,6 @@ class MonthlySalaryDetailsView(LoginRequiredMixin, AdminPassesTestMixin, DetailV
         query_obj = self.get_object()
         total_salary = query_obj.total_salary
         total_diduct = query_obj.total_diduct
-        attend = Attendance.objects.filter(attendance_of= query_obj.salary_employee , date__range=[query_obj.salary_month.from_date,query_obj.salary_month.to_date]).count()
-        print("Absence: ",attend)
         context = super().get_context_data(**kwargs)
         context["title"] = "Monthly Salary Details" 
         context["total_salary_pay"] =round(total_salary-total_diduct)

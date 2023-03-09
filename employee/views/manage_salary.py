@@ -28,8 +28,12 @@ class EmployeeMonthlySalaryDetailsView(LoginRequiredMixin, EmployeePassesTestMix
     template_name = 'employee/salary_details.html'
 
     def get_context_data(self, **kwargs):
+        query_obj = self.get_object()
+        total_salary = query_obj.total_salary
+        total_diduct = query_obj.total_diduct
         context = super().get_context_data(**kwargs)
         context["title"] = "Monthly Salary Details" 
+        context["total_salary_pay"] =round(total_salary-total_diduct)
         return context
     
 

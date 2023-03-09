@@ -96,8 +96,45 @@
                 
             </tbody>
         </table>
+        <h5 class="mb-4">Salary Diduction Details</h5>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th class="col-4" scope="col">Fields Name</th>
+                    <th class="col-8" scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total Days in {{salary.salary_month.month}}, {{salary.salary_month.year}} </td>
+                    <td> {{salary.salary_month.total_days}} (days)  </td>
+                </tr>
+                <tr>
+                    <td>Absence</td>
+                    <td> {{salary.extra_leave_diduct |floatformat:3 }} /- (Absence: {{salary.total_absence}} days) </td>
+                </tr>
+                <tr>
+                    <td>Late Present</td>
+                    <td> {{salary.late_present_diduct |floatformat:3 }} /- (Extra late present: {{salary.extra_late_present}} days)  </td>
+                </tr>
+                <tr>
+                    <td>Half Day Leave</td>
+                    <td> {{salary.sort_leave_diduct}} (Extra half day leave: {{salary.exatra_sort_leave}} days)</td>
+                </tr>
+                <tr>
+                    <td class="table-dark">Total Diduct</td>
+                    <td class="table-dark">  {{salary.total_diduct | floatformat:3}}/-</td>
+                </tr>
+                <tr>
+                    <td class="table-dark">Total salary after deductions</td>
+                    <td class="table-dark"> {{total_salary_pay}} /-</td>
+                </tr>
+                
+                
+            </tbody>
+        </table>
         <div class="p-4">
-            <h6 class="my-4">Approved By</h6>
+            <h6 class="my-4">Issued By</h6>
             <img src=" {{salary.prepared_by.employee_info.signature.url}} " alt="" height="100" width="300">
             <h6>{{salary.prepared_by.profile.first_name}} {{salary.prepared_by.profile.last_name}}</h6>
             <h6>{{salary.prepared_by.employee_info.position.designation}}</h6>

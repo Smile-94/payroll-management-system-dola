@@ -20,7 +20,7 @@ from authority.models import LeaveApplication
 from authority.forms import LeaveApplicationForm
 
 
-class AddLeaveApplicationView(LoginRequiredMixin,EmployeePassesTestMixin, CreateView):
+class AddLeaveApplicationView(LoginRequiredMixin, EmployeePassesTestMixin, CreateView):
     model = LeaveApplication
     form_class = LeaveApplicationForm
     queryset= LeaveApplication.objects.filter(is_active=True)
