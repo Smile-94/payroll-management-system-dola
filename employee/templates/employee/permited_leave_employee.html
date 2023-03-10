@@ -1,0 +1,43 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Monthly Permited Leave</h6>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Month</th>
+              <th scope="col">Permited Leave</th>
+              <th scope="col">Salary Diduction (Exceed Leave)</th>
+              <th scope="col">Updated At</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if months %} 
+                {% for month in months %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{month.leave_month}} </td>
+                    <td> {{month.permited_days}} </td>
+                    <td>{{month.salary_diduction}} % (for days)</td>
+                    <td>{{month.modified_at}}</td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}     
+      </table>
+</div>
+    
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}

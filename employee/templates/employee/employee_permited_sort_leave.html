@@ -1,0 +1,37 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Monthly Permited Half-Day</h6>
+        </div>
+    </div>
+
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">Permited Days</th>
+              <th scope="col">Salary Diduction (Exceed Hafl-day)</th>
+              <th scope="col">Updated At</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if sortleaves %} 
+                {% for sortleave in sortleaves %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{sortleave.permited_days}} </td>
+                    <td> {{sortleave.salary_diduction}} % (for days)</td>
+                    <td> {{sortleave.modified_at}}</td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}     
+      </table>
+</div>
+{% endblock body %}

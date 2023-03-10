@@ -5,6 +5,7 @@ from employee.views import employee_main
 from employee.views import manage_leave
 from employee.views import manage_salary
 from employee.views import manage_profile
+from employee.views import others_info
 
 app_name='employee'
 
@@ -30,5 +31,14 @@ urlpatterns += [
     path('monthly-salary-list/', manage_salary.MonthlySalaryListView.as_view(), name='monthly_salary_list'),
     path('employee-salary-details/<int:pk>/', manage_salary.EmployeeMonthlySalaryDetailsView.as_view(), name='employee_salary_details'),
 ]
+
+# Other info
+urlpatterns += [
+    path('employee-permited-leave', others_info.EmployeePermitedLeaveView.as_view(), name='employee_permited_leave'),
+    path('employee-permited-latepresent', others_info.EmployeePermitedLatePresentView.as_view(), name='employee_permited_latepresent'),
+    path('employee-permited-sortleave', others_info.EmployeePermitedSortleaveView.as_view(), name='employee_permited_sortleave'),
+    path('employee-monthly-holiday', others_info.EmployeeMonthlyHolidayView.as_view(), name='employee_monthly_holiday'),
+]
+
 
 
