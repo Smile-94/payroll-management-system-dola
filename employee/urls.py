@@ -24,6 +24,8 @@ urlpatterns += [
     path('appliy-leave/', manage_leave.AddLeaveApplicationView.as_view(), name="apply_leave" ),
     path('update-leave/<int:pk>/', manage_leave.LeaveApplicationUpdateView.as_view(), name="update_leave" ),
     path('leave-details/<int:pk>/', manage_leave.LeaveApplicationDetailsView.as_view(), name="leave_details" ),
+    path('employee_sort_leave/', manage_leave.EmployeeSortleaveListView.as_view(), name="employee_sort_leave" ),
+    path('employee_sort_leave_details/<int:pk>/', manage_leave.EmployeeSortLeaveDetailView.as_view(), name="employee_sort_leave_details" ),
 ]
 
 # Manage Salary

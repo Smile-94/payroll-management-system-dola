@@ -1,0 +1,64 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="row g-4">
+    <div class="col-sm-12 col-xl-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Sort Leave List</h6>
+            <div class="col-md-12 mb-4">
+                <form class="d-flex">
+                    <div class="row g-3">
+                        <div class="col">
+                            {{leaves.form.ticket_id |add_class:"form-control"}}
+                        </div>
+                        <div class="col">
+                            {{leaves.form.from_date |add_class:"form-control"}}
+                        </div>
+                        <div class="col">
+                            {{leaves.form.to_date |add_class:"form-control"}}
+                        </div>
+                      </div>
+                  <button class="btn btn-outline-success ms-2" type="submit">Search</button>
+                </form>
+              </div>
+            <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">SL</th>
+                    <th scope="col">Employee Name</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Ticket No</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>   
+                    {% if leaves %}   
+                        {% for leave in leaves.qs  %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{leave.ticket_for.info_of.profile.first_name}} {{leave.ticket_for.info_of.profile.last_name}}</td>
+                                <td>{{leave.ticket_for.position.designation}}</td>
+                                <td>{{leave.employee_id}}</td>
+                                <td>{{leave.date}}</td>
+                                <td>{{leave.ticket_id}}</td>
+                                <td>
+                                    <a class="btn btn-primary" href="{% url 'employee:employee_sort_leave_details' leave.id %}" role="button"><i class="fa-solid fa-eye"></i></a>
+                                </td>
+                            </tr>  
+                        {% endfor %}    
+                    {% endif %}
+                </tbody>
+              </table>
+        </div>
+    </div>    
+</div>
+    
+{% endblock body %}
+    

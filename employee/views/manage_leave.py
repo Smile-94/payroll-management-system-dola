@@ -7,14 +7,18 @@ from employee.permission import EmployeePassesTestMixin
 
 # filters
 from authority.filters import LeaveApplicationFilter
+from reciption.filters import SortLeaveFilters
 
 # Import Generic Views
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DetailView
+from django.views.generic import ListView
 
 # Models
 from authority.models import LeaveApplication
+from reciption.models import SortLeave
+
 
 # Forms
 from authority.forms import LeaveApplicationForm
@@ -76,4 +80,41 @@ class LeaveApplicationDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, D
         context = super().get_context_data(**kwargs)
         context["title"] = "Leave Details"
         return context
+
+class EmployeeSortleaveListView(LoginRequiredMixin, EmployeePassesTestMixin, ListView):
+    queryset = SortLeave.objects.filter(active_status=True).order_by('-id')
+    filterset_class = SortLeaveFilters
+    template_name = "employee/employee_haflday_leave.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Check if form_date or to_date filters are applied
+        form_date_filter = self.request.GET.get('from_date', '')
+        to_date_filter = self.request.GET.get('to_date', '')
+        
+        if form_date_filter or to_date_filter:
+            # If either filter is applied, switch the ordering to ascending by date
+            queryset = queryset.order_by('date')
+        else:
+            # Otherwise, keep the original ordering by date in descending order
+            queryset = queryset.filter(ticket_for=self.request.user.employee_info,).order_by('-id')
+            
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Sortleave List" 
+        context["leaves"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
+        return context
+
+class EmployeeSortLeaveDetailView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
+    model = SortLeave
+    context_object_name = 'leave'
+    template_name = 'employee/employee_sort_leave_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Sortleave Detail" 
+        return context
+
     
