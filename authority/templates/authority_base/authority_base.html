@@ -80,12 +80,18 @@
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i>Payroll Settings</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Payroll Settings</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="{% url 'authority:add_payrollmonth' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Payroll Month</a>
                             <a href="{% url 'authority:add_offday' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Monthly Offday</a>
                             <a href="{% url 'authority:add_holiday' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Monthly Holiday</a>
                             <a href="{% url 'authority:festival_bonus' %}" class="dropdown-item"><i class="fa-solid fa-hand-holding-dollar me-2"></i>Festival Bonus</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-circle-info me-2"></i>Notice</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'authority:add_notice' %}" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Manage Notice</a>
                         </div>
                     </div>
                     <div class="nav-item dropdown">

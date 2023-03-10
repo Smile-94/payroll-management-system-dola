@@ -1,0 +1,35 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+<div class="col-sm-12 col-xl-12">
+    <div class="rounded h-100 p-4">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end ">
+            <a class="btn btn-primary" href="{% url 'authority:add_notice' %}" role="button"><i class="fa-solid fa-arrow-left"></i>Back</a>
+        
+        </div>
+        <h5 class="mb-4">Notice Details</h5>
+        <div class="card">
+            <div class="card-header bg-primary p-3">
+                <h6 class="text-white">
+                    {{notice.subject}}, 
+                    {{notice.created_by.profile.first_name}} {{notice.created_by.profile.last_name}},
+                    {{notice.date}} 
+                </h6>
+            </div>
+            <div class="card-body p-4">
+              <p class="card-text"> {{notice.description}} </p>
+            </div>
+        </div>
+        
+        </div>
+    </div>
+</div> 
+
+{% endblock body %}

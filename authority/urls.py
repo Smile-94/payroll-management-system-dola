@@ -7,6 +7,7 @@ from authority.views import admin_settings
 from authority.views import salary_settings
 from authority.views import manage_salary
 from authority.views import manage_leave
+from authority.views import manage_notic
 
 
 app_name = 'authority'
@@ -71,6 +72,15 @@ urlpatterns += [
     path('delete-weekly-offday/<int:pk>/', admin_settings.DeleteWeeklyOffdayView.as_view(), name='delte_weekly_offday'),
     
 ]
+
+# Manage Notice
+urlpatterns += [
+   path('add-notice', manage_notic.AddNoticeView.as_view(),name='add_notice'),
+   path('update-notice/<int:pk>/', manage_notic.UpdateNoticeView.as_view(),name='update_notice'),
+   path('notice-details/<int:pk>/', manage_notic.NoticeDetailsView.as_view(),name='notice_details'),
+   path('delete-notice/<int:pk>/', manage_notic.DeleteNoticeView.as_view(),name='delete_notice'),
+]
+
 
 
 # Add, Update, Delete Payroll Months

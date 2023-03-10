@@ -146,6 +146,9 @@ class Notice(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notice_user')
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return str(self.subject[0:20])
+
 class WeeklyOffday(models.Model):
     DAYS_OF_WEEK = (
         ('Monday', 'Monday'),
@@ -162,6 +165,9 @@ class WeeklyOffday(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(f"{self.first_day} off day")
 
 
 

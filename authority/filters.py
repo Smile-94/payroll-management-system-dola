@@ -11,6 +11,7 @@ from authority.models import PayrollMonth
 from authority.models import LeaveApplication
 from authority.models import MonthlyOffDay
 from authority.models import MonthlyHoliday
+from authority.models import Notice
 
 
 # Global Veriable
@@ -176,3 +177,13 @@ class LeaveApplicationAuthorityFilter(django_filters.FilterSet):
     class Meta:
         model = LeaveApplication
         fields = ('application_id','employee_id',  'leave_from','leave_to')
+
+class NoticeFilter(django_filters.FilterSet):
+
+    from_date = django_filters.DateFilter(field_name='date', lookup_expr='gte', widget=forms.DateInput(attrs={'type': 'date'}), label='From')
+    to_date = django_filters.DateFilter(field_name='date', lookup_expr='lte', widget=forms.DateInput(attrs={'type': 'date'}), label='To')
+    subject = django_filters.CharFilter(field_name='subject', lookup_expr='icontains', label='Subject', widget=forms.TextInput(attrs={'placeholder': 'Search by subject...'}))
+
+    class Meta:
+        model = Notice
+        fields = ('subject','date')
