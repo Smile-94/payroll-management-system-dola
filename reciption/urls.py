@@ -56,6 +56,8 @@ urlpatterns += [
     path('receptonist-permited-latepresent', other_info.ReceptionPermitedLatePresentView.as_view(), name='receptonist_permited_latepresent'),
     path('receptonist-permited-sortleave', other_info.ReceptionPermitedSortleaveView.as_view(), name='receptonist_permited_sortleave'),
     path('receptonist-monthly-holiday', other_info.ReceptionMonthlyHolidayView.as_view(), name='receptonist_monthly_holiday'),
+    path('receptonist-notice-list', other_info.ReceptionNoticeView.as_view(), name='receptonist_notice_list'),
+    path('receptonist-notice-details<int:pk>/', other_info.ReceptionNoticeDetailsView.as_view(), name='receptonist_notice_details'),
 ]
 
 
