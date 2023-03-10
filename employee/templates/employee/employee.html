@@ -10,7 +10,14 @@
         <div class="col-sm-6 col-xl-12">
             <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4"> 
                 <div class="">
-                    <h6 class="mb-0 text-white">Office Time: {{office_start |time:"h:i A"}} to {{office_end |time:"h:i A"}} | Time: <span id="clock"></span></h6>
+                    <h6 class="mb-0 text-white">
+                        Office Time: {{office_start |time:"h:i A"}} to {{office_end |time:"h:i A"}} 
+                        | Time: <span id="clock"></span> 
+                        | Weekly Off Day: {{off_day1}} 
+                        {% if off_day2  %}
+                            ,{{off_day2}}
+                        {% endif %}
+                        </h6>
                 </div>
             </div>
         </div>

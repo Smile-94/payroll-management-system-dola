@@ -9,6 +9,27 @@
 <!-- Sale & Revenue Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
+        <div class="col-sm-6 col-xl-12">
+            <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4"> 
+                <div class="">
+                    <h6 class="mb-0 text-white">
+                        Office Time: {{office_start |time:"h:i A"}} to {{office_end |time:"h:i A"}} 
+                        | Time: <span id="clock"></span> 
+                        | Weekly Off Day: {{off_day1}} 
+                        {% if off_day2  %}
+                            ,{{off_day2}}
+                        {% endif %}
+                        </h6>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<!-- Sale & Revenue End -->
+<!-- Sale & Revenue Start -->
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
         <div class="col-sm-6 col-xl-3">
             <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                 <i class="fa-solid fa-user fa-3x text-primary"></i>
@@ -99,7 +120,22 @@
                       }
                       
                     });
-                  </script>
+
+
+    function showTime() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const second = now.getSeconds();
+        const meridiem = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12; // Convert to 12-hour format
+        const timeString = `${hour12}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')} ${meridiem}`;
+        document.getElementById('clock').textContent = timeString;
+    }
+                      
+        setInterval(showTime, 1000); // Update every second
+                          
+</script>
     
 {% endblock body %}
     
