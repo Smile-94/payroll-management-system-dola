@@ -24,6 +24,7 @@ from authority.models import OfficeTime
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedLatePresent
 from authority.models import PermitedSortLeave
+from authority.models import WeeklyOffday
 
 
 # forms 
@@ -32,6 +33,7 @@ from authority.forms import OfficeTimeForm
 from authority.forms import MonthlyPermitedLeaveForm
 from authority.forms import PermitedLatePresentForm
 from authority.forms import PermitedSortLeaveForm
+from authority.forms import WeeklyOffdayForm
 
 
 class AddDesignationView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
@@ -304,6 +306,61 @@ class DeletePermitedSortLeaveView(LoginRequiredMixin, AdminPassesTestMixin, Dele
         self.object.is_active = False
         self.object.save()
         return redirect(success_url)
+
+class AddWeeklyOffDayView(LoginRequiredMixin, AdminPassesTestMixin, CreateView):
+    model = WeeklyOffday
+    form_class = WeeklyOffdayForm
+    template_name = 'authority/weekly_offday.html'
+    success_url = reverse_lazy('authority:add_weekly_offday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Weekly off day'
+        context["offdays"] = WeeklyOffday.objects.filter(is_active=True).order_by('-id')
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Weekly off day added successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+
+class UpdateWeeklyOffdayView(LoginRequiredMixin, AdminPassesTestMixin, UpdateView):
+    model = WeeklyOffday
+    form_class = WeeklyOffdayForm
+    template_name = 'authority/weekly_offday.html'
+    success_url = reverse_lazy('authority:add_weekly_offday')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Permited Sort Leave'
+        context["updated"] = True
+        return context
+    
+    def form_valid(self, form):
+        
+        messages.success(self.request, "Weekly off Day Updated successfully")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "Something wrong try again!")
+        return super().form_invalid(form)
+
+class DeleteWeeklyOffdayView(LoginRequiredMixin, AdminPassesTestMixin, DeleteView):
+    model = WeeklyOffday
+    template_name = 'authority/delete_weekly_offday.html'
+    context_object_name = 'offday'
+    success_url = reverse_lazy('authority:add_weekly_offday')
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.is_active = False
+        self.object.save()
+        return redirect(success_url)
+
 
     
     

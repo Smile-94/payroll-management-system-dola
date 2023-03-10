@@ -66,6 +66,9 @@ urlpatterns += [
     path('add-sort-leave/', admin_settings.AddPermitedSortLeaveView.as_view(), name='add_permited_sortleave'),
     path('update-sort-leave/<int:pk>/', admin_settings.UpdatePermitedSortLeaveView.as_view(), name='update_permited_sortleave'),
     path('delete-sort-leave/<int:pk>/', admin_settings.DeletePermitedSortLeaveView.as_view(), name='delete_permited_sortleave'),
+    path('add-weekly-offday/', admin_settings.AddWeeklyOffDayView.as_view(), name='add_weekly_offday'),
+    path('update-weekly-offday/<int:pk>/', admin_settings.UpdateWeeklyOffdayView.as_view(), name='update_weekly_offday'),
+    path('delete-weekly-offday/<int:pk>/', admin_settings.DeleteWeeklyOffdayView.as_view(), name='delte_weekly_offday'),
     
 ]
 

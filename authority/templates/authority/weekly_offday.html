@@ -1,0 +1,103 @@
+{% extends 'authority_base/authority_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+
+{% block body %}
+<div class="bg-light rounded h-100 p-4">
+    {% if updated %}
+        <form method='POST'> {% csrf_token %}
+            <div class="row">
+                <div class="col ">
+                    <label for="exampleInputEmail1" class="form-label">Festival Name</label>
+                    {{form.first_day | add_class:"form-control"}}
+                </div>
+                <div class="col mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Bonus Rate</label>
+                    {{form.second_day | add_class:"form-select"}}
+                </div>
+            </div>
+            <div class="mb-3">
+                <a class="btn btn-success" href="{% url 'authority:add_weekly_offday' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+                
+            </div>
+            
+        </form>
+    
+    {% else %}
+    <div class="row">
+        <div class="col-md-4">
+            <h6 class="mb-4">Weekly Off Day</h6>
+        </div>
+        <div class="col-md-4 offset-md-4 d-flex flex-row-reverse mb-2">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Add Off Day
+              </button>
+        </div>
+      </div>
+    
+    <table class="table table-striped table-hover ">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Sl</th>
+              <th scope="col">First Off Day</th>
+              <th scope="col">Second Off Day</th>
+              <th scope="col">Updated at</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% if offdays %} 
+                {% for offday in offdays %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td> {{offday.first_day}} </td>
+                    <td> {{offday.second_day}} </td>
+                    <td>{{offday.modified_at}}</td>
+                    <td>
+                        <a class="btn btn-success" href="{% url 'authority:update_weekly_offday' offday.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{% url 'authority:delte_weekly_offday' offday.id %}" role="button"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                  </tr>
+                {% endfor %}     
+            {% endif %}     
+      </table>
+</div>
+{% endif %}
+    
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Weekly Off Day</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="POST"> {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <label for="exampleInputEmail1" class="form-label">First Day</label>
+                        {{form.first_day |add_class:"form-control"}}
+                    </div>
+                    <div class="col">
+                      <label for="exampleInputEmail1" class="form-label">Second Day</label>
+                        {{form.second_day |add_class:"form-control"}}
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  
+{% endblock body %}
+    
