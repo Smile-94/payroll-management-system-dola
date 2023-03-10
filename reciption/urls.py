@@ -7,6 +7,7 @@ from reciption.views import manage_sortleave
 from reciption.views import manage_profile
 from reciption.views import manage_leave
 from reciption.views import manage_salary
+from reciption.views import other_info
 
 app_name = 'reception'
 
@@ -47,6 +48,14 @@ urlpatterns += [
 urlpatterns += [
     path('receptionist-monthly-salary-list/', manage_salary.RecptionMonthlySalaryListView.as_view(), name='receptionist_monthly_salary_list'),
     path('receptionist-salary-details/<int:pk>/', manage_salary.ReceptionMonthlySalaryDetailsView.as_view(), name='receptionist_salary_details'),
+]
+
+# Other info
+urlpatterns += [
+    path('receptonist-permited-leave', other_info.ReceptionPermitedLeaveView.as_view(), name='receptonist_permited_leave'),
+    path('receptonist-permited-latepresent', other_info.ReceptionPermitedLatePresentView.as_view(), name='receptonist_permited_latepresent'),
+    path('receptonist-permited-sortleave', other_info.ReceptionPermitedSortleaveView.as_view(), name='receptonist_permited_sortleave'),
+    path('receptonist-monthly-holiday', other_info.ReceptionMonthlyHolidayView.as_view(), name='receptonist_monthly_holiday'),
 ]
 
 

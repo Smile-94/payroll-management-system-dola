@@ -89,6 +89,16 @@
                             <a href="{% url 'reception:receptionist_monthly_salary_list' %}" class="dropdown-item"><i class="fa-solid fa-dollar-sign me-2"></i>Monthly Salary</a>
                         </div>
                     </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-circle-info me-2"></i>Others</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="{% url 'reception:receptonist_permited_leave' %}" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Permited Leave</a>
+                            <a href="{% url 'reception:receptonist_permited_latepresent' %}" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Permited Latepresent</a>
+                            <a href="{% url 'reception:receptonist_permited_sortleave' %}" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Permited Half-Day</a>
+                            <a href="{% url 'reception:receptonist_monthly_holiday' %}" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Monthly Holidy</a>
+                            <a href="#" class="dropdown-item"><i class="fa-solid fa-circle-info me-2"></i>Notice</a>
+                        </div>
+                    </div>
                 </div>
             </nav>
         </div>
