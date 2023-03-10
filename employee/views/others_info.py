@@ -5,15 +5,18 @@ from employee.permission import EmployeePassesTestMixin
 
 # Django Generic classes
 from django.views.generic import ListView
+from django.views.generic import DetailView
 
 # Models
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedLatePresent
 from authority.models import PermitedSortLeave
 from authority.models import MonthlyHoliday
+from authority.models import Notice
 
 # Filters
 from authority.filters import MonthlyHolidayFilter
+from authority.filters import NoticeFilter
 
 
 class EmployeePermitedLeaveView(LoginRequiredMixin, EmployeePassesTestMixin, ListView):
@@ -59,7 +62,29 @@ class EmployeeMonthlyHolidayView(LoginRequiredMixin, EmployeePassesTestMixin, Li
         context["title"] = "Monthly Holiday"
         context["holidays"] = self.filterset_class(self.request.GET, queryset=self.queryset)
         return context
-    
+
+class EmployeeNoticeView(LoginRequiredMixin, EmployeePassesTestMixin, ListView):
+    model = Notice
+    queryset = Notice.objects.filter(is_active= True)
+    filterset_class = NoticeFilter
+    form_class = NoticeFilter
+    template_name = 'employee/employee_notice_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Monthly Off Day"
+        context["notices"] = self.filterset_class(self.request.GET, queryset=self.queryset)
+        return context
+
+class EmployeeNoticeDetailsView(LoginRequiredMixin, EmployeePassesTestMixin, DetailView):
+    model = Notice
+    context_object_name = 'notice'
+    template_name = 'employee/employee_notice_details.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Notice Details"
+        return context
   
 
     

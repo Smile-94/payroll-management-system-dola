@@ -36,10 +36,12 @@ urlpatterns += [
 
 # Other info
 urlpatterns += [
-    path('employee-permited-leave', others_info.EmployeePermitedLeaveView.as_view(), name='employee_permited_leave'),
-    path('employee-permited-latepresent', others_info.EmployeePermitedLatePresentView.as_view(), name='employee_permited_latepresent'),
-    path('employee-permited-sortleave', others_info.EmployeePermitedSortleaveView.as_view(), name='employee_permited_sortleave'),
-    path('employee-monthly-holiday', others_info.EmployeeMonthlyHolidayView.as_view(), name='employee_monthly_holiday'),
+    path('employee-permited-leave/', others_info.EmployeePermitedLeaveView.as_view(), name='employee_permited_leave'),
+    path('employee-permited-latepresent/', others_info.EmployeePermitedLatePresentView.as_view(), name='employee_permited_latepresent'),
+    path('employee-permited-sortleave/', others_info.EmployeePermitedSortleaveView.as_view(), name='employee_permited_sortleave'),
+    path('employee-monthly-holiday/', others_info.EmployeeMonthlyHolidayView.as_view(), name='employee_monthly_holiday'),
+    path('employee-notice-list/', others_info.EmployeeNoticeView.as_view(), name='employee_notice'),
+    path('employee-notice-details/<int:pk>/', others_info.EmployeeNoticeDetailsView.as_view(), name='employee_notice_details'),
 ]
 
 
