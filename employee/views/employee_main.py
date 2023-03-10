@@ -14,6 +14,7 @@ from authority.models import LeaveApplication
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedSortLeave
 from authority.models import OfficeTime
+from authority.models import Notice
 from authority.models import WeeklyOffday
 from authority.models import PermitedLatePresent
 from reciption.models import Attendance
@@ -69,6 +70,7 @@ class EmployeeHomeView(LoginRequiredMixin, EmployeePassesTestMixin, TemplateView
         context["office_end"] = end_time
         context["off_day1"] = day1
         context["off_day2"] = day2
+        context["notices"] = Notice.objects.filter(is_active=True).order_by('-id')[:5]
 
         return context
     
