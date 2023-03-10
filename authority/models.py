@@ -138,5 +138,31 @@ class PermitedSortLeave(models.Model):
         return str("Permited Sort Leave")
 
 
+class Notice(models.Model):
+    subject= models.CharField(max_length=50)
+    description = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notice_user')
+    is_active = models.BooleanField(default=True)
+
+class WeeklyOffday(models.Model):
+    DAYS_OF_WEEK = (
+        ('Monday', 'Monday'),
+        ('Tuesday', 'Tuesday'),
+        ('Wednesday', 'Wednesday'),
+        ('Thursday', 'Thursday'),
+        ('Friday', 'Friday'),
+        ('Saturday', 'Saturday'),
+        ('Sunday', 'Sunday'),
+    )
+
+    first_day = models.CharField(max_length=13, choices=DAYS_OF_WEEK)
+    second_day = models.CharField(max_length=13, choices=DAYS_OF_WEEK, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+
 
 

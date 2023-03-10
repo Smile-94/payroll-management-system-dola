@@ -15,6 +15,8 @@ from authority.models import MonthlyHoliday
 from authority.models import MonthlyPermitedLeave
 from authority.models import PermitedLatePresent
 from authority.models import PermitedSortLeave
+from authority.models import WeeklyOffday
+from authority.models import Notice
 
 
 
@@ -107,4 +109,15 @@ class PermitedSortLeaveForm(forms.ModelForm):
         fields = ('permited_days','salary_diduction')
 
 
+class WeeklyOffdayForm(forms.ModelForm):
+
+    class Meta:
+        model = WeeklyOffday
+        fields = ('first_day','second_day')
+
+class NoticeForm(forms.ModelForm):
+
+    class Meta:
+        model = Notice
+        fields = ('subject','description')
     

@@ -10,6 +10,8 @@ from authority.models import MonthlyPermitedLeave
 from authority.models import LeaveApplication
 from authority.models import PermitedLatePresent
 from authority.models import PermitedSortLeave
+from authority.models import WeeklyOffday
+from authority.models import Notice
 
 
 # Register your models here.
@@ -53,5 +55,13 @@ class PermitedLatePresentAdmin(admin.ModelAdmin):
 @admin.register(PermitedSortLeave)
 class PermitedSortLeaveAdmin(admin.ModelAdmin):
     list_display = ('permited_days','salary_diduction',)
+
+@admin.register(WeeklyOffday)
+class WeeklyOffdayAdmin(admin.ModelAdmin):
+    list_display = ('first_day','second_day','created_at','modified_at')
+
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('created_by','date','modified_at',)
 
 
