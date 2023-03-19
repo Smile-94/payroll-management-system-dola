@@ -5,6 +5,86 @@
 {% block title %} {{title}} {% endblock title %}
 
 {% block body %}
+
+{% if updated %}
+<div class="row g-4">
+    <div class="col-sm-12 col-xl-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Update Attendance</h6>
+            <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="mb-3">
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Employee ID</label>
+                            {{form.employee_id |add_class:"form-control"}}
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Date</label>
+                            {{form.date|add_class:"form-control datepicker"}}
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Entry Time</label>
+                            {{form.entering_time|add_class:"form-control"}}
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Exit Time</label>
+                            {{form.exit_time|add_class:"form-control"}}
+                        </div>
+                        <div class="col mt-4">
+                            <button type="submit" class="btn btn-lg  btn-primary rounded-pill px-5">Save</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>    
+</div>
+{% elif deleted %}
+<div class="col-sm-12 col-xl-12">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">Attendance List</h6>
+        <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">SL</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Designation</th>
+                <th scope="col">ID</th>
+                <th scope="col">Date</th>
+                <th scope="col">Entering Tiem</th>
+                <th scope="col">Exit Tiem</th>
+                <th scope="col">Late</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>   
+                {% if attendance %}   
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{attendance.attendance_of.info_of.profile.first_name}} {{attendance.attendance_of.info_of.profile.last_name}}</td>
+                            <td>{{attendance.attendance_of.position.designation}}</td>
+                            <td>{{attendance.employee_id}}</td>
+                            <td>{{attendance.date}}</td>
+                            <td>{{attendance.entering_time}}</td>
+                            <td>{{attendance.exit_time}}</td>
+                            <td>{{attendance.late_present}}</td>
+                            <td>
+                                <form action="" method='POST'> {% csrf_token %}
+                                    <a class="btn btn-success" href="{% url 'reception:attendance_list' %}" role="button"> <i class="fa-solid fa-arrow-left me-2"></i> Back</a>
+                                    <button class="btn btn-danger" type='submit' id="deleteTask"><i class="fa-solid fa-trash px-2"></i>Delete</button>
+                                </form>
+                            </td>
+                        </tr>  
+                {% endif %}
+            </tbody>
+          </table>
+
+        
+    </div>
+</div> 
+
+{% else %}  
 <div class="row g-4">
     <div class="col-sm-12 col-xl-12">
         <div class="bg-light rounded h-100 p-4">
@@ -36,6 +116,7 @@
                     <th scope="col">Entering Tiem</th>
                     <th scope="col">Exit Tiem</th>
                     <th scope="col">Late</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>   
@@ -50,6 +131,10 @@
                                 <td>{{attendance.entering_time}}</td>
                                 <td>{{attendance.exit_time}}</td>
                                 <td>{{attendance.late_present}}</td>
+                                <td>
+                                    <a class="btn btn-success" href="{% url 'reception:update_attendance' attendance.id %}" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a class="btn btn-danger" href="{% url 'reception:delete_attendance' attendance.id %}" role="button" ><i class="fa-solid fa-trash"></i></a>
+                                </td>
                             </tr>  
                         {% endfor %}    
                     {% endif %}
@@ -60,5 +145,25 @@
         </div>
     </div>    
 </div>
-<!-- Form End -->
+{% endif %}
+<script>
+    var deleteTask = document.getElementById("deleteTask");
+    var deleteForm = document.getElementById("deleteForm");
+
+    deleteTask.addEventListener("click", function(event) {
+    var result = confirm("Are you sure you want to delete permited sort leave");
+    if (result) {
+        alert('Deleted successfully');
+    } else {
+        alert('Deletion Cancelled');
+        event.preventDefault(); // prevent default form submission
+    }
+    });
+
+    deleteForm.addEventListener("submit", function(event) {
+    {% comment %} event.preventDefault(); // prevent default form submission {% endcomment %}
+    });
+ 
+                
+</script>
 {% endblock body %}

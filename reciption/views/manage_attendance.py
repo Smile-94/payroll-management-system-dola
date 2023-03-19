@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib import messages
 import datetime
 from datetime import date
@@ -13,6 +14,8 @@ from reciption.filters import AttendanceFilters
 # Class based View
 from django.views.generic import CreateView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 
 # Models
 from employee.models import EmployeeInfo
@@ -57,6 +60,18 @@ class AddAttendanceView(LoginRequiredMixin, ReceptionPassesTestMixin, CreateView
             messages.error(self.request, "Something worng try again")
             return self.form_invalid(form)
 
+class UpdateAttendaceView(LoginRequiredMixin, ReceptionPassesTestMixin, UpdateView):
+    model = Attendance
+    form_class = AttendanceForm
+    template_name = 'reception/attendance_list.html'
+    success_url = reverse_lazy('reception:attendance_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Update Attendance"
+        context["updated"] = True
+        return context
+    
 
 class AttendanceListView(LoginRequiredMixin, ReceptionPassesTestMixin, ListView):
     model = Attendance
@@ -85,3 +100,20 @@ class AttendanceListView(LoginRequiredMixin, ReceptionPassesTestMixin, ListView)
         context["title"] = "Attendance List" 
         context["attendances"] = self.filterset_class(self.request.GET, queryset=self.get_queryset())
         return context
+
+class DeleteAttendanceView(LoginRequiredMixin, ReceptionPassesTestMixin, DeleteView):
+    model= Attendance
+    context_object_name = "attendance"
+    template_name = 'reception/attendance_list.html'
+    success_url = reverse_lazy('reception:attendance_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Delete Attendance" 
+        context["deleted"] = True
+        return context
+
+    def form_valid(self, form):
+        self.object.is_active = False
+        self.object.save()
+        return redirect(self.success_url)

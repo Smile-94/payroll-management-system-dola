@@ -21,6 +21,8 @@ urlpatterns = [
 urlpatterns += [
     path('add-attendance/', manage_attendance.AddAttendanceView.as_view(), name='add_attendance'),
     path('attendance-list/', manage_attendance.AttendanceListView.as_view(), name='attendance_list'),
+    path('update-attendance/<int:pk>/', manage_attendance.UpdateAttendaceView.as_view(), name='update_attendance'),
+    path('delete-attendance/<int:pk>/', manage_attendance.DeleteAttendanceView.as_view(), name='delete_attendance'),
 ]
 
 # manage sortleave
