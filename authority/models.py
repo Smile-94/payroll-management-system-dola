@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+import datetime
 from django.core.validators import MinValueValidator
 from django.core.validators import MaxValueValidator
 
@@ -82,6 +83,7 @@ class OfficeTime(models.Model):
     office_end=models.TimeField(auto_now=False, auto_now_add=False)
     created_at=models.DateTimeField(auto_now_add=True)
     modified_at=models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self) :
         return "Office start and end time"
@@ -105,11 +107,11 @@ class LeaveApplication(models.Model):
     def save(self, *args, **kwargs):
         self.total_days = (self.leave_to - self.leave_from).days + 1
         super(LeaveApplication, self).save(*args, **kwargs)
-        if not self.employee_id:
+        if not self.application_id:
             year = str(datetime.date.today().year)[2:4]
             month = str(datetime.date.today().month)
             day = str(datetime.date.today().day)
-            self.employee_id = 'LA'+year+month+day+str(self.pk).zfill(4)
+            self.application_id = 'LA'+year+month+day+str(self.pk).zfill(4)
             self.save()
     
     def __str__(self):

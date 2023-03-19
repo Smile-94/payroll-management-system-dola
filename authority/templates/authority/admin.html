@@ -7,70 +7,96 @@
 
 {% block body %}
 <div class="container-fluid pt-4 px-4">
+  <div class="row g-4 mb-4">
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-primary rounded d-flex align-items-center justify-content-between p-4">
+              <div class="ms-3 text-white">
+                  <h6 class="mb-2">Total Employee</h6>
+                  <h4 class="mb-0"> {{total_employee}} </h4>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-success rounded d-flex align-items-center justify-content-between p-4">
+              <div class="ms-3">
+                  <h6 class="mb-2 text-white">Present Today</h6>
+                  <h4 class="mb-0 text-white"> {{attend_today}} </h4>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-info rounded d-flex align-items-center justify-content-between p-4">
+              <div class="ms-3">
+                  <h6 class="mb-2 text-dark">Absence Today</h6>
+                  <h4 class="mb-0 text-dark"> {{absence_today}} </h4>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-6 col-xl-3">
+          <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
+              <div class="ms-3">
+                  <h6 class="mb-2 text-white">Late-Present Today</h6>
+                  <h4 class="mb-0 text-white"> {{late_present}} </h4>
+              </div>
+          </div>
+      </div>
+  </div>
   <div class="row g-4">
       <div class="col-sm-6 col-xl-3">
-          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-              <i class="fa-solid fa-user fa-3x text-primary"></i>
+          <div class="bg-primary rounded d-flex align-items-center justify-content-between p-4">
               <div class="ms-3">
-                  <p class="mb-2">Total Employee</p>
-                  <h6 class="mb-0"> {{total_employee}} </h6>
+                  <h6 class="mb-2 text-dark">Half-day Today</h6>
+                  <h4 class="mb-0"> {{Sort_leave}} </h4>
               </div>
           </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-              <i class="fa-solid fa-user-plus fa-3x text-primary"></i>
+          <div class="bg-success rounded d-flex align-items-center justify-content-between p-4">
               <div class="ms-3">
-                  <p class="mb-2">Present Today</p>
-                  <h6 class="mb-0"> {{attend_today}} </h6>
+                  <h6 class="mb-2 text-white"> Leave Today</h6>
+                  <h4 class="mb-0 text-white"> {{leave_today}} </h4>
               </div>
           </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-              <i class="fa-solid fa-user-minus fa-3x text-primary"></i>
-              <div class="ms-3">
-                  <p class="mb-2">Absence Today</p>
-                  <h6 class="mb-0"> {{absence_today}} </h6>
+          <div class="bg-info rounded d-flex align-items-center justify-content-between p-3">
+              <div class="ms-3 pb-3">
+                  <h6 class="mb-2 text-dark">Office Time</h6>
+                  <h5 class="mb-0 text-dark"> {{office_time.office_start |time:"h:i A"}}-{{office_time.office_end |time:"h:i A"}} </h5>
               </div>
           </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-          <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-              <i class="fa fa-chart-pie fa-3x text-primary"></i>
+          <div class="bg-dark rounded d-flex align-items-center justify-content-between p-4">
               <div class="ms-3">
-                  <p class="mb-2">Sort Leave</p>
-                  <h6 class="mb-0"> {{Sort_leave}} </h6>
+                  <h6 class="mb-2 text-white">Clock</h6>
+                  <h4 class="mb-0 text-white"> <span id="clock"></span> </h4>
               </div>
           </div>
       </div>
   </div>
 </div>
 
- <!-- Sales Chart Start -->
- <div class="container-fluid pt-4 px-4">
-  <div class="row g-4">
-      <div class="col-sm-12 col-xl-6">
-          <div class="bg-light text-center rounded p-4">
-              <div class="d-flex align-items-center justify-content-between mb-4">
-                  <h6 class="mb-0">Worldwide Sales</h6>
-                  <a href="">Show All</a>
-              </div>
-              <canvas id="worldwide-sales"></canvas>
-          </div>
-      </div>
-      <div class="col-sm-12 col-xl-6">
-          <div class="bg-light text-center rounded p-4">
-              <div class="d-flex align-items-center justify-content-between mb-4">
-                  <h6 class="mb-0">Salse & Revenue</h6>
-                  <a href="">Show All</a>
-              </div>
-              <canvas id="salse-revenue"></canvas>
-          </div>
-      </div>
-  </div>
-</div>
-<!-- Sales Chart End -->
-  
+<script>
+    function showTime() {
+        const now = new Date();
+        const hour = now.getHours();
+        const minute = now.getMinutes();
+        const second = now.getSeconds();
+        const meridiem = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12; // Convert to 12-hour format
+        const timeString = `${hour12}:${minute.toString().padStart(2, '0')}:${second.toString().padStart(2, '0')} ${meridiem}`;
+        document.getElementById('clock').textContent = timeString;
+      }
+      
+      setInterval(showTime, 1000); // Update every second
+      
+</script>
 {% endblock body %}
+
+
+{% block footer %}
+    
+{% endblock footer %}
+    
   

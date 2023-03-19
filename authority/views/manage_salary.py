@@ -79,8 +79,9 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             salary = EmployeeSalary.objects.get(salary_of=employee)
 
             if MonthlySalary.objects.filter(salary_month=salary_month, salary_employee=employee).exists():
+                obj_slary = MonthlySalary.objects.get(salary_month=salary_month, salary_employee=employee, is_active=True)
                 messages.warning(self.request, "Salary already calculated in this month")
-                return redirect(self.success_url)
+                return redirect('authority:monthly_salary_details', pk=obj_slary.id)
             
             conveyance =float(salary.basic_salary)*float(salary.conveyance/100)
             food_allowance = float(salary.basic_salary)*float(salary.food_allowance/100)
@@ -161,7 +162,6 @@ class MonthilySalaryCalculationView(LoginRequiredMixin, AdminPassesTestMixin, Cr
             month_sort_leave = 0
             if sort_leave>permited_leave_days:
                 month_sort_leave = (sort_leave-permited_sortleave_days)
-                print(month_sort_leave)
                 diduct_salary = float(per_day_basic_salary)*float(sortleave_salary_diduct/100)
                 salary_diduct_for_sort_leave = (diduct_salary*month_sort_leave)
             
