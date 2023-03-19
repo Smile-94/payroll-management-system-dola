@@ -6,6 +6,7 @@ from employee.views import manage_leave
 from employee.views import manage_salary
 from employee.views import manage_profile
 from employee.views import others_info
+from employee.views import manage_attendance
 
 app_name='employee'
 
@@ -27,6 +28,13 @@ urlpatterns += [
     path('employee_sort_leave/', manage_leave.EmployeeSortleaveListView.as_view(), name="employee_sort_leave" ),
     path('employee_sort_leave_details/<int:pk>/', manage_leave.EmployeeSortLeaveDetailView.as_view(), name="employee_sort_leave_details" ),
 ]
+
+# Manage Attendances
+urlpatterns += [
+    path('employee-attendance/', manage_attendance.EmployeeAttedanceListView.as_view(), name='employee_attendance'),
+    
+]
+
 
 # Manage Salary
 urlpatterns += [

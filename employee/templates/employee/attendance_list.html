@@ -1,0 +1,42 @@
+{% extends 'employee_base/base_employee.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{title}} {% endblock title %}
+
+{% block body %}
+<div class="row g-4">
+    <div class="col-sm-12 col-xl-12">
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4">Attendance List</h6>
+            <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col"> {{forloop.counter}} </th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Entering Tiem</th>
+                    <th scope="col">Exit Tiem</th>
+                    <th scope="col">Late</th>
+                  </tr>
+                </thead>
+                <tbody>   
+                    {% if attendances %}   
+                        {% for attendance in attendances  %}
+                            <tr>
+                                <th scope="row">{{forloop.counter}}</th>
+                                <td>{{attendance.date}}</td>
+                                <td>{{attendance.entering_time}}</td>
+                                <td>{{attendance.exit_time}}</td>
+                                <td>{{attendance.late_present}}</td>
+                            </tr>  
+                        {% endfor %}    
+                    {% endif %}
+                </tbody>
+              </table>
+
+            
+        </div>
+    </div>    
+</div>
+<!-- Form End -->
+{% endblock body %}
