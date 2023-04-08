@@ -50,9 +50,6 @@ class EmployeeHomeView(LoginRequiredMixin, EmployeePassesTestMixin, TemplateView
             weekly_offday_obj=WeeklyOffday.objects.last()
             day1=weekly_offday_obj.first_day
             day2=weekly_offday_obj.second_day
-
-            
-
         except Exception as e:
             print(e)
 
